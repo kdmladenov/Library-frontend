@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import PropTypes from 'prop-types';
 
 const SubmitBtn = ({ btnText }) => {
@@ -12,6 +11,6 @@ const SubmitBtn = ({ btnText }) => {
 };
 
 SubmitBtn.propTypes = {
-  btnText: PropTypes.string,
+  btnText: PropTypes.string.isRequired,
 };
 export default SubmitBtn;

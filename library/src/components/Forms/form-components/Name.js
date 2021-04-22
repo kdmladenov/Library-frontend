@@ -1,25 +1,18 @@
-/* eslint-disable react/require-default-props */
 import PropTypes from 'prop-types';
+import { Form } from 'react-bootstrap';
 
 const Name = ({ fieldName }) => {
   const placeholderValue = `Enter ${fieldName}`;
   return (
-    <div className="form-group">
-      <label htmlFor="name">
-        {fieldName}
-        <input
-          id="name"
-          type="input"
-          className="form-control"
-          placeholder={placeholderValue}
-        />
-      </label>
-    </div>
+    <Form.Group>
+      <Form.Label>{fieldName}</Form.Label>
+      <Form.Control type="text" placeholder={placeholderValue} />
+    </Form.Group>
   );
 };
 
 Name.propTypes = {
-  fieldName: PropTypes.string,
+  fieldName: PropTypes.string.isRequired,
 };
 
 export default Name;
