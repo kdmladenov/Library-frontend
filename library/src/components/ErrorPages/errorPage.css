@@ -1,0 +1,57 @@
+.large {
+  font-size: min(16vw, 100px);
+  font-weight:600;
+}
+
+.medium {
+  font-size: min(8vw, 40px);
+}
+
+.small {
+  font-size: min(6vw, 20px);
+}
+
+.error-wrapper-outer{
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.error-wrapper-inner {
+  height: 92vh;
+  padding: 15vh 5vw 0;
+  color: #ffffff;
+  background-color: #0706069c;
+}
+
+.error-content {
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.error-content::after {
+  content: "asd";
+  color: transparent;
+  display: block;
+  height: 0.30rem;
+  width: 5rem;
+  background-color: #319a60;
+  box-shadow: 0 0.02rem black;
+  margin: 7vh auto;
+}
+
+.btn {
+  max-width: 25rem !important;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #83795d;
+  border-color: #83795d;
+}
+
+.btn:hover {
+  background-color: #1b1915;
+  border-color: #1b1915;
+}
+

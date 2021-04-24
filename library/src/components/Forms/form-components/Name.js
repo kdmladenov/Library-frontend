@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 
 const Name = ({ fieldName }) => {
-  const placeholderValue = `Enter ${fieldName}`;
   return (
-    <Form.Group>
+    <Form.Group controlId="formBasicName">
       <Form.Label>{fieldName}</Form.Label>
-      <Form.Control type="text" placeholder={placeholderValue} />
+      <Form.Control type="text" placeholder={`Enter ${fieldName}`} onChange={(e) => console.log(e.target.value)} />
     </Form.Group>
   );
 };

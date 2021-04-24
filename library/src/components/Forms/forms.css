@@ -6,8 +6,8 @@
 }
 
 .form-wrapper-inner {
-  background-color: #00000087;
-  min-height: 94vh;
+  background-color: #00000070;
+  min-height: 92vh;
   padding-top: 10vh;
 }
 
@@ -30,8 +30,12 @@ label {
   display: block !important;
 }
 
-.form-check label {
+.form-check, .form-check label {
   display: inline-block !important;
+}
+
+.forgot-password {
+  float: right;
 }
 
 .form-group, form>h3 {
@@ -48,8 +52,18 @@ label {
     box-shadow: 0 0 0 0.2rem #2a201633 !important;
 }
 
-p.forgot-password:hover {
-  color: #fff0b5;
+.form-link {
+  color: #ffffff !important;
+  text-decoration: initial !important;
+}
+
+.form-link.center {
+  text-align: center !important;
+  display: block;
+}
+
+p.forgot-password:hover, .form-link:hover {
+  color: #63ddb6 !important;
   cursor: pointer;
   text-shadow: 0 0.05rem black;
 }
@@ -59,3 +73,9 @@ p.forgot-password:hover {
   height: 1rem;
   filter: hue-rotate(305deg)
 }
+
+.red {
+  color: #ff5c5c;
+  text-shadow: 0 0 0.15rem black;
+}
+
