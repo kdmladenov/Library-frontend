@@ -46,16 +46,16 @@ function BookCarousel({ title }) {
 
   return (
     <div className="book-carousel">
-      <h5 style={{ textAlign: "left" }}>{title}</h5>
+      <h5 id="carousel-title">{title}</h5>
       <Carousel
-        swipeable={false}
-        draggable={false}
+        swipeable="true"
+        draggable="true"
         showDots="true"
         responsive={responsive}
         ssr="true" // means to render carousel on server-side.
         infinite="true"
         autoPlay={false}
-        autoPlaySpeed={1000}
+        // autoPlaySpeed={1000}
         keyBoardControl="true"
         customTransition="all .5"
         transitionDuration={500}
