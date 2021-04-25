@@ -42,9 +42,6 @@ BookCard.propTypes = {
   author: PropTypes.string.isRequired,
   bookRating: PropTypes.number.isRequired,
   reviewCount: PropTypes.number.isRequired,
-  // genre: PropTypes.string.isRequired,
-  // pages: PropTypes.number.isRequired,
-  // date_published: PropTypes.string.isRequired,
   // singleBook: PropTypes.func.isRequired,
 };
 
