@@ -18,11 +18,19 @@ form {
   color: #ffffff;
 }
 
-.form-group input {
+.form-control {
   background-color: #ffffffa2;
   color: #343a40;
   padding: 1.5rem;
   border: 0.05rem solid #ffffff;
+}
+
+.form-control:focus {
+  border-color: #24b943;
+  background-color: #fff;
+  border-color: #006416;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(231 255 148 / 25%);
 }
 
 label {
@@ -42,14 +50,6 @@ label {
   margin-bottom: 1.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
-}
-
-.form-control:focus {
-  color: #574f49 !important;
-    background-color: #fff;
-    border-color: #2a2016 !important;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem #2a201633 !important;
 }
 
 .form-link {

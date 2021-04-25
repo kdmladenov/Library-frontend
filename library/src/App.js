@@ -3,8 +3,8 @@
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComponent from "./components/Navbar/Navbar";
-import UserAccount from './components/Users/UserAccount';
-import ChangePassword from './components/Users/ChangePassword';
+// import UserAccount from './components/Users/UserAccount';
+// import ChangePassword from './components/Users/ChangePassword';
 // import EditProfile from './components/Users/EditProfile';
 // import LoginForm from './components/Forms/LoginForm';
 // import RegistryForm from './components/Forms/RegistryForm';
@@ -29,9 +29,9 @@ function App() {
       {/* <NotFound />
       <Forbidden />
       <ServiceUnavailable /> */}
-      <UserAccount>
+      {/* <UserAccount>
         <ChangePassword />
-      </UserAccount>
+      </UserAccount> */}
       {/* <UserAccount>
         <EditProfile />
       </UserAccount> */}
