@@ -1,0 +1,72 @@
+.center {
+  margin-right: auto;
+  margin-left: auto;
+}
+.outer {
+  padding-top: 2vh;
+  min-height: 92vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.card {
+  padding-top: 2rem;
+  background: #4241408f;
+  border-radius: 5px;
+  border: 0;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+.col-12 {
+  margin-bottom: 2vh;
+}
+
+.account-settings .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.account-settings .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+}
+
+.account-settings .user-profile .user-avatar img {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+
+.form-group input, .form-group select {
+  background-color: #ffffffa2;
+  color: #343a40;
+  height: calc(1.5em + 1.5rem + 2px);
+  border: 0.05rem solid #ffffff;
+}
+
+.account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+.account-settings .about {
+    margin: 1rem 0 0 0;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+  .col-lg-9 {
+    flex: 0 0 70%;
+    max-width: 70%;
+  }
+  .col-lg-3 {
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
+  .outer {
+    padding-top: 10vh;
+  }
+}

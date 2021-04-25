@@ -35,7 +35,7 @@ const RegisterForm = () => {
 
   const navigateToTerms = (e) => {
     e.preventDefault();
-    // navigate to Login Page
+    // navigate to Terms
   };
 
   const navigateToLogin = (e) => {
