@@ -6,7 +6,7 @@ const EditProfile = () => {
       <div className="card-body">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <h3 className="mb-3">Account Settings</h3>
+            <h3 className="mb-3">Edit Profile</h3>
           </div>
 
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -66,7 +66,7 @@ const EditProfile = () => {
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <Button
               type="submit"
-              className="btn btn-dark btn-lg btn-block center"
+              className="btn btn-dark btn-lg btn-block"
             >
               Save Changes
             </Button>

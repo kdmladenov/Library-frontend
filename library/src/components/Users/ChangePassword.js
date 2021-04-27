@@ -32,7 +32,7 @@ const ChangePassword = () => {
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <Button
               type="submit"
-              className="btn btn-dark btn-lg btn-block center"
+              className="btn btn-dark btn-lg btn-block"
             >
               Save Changes
             </Button>

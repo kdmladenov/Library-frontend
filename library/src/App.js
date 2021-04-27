@@ -3,9 +3,11 @@
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComponent from "./components/Navbar/Navbar";
+import UserContainer from './components/Users/UserContainer';
 // import UserAccount from './components/Users/UserAccount';
 // import ChangePassword from './components/Users/ChangePassword';
 // import EditProfile from './components/Users/EditProfile';
+// import UserHistory from './components/Users/UserHistory';
 // import LoginForm from './components/Forms/LoginForm';
 // import RegistryForm from './components/Forms/RegistryForm';
 // import NotFound from './components/ErrorPages/NotFound';
@@ -20,8 +22,8 @@ function App() {
         <BookCarousel title="Most Popular Books" />
         <BookCarousel title="New Releases" />
         <BookCarousel title="Top Rated Books" />
-      </div> */}
-      {/* <div className="book-detailed-container">
+      </div>
+      <div className="book-detailed-container">
         <BookDetailedView />
       </div> */}
       {/* <LoginForm /> */}
@@ -31,10 +33,14 @@ function App() {
       <ServiceUnavailable /> */}
       {/* <UserAccount>
         <ChangePassword />
-      </UserAccount> */}
-      {/* <UserAccount>
+      </UserAccount>
+      <UserAccount>
         <EditProfile />
       </UserAccount> */}
+      {/* <UserAccount>
+        <UserHistory />
+      </UserAccount> */}
+      <UserContainer />
     </div>
   );
 }
