@@ -1,7 +1,7 @@
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 
-const UserTimeline = () => {
+const Timeline = () => {
   return (
     <VerticalTimeline>
       <VerticalTimelineElement
@@ -12,8 +12,8 @@ const UserTimeline = () => {
         iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
         // icon={<WorkIcon />}
       >
-        <h3 className="vertical-timeline-element-title">Creative Director</h3>
-        <h4 className="vertical-timeline-element-subtitle">Miami, FL</h4>
+        <h4 className="vertical-timeline-element-title">Creative Director</h4>
+        <h5 className="vertical-timeline-element-subtitle">Miami, FL</h5>
         <p>
           Creative Direction, User Experience, Visual Design, Project Management, Team Leading
         </p>
@@ -24,8 +24,8 @@ const UserTimeline = () => {
         iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
         // icon={<WorkIcon />}
       >
-        <h3 className="vertical-timeline-element-title">Art Director</h3>
-        <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
+        <h4 className="vertical-timeline-element-title">Art Director</h4>
+        <h5 className="vertical-timeline-element-subtitle">San Francisco, CA</h5>
         <p>
           Creative Direction, User Experience, Visual Design, SEO, Online Marketing
         </p>
@@ -36,8 +36,8 @@ const UserTimeline = () => {
         iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
         // icon={<WorkIcon />}
       >
-        <h3 className="vertical-timeline-element-title">Web Designer</h3>
-        <h4 className="vertical-timeline-element-subtitle">Los Angeles, CA</h4>
+        <h4 className="vertical-timeline-element-title">Web Designer</h4>
+        <h5 className="vertical-timeline-element-subtitle">Los Angeles, CA</h5>
         <p>
           User Experience, Visual Design
         </p>
@@ -48,8 +48,8 @@ const UserTimeline = () => {
         iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
         // icon={<WorkIcon />}
       >
-        <h3 className="vertical-timeline-element-title">Web Designer</h3>
-        <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
+        <h4 className="vertical-timeline-element-title">Web Designer</h4>
+        <h5 className="vertical-timeline-element-subtitle">San Francisco, CA</h5>
         <p>
           User Experience, Visual Design
         </p>
@@ -60,8 +60,8 @@ const UserTimeline = () => {
         iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
         // icon={<SchoolIcon />}
       >
-        <h3 className="vertical-timeline-element-title">Content Marketing for Web, Mobile and Social Media</h3>
-        <h4 className="vertical-timeline-element-subtitle">Online Course</h4>
+        <h4 className="vertical-timeline-element-title">Content Marketing for Web, Mobile and Social Media</h4>
+        <h5 className="vertical-timeline-element-subtitle">Online Course</h5>
         <p>
           Strategy, Social Media
         </p>
@@ -72,8 +72,8 @@ const UserTimeline = () => {
         iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
         // icon={<SchoolIcon />}
       >
-        <h3 className="vertical-timeline-element-title">Agile Development Scrum Master</h3>
-        <h4 className="vertical-timeline-element-subtitle">Certification</h4>
+        <h4 className="vertical-timeline-element-title">Agile Development Scrum Master</h4>
+        <h5 className="vertical-timeline-element-subtitle">Certification</h5>
         <p>
           Creative Direction, User Experience, Visual Design
         </p>
@@ -84,8 +84,8 @@ const UserTimeline = () => {
         iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
         // icon={<SchoolIcon />}
       >
-        <h3 className="vertical-timeline-element-title">Bachelor of Science in Interactive Digital Media Visual Imaging</h3>
-        <h4 className="vertical-timeline-element-subtitle">Bachelor Degree</h4>
+        <h4 className="vertical-timeline-element-title">Bachelor of Science in Interactive Digital Media Visual Imaging</h4>
+        <h5 className="vertical-timeline-element-subtitle">Bachelor Degree</h5>
         <p>
           Creative Direction, Visual Design
         </p>
@@ -98,4 +98,4 @@ const UserTimeline = () => {
   );
 };
 
-export default UserTimeline;
+export default Timeline;

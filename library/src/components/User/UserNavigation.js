@@ -1,7 +1,8 @@
 import { Button, Form } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const UserAccountNavigation = ({ setContent }) => {
+const UserNavigation = () => {
   return (
     <div className="card-body">
       <div className="account-settings">
@@ -15,25 +16,25 @@ const UserAccountNavigation = ({ setContent }) => {
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
-              onClick={() => setContent('timeline')}
+              // onClick={() => setContent('timeline')}
             >
-              View Profile
+              <Link to="/user/timeline">Timeline</Link>
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
-              onClick={() => setContent('editProfile')}
+              // onClick={() => setContent('profile')}
             >
-              Edit Profile
+              <Link to="/user/profile">Profile</Link>
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
-              onClick={() => setContent('changePassword')}
+              // onClick={() => setContent('changePassword')}
             >
-              Change Password
+              <Link to="/user/changePassword">Change Password</Link>
             </Button>
           </Form.Group>
         </div>
@@ -42,7 +43,7 @@ const UserAccountNavigation = ({ setContent }) => {
   );
 };
 
-UserAccountNavigation.propTypes = {
-  setContent: PropTypes.func.isRequired,
-};
-export default UserAccountNavigation;
+// UserNavigation.propTypes = {
+//   setContent: PropTypes.func.isRequired,
+// };
+export default UserNavigation;

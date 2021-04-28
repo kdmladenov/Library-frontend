@@ -22,7 +22,7 @@
   height: 92vh;
   padding: 15vh 5vw 0;
   color: #ffffff;
-  background-color: #0706069c;
+  background-color: #120e0e69;
 }
 
 .error-content {
@@ -43,15 +43,14 @@ div.error-content::after {
 }
 
 .btn {
-  max-width: 25rem !important;
+  max-width: 20rem;
   margin-left: auto;
   margin-right: auto;
-  background-color: #83795d;
-  border-color: #83795d;
+  background-color: #1c1f1a;
+  border-color: #1c1f1a;
 }
 
 .btn:hover {
-  background-color: #1b1915;
-  border-color: #1b1915;
+  background-color: #363b30;
+  border-color: #363b30;
 }
-
