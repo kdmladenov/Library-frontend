@@ -1,19 +1,46 @@
 import './forms.css';
 import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
+import userValidator from './userValidator';
+import { userInput } from '../../common/constants';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
+  const [usernameIsValid, toggleUsernameIsValid] = useState(true);
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordIsValid, togglePasswordIsValid] = useState(true);
+  const [passwordError, setPasswordError] = useState('');
 
   const handleUsernameInput = (value) => {
-    // validation
+    if (userValidator.username(value)) {
+      toggleUsernameIsValid(true);
+      setUsernameError('');
+    } else {
+      toggleUsernameIsValid(false);
+      setUsernameError(` must be between ${userInput.MIN_USERNAME_LENGTH} and ${userInput.MAX_USERNAME_LENGTH} characters`);
+    }
     setUsername(value);
   };
 
   const handlePasswordInput = (value) => {
-    // validation
+    if (!userValidator.password.length(value)) {
+      togglePasswordIsValid(false);
+      setPasswordError(`must be between ${userInput.MIN_PASSWORD_LENGTH} and ${userInput.MAX_PASSWORD_LENGTH} characters`);
+    } else if (!userValidator.password.lowerCase(value)) {
+      togglePasswordIsValid(false);
+      setPasswordError(' must include a lowercase letter');
+    } else if (!userValidator.password.upperCase(value)) {
+      togglePasswordIsValid(false);
+      setPasswordError(' must include an uppercase letter');
+    } else if (!userValidator.password.digit(value)) {
+      togglePasswordIsValid(false);
+      setPasswordError(' must include a digit');
+    } else {
+      togglePasswordIsValid(true);
+      setPasswordError('');
+    }
     setPassword(value);
   };
 
@@ -30,8 +57,10 @@ const Login = () => {
       <div className="form-wrapper-inner">
         <Form onSubmit={handleFormSubmit}>
           <h3>Login</h3>
-          <Form.Group controlId="formBasicName">
-            <Form.Label>Username</Form.Label>
+          <Form.Group controlId="formBasicName" className={usernameIsValid ? '' : 'red'}>
+            <Form.Label>
+              {`Username${usernameError}`}
+            </Form.Label>
             <Form.Control
               type="text"
               name="username"
@@ -41,8 +70,10 @@ const Login = () => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+          <Form.Group controlId="formBasicPassword" className={passwordIsValid ? '' : 'red'}>
+            <Form.Label>
+              {`Password${passwordError}`}
+            </Form.Label>
             {/* must be at least 6 characters/ must include number, lowercase and uppercase letter */}
             <Form.Control
               type="password"

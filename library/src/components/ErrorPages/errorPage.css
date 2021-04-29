@@ -42,7 +42,7 @@ div.error-content::after {
   margin: 7vh auto;
 }
 
-.btn {
+.error-wrapper-inner .btn {
   max-width: 20rem;
   margin-left: auto;
   margin-right: auto;

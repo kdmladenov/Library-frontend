@@ -16,7 +16,7 @@ const Header = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link><NavLink to="/home">Home</NavLink></Nav.Link>
+          <NavLink to="/home" className="nav-link" role="button">Home</NavLink>
           <Nav.Link href="#link">Link</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -33,20 +33,13 @@ const Header = () => {
         <Nav className="mr-auto">
           <NavDropdown title="USERNAME" id="basic-nav-dropdown">
 
-            <NavDropdown.Item href="#action/3.1">
-              <NavLink to="/user/timeline">Timeline</NavLink>
-            </NavDropdown.Item>
+            <NavLink to="/user/timeline" className="dropdown-item">Timeline</NavLink>
 
-            <NavDropdown.Item href="#action/3.2">
-              <NavLink to="/user/profile">Profile</NavLink>
-            </NavDropdown.Item>
+            <NavLink to="/user/profile" className="dropdown-item">Profile</NavLink>
 
-            <NavDropdown.Item href="#action/3.3">
-              <NavLink to="/user/changePassword">Change Password</NavLink>
-            </NavDropdown.Item>
+            <NavLink to="/user/changePassword" className="dropdown-item">Change Password</NavLink>
 
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.4" className="dropdown-item">Logout</NavDropdown.Item>
 
           </NavDropdown>
         </Nav>

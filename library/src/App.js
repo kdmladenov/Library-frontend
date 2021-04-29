@@ -23,8 +23,8 @@ const App = () => {
       <Switch>
         <Redirect path="/" exact to="/home" />
         <Route path="/home" component={Home} />
-        <Route path="/user/login" exact component={Login} />
-        <Route path="/user/register" exact component={Register} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/register" exact component={Register} />
         <Route path="/user/timeline" component={UserTimeline} />
         <Route path="/user/profile" component={UserProfile} />
         <Route path="/user/changePassword" component={UserChangePassword} />
