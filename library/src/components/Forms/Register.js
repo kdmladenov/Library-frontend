@@ -2,7 +2,7 @@ import './forms.css';
 import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 
-const RegisterForm = () => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +35,7 @@ const RegisterForm = () => {
 
   const navigateToTerms = (e) => {
     e.preventDefault();
-    // navigate to Login Page
+    // navigate to Terms
   };
 
   const navigateToLogin = (e) => {
@@ -125,4 +125,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default Register;

@@ -18,11 +18,19 @@ form {
   color: #ffffff;
 }
 
-.form-group input {
+.form-control {
   background-color: #ffffffa2;
   color: #343a40;
   padding: 1.5rem;
   border: 0.05rem solid #ffffff;
+}
+
+.form-control:focus {
+  border-color: #24b943;
+  background-color: #fff;
+  border-color: #006416;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(231 255 148 / 25%);
 }
 
 label {
@@ -42,14 +50,6 @@ label {
   margin-bottom: 1.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
-}
-
-.form-control:focus {
-  color: #574f49 !important;
-    background-color: #fff;
-    border-color: #2a2016 !important;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem #2a201633 !important;
 }
 
 .form-link {
@@ -74,8 +74,24 @@ p.forgot-password:hover, .form-link:hover {
   filter: hue-rotate(305deg)
 }
 
-.red {
-  color: #ff5c5c;
-  text-shadow: 0 0 0.15rem black;
+.red label {
+  color: #b60303;
+  /* text-shadow: 0 0 0.15rem black; */
 }
 
+.red .form-control {
+  border-color: #b60303;
+  border-width: 0.15rem;
+}
+
+.form-wrapper-inner .btn {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #263629;
+  border-color: #263629;
+}
+
+.form-wrapper-inner .btn:hover {
+  background-color: #1c1f1a;
+  border-color: #1c1f1a;
+}

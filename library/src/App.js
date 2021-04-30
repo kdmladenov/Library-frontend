@@ -1,33 +1,35 @@
-import BookCarousel from "./components/Books/BookCarousel";
-// import Books from "./components/Books/Books";
+import {
+  BrowserRouter, Route, Switch, Redirect,
+} from "react-router-dom";
+import Books from "./components/Books/Books";
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import NavbarComponent from "./components/Navbar/Navbar";
-// import LoginForm from './components/Forms/LoginForm';
-// import RegistryForm from './components/Forms/RegistryForm';
-// import NotFound from './components/ErrorPages/NotFound';
-// import Forbidden from './components/ErrorPages/Forbidden';
-// import ServiceUnavailable from './components/ErrorPages/ServiceUnavailable';
+import Header from "./components/Header/Header";
+import Home from "./components/Home/Home";
+import Login from "./components/Forms/Login";
+import Register from "./components/Forms/Register";
+import UserTimeline from "./containers/User/UserTimeline";
+import UserProfile from "./containers/User/UserProfile";
+import UserChangePassword from "./containers/User/UserChangePassword";
+import NotFound from "./components/ErrorPages/NotFound";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <NavbarComponent />
-      <div className="home-container">
-        <BookCarousel title="Most Popular Books" />
-        <BookCarousel title="New Releases" />
-        <BookCarousel title="Top Rated Books" />
-      </div>
-      {/* <div className="book-container">
-        <Books />
-      </div> */}
-      {/* <LoginForm /> */}
-      {/* <RegistryForm /> */}
-      {/* <NotFound />
-      <Forbidden />
-      <ServiceUnavailable /> */}
-    </div>
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Redirect path="/" exact to="/home" />
+        <Route path="/home" component={Home} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/register" exact component={Register} />
+        <Route path="/user/timeline" component={UserTimeline} />
+        <Route path="/user/profile" component={UserProfile} />
+        <Route path="/user/changePassword" component={UserChangePassword} />
+        <Route path="/books" component={Books} />
+        <Route path="*" component={NotFound} />
+      </Switch>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

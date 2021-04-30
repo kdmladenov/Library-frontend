@@ -1,4 +1,5 @@
-import './Navbar.css';
+import { NavLink } from 'react-router-dom';
+import './Header.css';
 import {
   Navbar,
   Button,
@@ -8,34 +9,43 @@ import {
   FormControl,
 } from "react-bootstrap";
 
-const NavbarComponent = () => {
+const Header = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
+          <NavLink to="/home" className="nav-link" role="button">Home</NavLink>
           <Nav.Link href="#link">Link</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Another action
-            </NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
-            </NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
           </NavDropdown>
         </Nav>
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
           <Button variant="outline-success">Search</Button>
         </Form>
+        <Nav className="mr-auto">
+          <NavDropdown title="USERNAME" id="basic-nav-dropdown">
+
+            <NavLink to="/user/timeline" className="dropdown-item">Timeline</NavLink>
+
+            <NavLink to="/user/profile" className="dropdown-item">Profile</NavLink>
+
+            <NavLink to="/user/changePassword" className="dropdown-item">Change Password</NavLink>
+
+            <NavDropdown.Item href="#action/3.4" className="dropdown-item">Logout</NavDropdown.Item>
+
+          </NavDropdown>
+        </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
 };
 
-export default NavbarComponent;
+export default Header;
