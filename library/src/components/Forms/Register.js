@@ -1,46 +1,48 @@
 import './forms.css';
 import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  validateEmail,
+  validatePassword,
+  validateReenteredPassword,
+  validateUsername,
+} from './userValidator';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [reenteredPassword, setReenteredPassword] = useState('');
   const [termsAgreement, setTermsAgreement] = useState('');
 
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [reenteredPasswordError, setReenteredPasswordError] = useState('');
+
   const handleUsernameInput = (value) => {
-    // validation
+    validateUsername(value, setUsernameError);
     setUsername(value);
   };
 
   const handleEmailInput = (value) => {
-    // validation
+    validateEmail(value, setEmailError);
     setEmail(value);
   };
 
   const handlePasswordInput = (value) => {
-    // validation
+    validatePassword(value, setPasswordError);
     setPassword(value);
   };
 
-  const handlePasswordConfirmationInput = (value) => {
-    // validation
-    setPasswordConfirmation(value);
+  const handleReenteredPasswordInput = (value) => {
+    validateReenteredPassword(value, password, setReenteredPasswordError);
+    setReenteredPassword(value);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-  };
-
-  const navigateToTerms = (e) => {
-    e.preventDefault();
-    // navigate to Terms
-  };
-
-  const navigateToLogin = (e) => {
-    e.preventDefault();
-    // navigate to Login Page
   };
 
   return (
@@ -48,8 +50,10 @@ const Register = () => {
       <div className="form-wrapper-inner">
         <Form onSubmit={handleFormSubmit}>
           <h3>Register</h3>
-          <Form.Group controlId="formBasicName">
-            <Form.Label>Username</Form.Label>
+          <Form.Group controlId="formBasicName" className={usernameError ? 'red' : ''}>
+            <Form.Label>
+              {`Username${usernameError}`}
+            </Form.Label>
             <Form.Control
               type="text"
               name="username"
@@ -59,8 +63,10 @@ const Register = () => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email</Form.Label>
+          <Form.Group controlId="formBasicEmail" className={emailError ? 'red' : ''}>
+            <Form.Label>
+              {`Email${emailError}`}
+            </Form.Label>
             <Form.Control
               type="email"
               name="email"
@@ -70,8 +76,10 @@ const Register = () => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+          <Form.Group controlId="formBasicPassword" className={passwordError ? 'red' : ''}>
+            <Form.Label>
+              {`Password${passwordError}`}
+            </Form.Label>
             <Form.Control
               type="password"
               name="password"
@@ -81,14 +89,16 @@ const Register = () => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Confirm Password</Form.Label>
+          <Form.Group controlId="formBasicPassword" className={reenteredPasswordError ? 'red' : ''}>
+            <Form.Label>
+              {`Password${reenteredPasswordError}`}
+            </Form.Label>
             <Form.Control
               type="password"
-              name="password"
+              name="reenteredPassword"
               placeholder="Confirm Password"
-              value={passwordConfirmation}
-              onChange={(e) => handlePasswordConfirmationInput(e.target.value)}
+              value={reenteredPassword}
+              onChange={(e) => handleReenteredPasswordInput(e.target.value)}
             />
           </Form.Group>
 
@@ -100,7 +110,7 @@ const Register = () => {
               value={termsAgreement}
               onChange={() => setTermsAgreement(!termsAgreement)}
             />
-            <a href="/" className="form-link" onClick={(e) => navigateToTerms(e)}> Terms and Privacy Policy</a>
+            <Link className="form-link" to="/termsAndPolicy"> Terms and Privacy Policy</Link>
           </Form.Group>
 
           <Form.Group>
@@ -113,9 +123,9 @@ const Register = () => {
           </Form.Group>
 
           <Form.Group controlId="formBasicCheckbox2">
-            <a href="/" className="form-link center" onClick={(e) => navigateToLogin(e)}>
+            <Link className="form-link center" to="/login">
               Already have an account? Login here
-            </a>
+            </Link>
           </Form.Group>
 
         </Form>

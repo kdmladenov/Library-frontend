@@ -1,11 +1,9 @@
 import './errorPage.css';
 import { Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 const NotFound = () => {
-  const navigateToHome = () => {
-    // navigate to Home Page
-  };
-
+  const history = useHistory();
   return (
     <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/error-page.jpg)` }} className="error-wrapper-outer">
       <div className="error-wrapper-inner">
@@ -17,7 +15,7 @@ const NotFound = () => {
         <Button
           type="submit"
           className="btn btn-dark btn-lg btn-block"
-          onChange={() => navigateToHome()}
+          onChange={() => history.push('/home')}
         >
           GO TO HOME PAGE
         </Button>

@@ -15,6 +15,7 @@ import UserProfile from './containers/User/UserProfile';
 import UserChangePassword from './containers/User/UserChangePassword';
 import BookDetailedView from "./components/Books/BookDetailedView";
 import NotFound from './components/ErrorPages/NotFound';
+import TermsAndPolicy from './components/TermsAndPolicy/TermsAndPolicy';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
       <Switch>
         <Redirect path="/" exact to="/home" />
         <Route path="/home" component={Home} />
+        <Route path="/termsAndPolicy" component={TermsAndPolicy} />
         <Route path="/login" exact component={Login} />
         <Route path="/register" exact component={Register} />
         <Route path="/user/timeline" component={UserTimeline} />
