@@ -1,3 +1,4 @@
+
 .book-carousel {
   margin-left: auto;
   margin-right: auto;
@@ -8,6 +9,7 @@
 /* .react-multi-carousel-list{
   align-self: flex-start !important;
 } */
+
 .bookCard {
   display: grid;
   margin: 0 auto;
@@ -161,8 +163,13 @@
 #book-card-rating-count {
 }
 
-#book-detail-card-bookedUntil {
+#book-detail-card-bookedUntil-booked {
   grid-area: booked;
+background-color: coral;
+}
+#book-detail-card-bookedUntil-available {
+  grid-area: booked;
+background-color: chartreuse;
 }
 #book-detail-card-title {
   grid-area: title;
