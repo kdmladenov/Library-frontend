@@ -7,10 +7,11 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./books.css";
 import icon from "../../data/covers/icon.png";
-import propsCarouselBreakpoints from "./PropsCarousel/propsCarouselBreakpoints";
+import { bookDetailsCarouselBreakpoints } from "../../constants/carousel";
 import BookCardRating from "../UI/BookCardRating";
 import PropCard from "./PropsCarousel/PropsCard";
 import ShowMoreButton from "../UI/ShowMoreButton";
+import server from '../../constants/server';
 // import { Button } from "react-bootstrap";
 
 const BookCardDetailed = ({
@@ -20,7 +21,7 @@ const BookCardDetailed = ({
   author,
   bookRating,
   reviewCount,
-  // bookedUntil,
+  bookedUntil,
   summary,
   datePublished,
   isbn,
@@ -28,30 +29,38 @@ const BookCardDetailed = ({
   ageRecommendation,
   language,
   pages,
-  singleBook,
+  // singleBook,
 }) => {
   return (
     <div className="book-card-detailed" id={bookId}>
       <img
-        src={frontCover}
+        src={`${server.baseURL}/${frontCover}`}
         id="book-detail-card-image"
-        onClick={singleBook}
+        // onClick={singleBook}
         alt="front cover"
       />
       <div id="book-card-rating-count">
         <div>
-          <BookCardRating bookRating={bookRating} />
+          <BookCardRating bookRating={bookRating || 0} />
         </div>
-        <div id="book-detail-card-review-count">{reviewCount}</div>
+        <div id="book-detail-card-review-count">{reviewCount || 0}</div>
       </div>
-      <button type="button" id="book-detail-card-bookedUntil">
-        Available
+      <button
+        type="button"
+        // to implement return
+        id={
+          bookedUntil
+            ? "book-detail-card-bookedUntil-booked"
+            : "book-detail-card-bookedUntil-available"
+        }
+      >
+        {bookedUntil ? `Booked until ${new Date(bookedUntil).toLocaleDateString('en-US')}` : "Available"}
       </button>
       <div id="book-detail-card-title">{title}</div>
       <div id="book-detail-card-author">{author}</div>
       <div id="book-detail-props-carousel">
         <Carousel
-          responsive={propsCarouselBreakpoints}
+          responsive={bookDetailsCarouselBreakpoints}
           containerClass="props-carousel-container"
         >
           <PropCard id={1} title="Genre" icon={icon} property={genre} />
@@ -78,23 +87,33 @@ const BookCardDetailed = ({
     </div>
   );
 };
-
+BookCardDetailed.defaultProps = {
+  bookRating: 0,
+  reviewCount: 0,
+  pages: 0,
+  datePublished: "N/A",
+  bookedUntil: "",
+  summary: "",
+  ageRecommendation: "All ages",
+  language: "English",
+  // singleBook: PropTypes.func.isRequired,storage\covers\76.jpg
+};
 BookCardDetailed.propTypes = {
   bookId: PropTypes.number.isRequired,
   frontCover: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  bookRating: PropTypes.number.isRequired,
-  reviewCount: PropTypes.number.isRequired,
+  bookRating: PropTypes.number,
+  reviewCount: PropTypes.number,
   genre: PropTypes.string.isRequired,
-  pages: PropTypes.number.isRequired,
-  datePublished: PropTypes.string.isRequired,
-  // bookedUntil: PropTypes.string.isRequired,
-  summary: PropTypes.string.isRequired,
+  pages: PropTypes.number,
+  datePublished: PropTypes.string,
+  bookedUntil: PropTypes.string,
+  summary: PropTypes.string,
   isbn: PropTypes.string.isRequired,
-  ageRecommendation: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
-  singleBook: PropTypes.func.isRequired,
+  ageRecommendation: PropTypes.string,
+  language: PropTypes.string,
+  // singleBook: PropTypes.func.isRequired,
 };
 
 export default BookCardDetailed;

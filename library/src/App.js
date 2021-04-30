@@ -1,5 +1,5 @@
-// import BookCarousel from "./components/Books/BookCarousel";
-// import BookDetailedView from "./components/Books/BookDetailedView";
+import BookCarousel from "./components/Books/BookCarousel";
+// import Books from "./components/Books/Books";
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComponent from "./components/Navbar/Navbar";
@@ -13,13 +13,13 @@ function App() {
   return (
     <div className="App">
       <NavbarComponent />
-      {/* <div className="home-container">
+      <div className="home-container">
         <BookCarousel title="Most Popular Books" />
         <BookCarousel title="New Releases" />
         <BookCarousel title="Top Rated Books" />
-      </div> */}
-      {/* <div className="book-detailed-container">
-        <BookDetailedView />
+      </div>
+      {/* <div className="book-container">
+        <Books />
       </div> */}
       {/* <LoginForm /> */}
       {/* <RegistryForm /> */}
