@@ -53,6 +53,6 @@ export const validateReenteredPassword = (value, match, setError) => {
   if (validate.reenteredPassword(value, match)) {
     setError('');
   } else {
-    setError(` do not match`);
+    setError(` do not `);
   }
 };

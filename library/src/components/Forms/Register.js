@@ -122,10 +122,9 @@ const Register = () => {
             </Button>
           </Form.Group>
 
-          <Form.Group controlId="formBasicCheckbox2">
-            <Link className="form-link center" to="/login">
-              Already have an account? Login here
-            </Link>
+          <Form.Group controlId="formBasicCheckbox2" className="center">
+            <span>Already have an account?</span>
+            <Link className="form-link" to="/login"> Login here</Link>
           </Form.Group>
 
         </Form>

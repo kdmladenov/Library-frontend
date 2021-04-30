@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   BrowserRouter, Route, Switch, Redirect,
 } from "react-router-dom";
@@ -13,23 +14,31 @@ import UserProfile from './containers/User/UserProfile';
 import UserChangePassword from './containers/User/UserChangePassword';
 import NotFound from './components/ErrorPages/NotFound';
 import TermsAndPolicy from './components/TermsAndPolicy/TermsAndPolicy';
+import AuthContext, { getUser } from './providers/AuthContext';
 
 const App = () => {
+  const [authValue, setAuthValue] = useState({
+    isLoggedIn: !!getUser(),
+    user: getUser(),
+  });
+
   return (
     <BrowserRouter>
-      <Header />
-      <Switch>
-        <Redirect path="/" exact to="/home" />
-        <Route path="/home" component={Home} />
-        <Route path="/termsAndPolicy" component={TermsAndPolicy} />
-        <Route path="/login" exact component={Login} />
-        <Route path="/register" exact component={Register} />
-        <Route path="/user/timeline" component={UserTimeline} />
-        <Route path="/user/profile" component={UserProfile} />
-        <Route path="/user/changePassword" component={UserChangePassword} />
-        <Route path="/books" component={Books} />
-        <Route path="*" component={NotFound} />
-      </Switch>
+      <AuthContext.Provider value={{ ...authValue, setAuthValue }}>
+        <Header />
+        <Switch>
+          <Redirect path="/" exact to="/home" />
+          <Route path="/home" component={Home} />
+          <Route path="/termsAndPolicy" component={TermsAndPolicy} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
+          <Route path="/user/timeline" component={UserTimeline} />
+          <Route path="/user/profile" component={UserProfile} />
+          <Route path="/user/changePassword" component={UserChangePassword} />
+          <Route path="/books" component={Books} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </AuthContext.Provider>
     </BrowserRouter>
   );
 };

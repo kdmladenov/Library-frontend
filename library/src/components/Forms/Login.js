@@ -1,15 +1,21 @@
 import './forms.css';
 import { Button, Form } from 'react-bootstrap';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { validatePassword, validateUsername } from './userValidator';
+import { BASE_URL } from '../../common/constants';
+import AuthContext from '../../providers/AuthContext';
 
 const Login = () => {
+  const [error, setError] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const auth = useContext(AuthContext);
+  const history = useHistory();
 
   const handleUsernameInput = (value) => {
     validateUsername(value, setUsernameError);
@@ -23,6 +29,30 @@ const Login = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          throw new Error(data.message);
+        }
+        const token = { data };
+        localStorage.setItem('token', token);
+        auth.setAuthValue({
+          isLoggedIn: true,
+          user: username,
+        });
+        history.push('/home');
+      })
+      .catch(err => setError(err.message));
   };
 
   return (
@@ -30,6 +60,11 @@ const Login = () => {
       <div className="form-wrapper-inner">
         <Form onSubmit={handleFormSubmit}>
           <h3>Login</h3>
+          {error && (
+            <Form.Group className="red">
+              <p>{`Login Failed: ${error}`}</p>
+            </Form.Group>
+          )}
           <Form.Group controlId="formBasicName" className={usernameError ? 'red' : ''}>
             <Form.Label>
               {`Username${usernameError}`}
@@ -79,9 +114,10 @@ const Login = () => {
             </Button>
           </Form.Group>
 
-          <Link className="form-link center" to="/register">
-            New here? Create an account
-          </Link>
+          <Form.Group controlId="formBasicCheckbox2" className="center">
+            <span>New here?</span>
+            <Link className="form-link" to="/login"> Create an account</Link>
+          </Form.Group>
 
         </Form>
       </div>

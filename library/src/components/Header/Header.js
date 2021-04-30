@@ -31,16 +31,13 @@ const Header = () => {
           <Button variant="outline-success">Search</Button>
         </Form>
         <Nav className="mr-auto">
+          <NavLink to="/login" className="dropdown-item">Login</NavLink>
+          <NavLink to="/register" className="dropdown-item">Register</NavLink>
           <NavDropdown title="USERNAME" id="basic-nav-dropdown">
-
             <NavLink to="/user/timeline" className="dropdown-item">Timeline</NavLink>
-
             <NavLink to="/user/profile" className="dropdown-item">Profile</NavLink>
-
             <NavLink to="/user/changePassword" className="dropdown-item">Change Password</NavLink>
-
             <NavDropdown.Item href="#action/3.4" className="dropdown-item">Logout</NavDropdown.Item>
-
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
