@@ -1,4 +1,4 @@
-import './errorPage.css';
+import './staticPage.css';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 
@@ -6,9 +6,9 @@ const ServiceUnavailable = () => {
   const history = useHistory();
 
   return (
-    <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/ServiceUnavailable.jpeg)` }} className="error-wrapper-outer">
-      <div className="error-wrapper-inner">
-        <div className="error-content">
+    <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/ServiceUnavailable.jpeg)` }} className="static-wrapper-outer">
+      <div className="static-wrapper-inner">
+        <div className="static-content">
           <p className="medium">Service is Temporary Unavailable</p>
           <p className="large">503 ERROR</p>
           <p className="small">

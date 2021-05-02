@@ -44,7 +44,9 @@ const Login = () => {
         if (data.message) {
           throw new Error(data.message);
         }
-        const token = { data };
+        const { token } = data;
+        console.log(data);
+        console.log(token);
         localStorage.setItem('token', token);
         auth.setAuthValue({
           isLoggedIn: true,

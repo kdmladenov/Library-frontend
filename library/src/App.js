@@ -12,15 +12,21 @@ import Register from './components/Forms/Register';
 import UserTimeline from './containers/User/UserTimeline';
 import UserProfile from './containers/User/UserProfile';
 import UserChangePassword from './containers/User/UserChangePassword';
-import NotFound from './components/ErrorPages/NotFound';
+import NotFound from './components/StaticPages/NotFound';
+import Forbidden from './components/StaticPages/Forbidden';
+import ServiceUnavailable from './components/StaticPages/ServiceUnavailable';
 import TermsAndPolicy from './components/TermsAndPolicy/TermsAndPolicy';
 import AuthContext, { getUser } from './providers/AuthContext';
+import GuardedRoute from './providers/GuardedRoute';
+import Logout from './components/StaticPages/Logout';
 
 const App = () => {
   const [authValue, setAuthValue] = useState({
     isLoggedIn: !!getUser(),
     user: getUser(),
   });
+
+  const { isLoggedIn } = authValue;
 
   return (
     <BrowserRouter>
@@ -31,11 +37,14 @@ const App = () => {
           <Route path="/home" component={Home} />
           <Route path="/termsAndPolicy" component={TermsAndPolicy} />
           <Route path="/login" exact component={Login} />
+          <Route path="/logout" exact component={Logout} />
           <Route path="/register" exact component={Register} />
-          <Route path="/user/timeline" component={UserTimeline} />
-          <Route path="/user/profile" component={UserProfile} />
-          <Route path="/user/changePassword" component={UserChangePassword} />
-          <Route path="/books" component={Books} />
+          <GuardedRoute path="/user/timeline" component={UserTimeline} isLoggedIn={isLoggedIn} />
+          <GuardedRoute path="/user/profile" component={UserProfile} isLoggedIn={isLoggedIn} />
+          <GuardedRoute path="/user/changePassword" component={UserChangePassword} isLoggedIn={isLoggedIn} />
+          <GuardedRoute path="/books" component={Books} isLoggedIn={isLoggedIn} />
+          <Route path="/forbidden" component={Forbidden} />
+          <Route path="/serviceUnavailable" component={ServiceUnavailable} />
           <Route path="*" component={NotFound} />
         </Switch>
       </AuthContext.Provider>
