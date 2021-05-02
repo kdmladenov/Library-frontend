@@ -15,7 +15,7 @@ export const userInput = {
   PASSWORD_REGEX: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/, // letters, numbers and at least 1 uppercase
 };
 
-export const BASE_URL = 'http://localhost:3000/';
+export const BASE_URL = 'http://localhost:5555';
 
 // export const server = {
 //   baseURL: "http://localhost:5555",

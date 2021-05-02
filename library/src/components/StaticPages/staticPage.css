@@ -11,27 +11,27 @@
   font-size: min(6vw, 20px);
 }
 
-.error-wrapper-outer{
+.static-wrapper-outer{
   text-align: center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.error-wrapper-inner {
+.static-wrapper-inner {
   height: 92vh;
   padding: 15vh 5vw 0;
   color: #ffffff;
   background-color: #120e0e69;
 }
 
-.error-content {
+.static-content {
   max-width: 40rem;
   margin-left: auto;
   margin-right: auto;
 }
 
-div.error-content::after {
+div.static-content::after {
   content: "asd";
   color: transparent;
   display: block;
@@ -42,7 +42,7 @@ div.error-content::after {
   margin: 7vh auto;
 }
 
-.error-wrapper-inner .btn {
+.static-wrapper-inner .btn {
   max-width: 20rem;
   margin-left: auto;
   margin-right: auto;

@@ -23,6 +23,7 @@ form {
   color: #343a40;
   padding: 1.5rem;
   border: 0.05rem solid #ffffff;
+  border-width: 0.1rem;
 }
 
 .form-control:focus {
@@ -35,11 +36,11 @@ form {
 
 label {
   color: #ffffff;
-  display: block !important;
+  display: block;
 }
 
 .form-check, .form-check label {
-  display: inline-block !important;
+  display: inline-block;
 }
 
 .forgot-password {
@@ -53,19 +54,16 @@ label {
 }
 
 .form-link {
-  color: #ffffff !important;
-  text-decoration: initial !important;
-}
-
-.form-link.center {
-  text-align: center !important;
-  display: block;
+  color: #a5ffb6;
+  text-decoration: initial;
+  text-shadow: 0 0 3px #000000;
 }
 
 p.forgot-password:hover, .form-link:hover {
-  color: #63ddb6 !important;
+  color: #63ddb6;
   cursor: pointer;
   text-shadow: 0 0.05rem black;
+  text-decoration: none;
 }
 
 .form-check-input {
@@ -74,14 +72,16 @@ p.forgot-password:hover, .form-link:hover {
   filter: hue-rotate(305deg)
 }
 
-.red label {
+.red label, .red {  
+  padding-bottom: .4rem;
+  margin-bottom: initial;
   color: #b60303;
-  /* text-shadow: 0 0 0.15rem black; */
+  background: linear-gradient(47deg, #ffffff3b, transparent);
 }
 
 .red .form-control {
   border-color: #b60303;
-  border-width: 0.15rem;
+  border-width: 0.1rem;
 }
 
 .form-wrapper-inner .btn {
@@ -94,4 +94,8 @@ p.forgot-password:hover, .form-link:hover {
 .form-wrapper-inner .btn:hover {
   background-color: #1c1f1a;
   border-color: #1c1f1a;
+}
+
+.center {
+  text-align: center;
 }

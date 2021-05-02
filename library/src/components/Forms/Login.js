@@ -1,55 +1,60 @@
 import './forms.css';
 import { Button, Form } from 'react-bootstrap';
-import { useState } from 'react';
-import userValidator from './userValidator';
-import { userInput } from '../../common/constants';
+import { useContext, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { validatePassword, validateUsername } from './userValidator';
+import { BASE_URL } from '../../common/constants';
+import AuthContext from '../../providers/AuthContext';
 
 const Login = () => {
+  const [error, setError] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
-  const [usernameIsValid, toggleUsernameIsValid] = useState(true);
   const [usernameError, setUsernameError] = useState('');
-  const [passwordIsValid, togglePasswordIsValid] = useState(true);
   const [passwordError, setPasswordError] = useState('');
 
+  const auth = useContext(AuthContext);
+  const history = useHistory();
+
   const handleUsernameInput = (value) => {
-    if (userValidator.username(value)) {
-      toggleUsernameIsValid(true);
-      setUsernameError('');
-    } else {
-      toggleUsernameIsValid(false);
-      setUsernameError(` must be between ${userInput.MIN_USERNAME_LENGTH} and ${userInput.MAX_USERNAME_LENGTH} characters`);
-    }
+    validateUsername(value, setUsernameError);
     setUsername(value);
   };
 
   const handlePasswordInput = (value) => {
-    if (!userValidator.password.length(value)) {
-      togglePasswordIsValid(false);
-      setPasswordError(`must be between ${userInput.MIN_PASSWORD_LENGTH} and ${userInput.MAX_PASSWORD_LENGTH} characters`);
-    } else if (!userValidator.password.lowerCase(value)) {
-      togglePasswordIsValid(false);
-      setPasswordError(' must include a lowercase letter');
-    } else if (!userValidator.password.upperCase(value)) {
-      togglePasswordIsValid(false);
-      setPasswordError(' must include an uppercase letter');
-    } else if (!userValidator.password.digit(value)) {
-      togglePasswordIsValid(false);
-      setPasswordError(' must include a digit');
-    } else {
-      togglePasswordIsValid(true);
-      setPasswordError('');
-    }
+    validatePassword(value, setPasswordError);
     setPassword(value);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-  };
-
-  const navigateToRegister = (e) => {
-    e.preventDefault();
+    fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          throw new Error(data.message);
+        }
+        const { token } = data;
+        console.log(data);
+        console.log(token);
+        localStorage.setItem('token', token);
+        auth.setAuthValue({
+          isLoggedIn: true,
+          user: username,
+        });
+        history.push('/home');
+      })
+      .catch(err => setError(err.message));
   };
 
   return (
@@ -57,7 +62,12 @@ const Login = () => {
       <div className="form-wrapper-inner">
         <Form onSubmit={handleFormSubmit}>
           <h3>Login</h3>
-          <Form.Group controlId="formBasicName" className={usernameIsValid ? '' : 'red'}>
+          {error && (
+            <Form.Group className="red">
+              <p>{`Login Failed: ${error}`}</p>
+            </Form.Group>
+          )}
+          <Form.Group controlId="formBasicName" className={usernameError ? 'red' : ''}>
             <Form.Label>
               {`Username${usernameError}`}
             </Form.Label>
@@ -70,11 +80,10 @@ const Login = () => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword" className={passwordIsValid ? '' : 'red'}>
+          <Form.Group controlId="formBasicPassword" className={passwordError ? 'red' : ''}>
             <Form.Label>
               {`Password${passwordError}`}
             </Form.Label>
-            {/* must be at least 6 characters/ must include number, lowercase and uppercase letter */}
             <Form.Control
               type="password"
               name="password"
@@ -107,9 +116,10 @@ const Login = () => {
             </Button>
           </Form.Group>
 
-          <a href="/" className="form-link center" onClick={(e) => navigateToRegister(e)}>
-            New here? Create an account
-          </a>
+          <Form.Group controlId="formBasicCheckbox2" className="center">
+            <span>New here?</span>
+            <Link className="form-link" to="/login"> Create an account</Link>
+          </Form.Group>
 
         </Form>
       </div>

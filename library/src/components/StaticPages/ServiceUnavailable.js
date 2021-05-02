@@ -1,20 +1,14 @@
-// Service is Temporary Unavailable
-
-// 503 ERROR
-// Sorry, we're offline right now to make our site even better.
-// Please, come back later and check what we've been up to.
-import './errorPage.css';
+import './staticPage.css';
 import { Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 const ServiceUnavailable = () => {
-  const navigateToHome = () => {
-    // navigate to Home Page
-  };
+  const history = useHistory();
 
   return (
-    <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/ServiceUnavailable.jpeg)` }} className="error-wrapper-outer">
-      <div className="error-wrapper-inner">
-        <div className="error-content">
+    <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/ServiceUnavailable.jpeg)` }} className="static-wrapper-outer">
+      <div className="static-wrapper-inner">
+        <div className="static-content">
           <p className="medium">Service is Temporary Unavailable</p>
           <p className="large">503 ERROR</p>
           <p className="small">
@@ -25,7 +19,7 @@ const ServiceUnavailable = () => {
         <Button
           type="submit"
           className="btn btn-dark btn-lg btn-block"
-          onChange={() => navigateToHome()}
+          onChange={() => history.push('/home')}
         >
           GO TO HOME PAGE
         </Button>
