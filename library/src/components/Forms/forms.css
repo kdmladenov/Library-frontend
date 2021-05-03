@@ -11,7 +11,7 @@
   padding-top: 10vh;
 }
 
-form {
+.login, .register {
   max-width: 25rem;
   margin-left: auto;
   margin-right: auto;
@@ -21,7 +21,6 @@ form {
 .form-control {
   background-color: #ffffffa2;
   color: #343a40;
-  padding: 1.5rem;
   border: 0.05rem solid #ffffff;
   border-width: 0.1rem;
 }
@@ -73,15 +72,19 @@ p.forgot-password:hover, .form-link:hover {
 }
 
 .red label, .red {  
-  padding-bottom: .4rem;
-  margin-bottom: initial;
   color: #b60303;
   background: linear-gradient(47deg, #ffffff3b, transparent);
 }
 
+.red label {
+  padding-bottom: .5rem;
+  margin-bottom: initial;
+}
+
 .red .form-control {
   border-color: #b60303;
-  border-width: 0.1rem;
+  border-width: 0.05rem;
+  box-shadow: 0 0 3px #b60303;
 }
 
 .form-wrapper-inner .btn {

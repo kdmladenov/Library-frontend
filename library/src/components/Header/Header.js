@@ -18,7 +18,6 @@ const Header = () => {
   const history = useHistory();
 
   const logout = () => {
-    console.log(token);
     fetch(`${BASE_URL}/auth/logout`, {
       method: 'DELETE',
       headers: {

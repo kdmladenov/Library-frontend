@@ -29,38 +29,39 @@ const Login = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    fetch(`${BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.message) {
-          throw new Error(data.message);
-        }
-        const { token } = data;
-        console.log(data);
-        console.log(token);
-        localStorage.setItem('token', token);
-        auth.setAuthValue({
-          isLoggedIn: true,
-          user: username,
-        });
-        history.push('/home');
+
+    if (!usernameError && !passwordError) {
+      fetch(`${BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
       })
-      .catch(err => setError(err.message));
+        .then(res => res.json())
+        .then(data => {
+          if (data.message) {
+            throw new Error(data.message);
+          }
+          const { token } = data;
+          localStorage.setItem('token', token);
+          auth.setAuthValue({
+            isLoggedIn: true,
+            user: username,
+          });
+          history.push('/home');
+        })
+        .catch(err => setError(err.message));
+    }
   };
 
   return (
     <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/forms.png)` }} className="form-wrapper-outer">
       <div className="form-wrapper-inner">
-        <Form onSubmit={handleFormSubmit}>
+        <Form onSubmit={handleFormSubmit} className="login">
           <h3>Login</h3>
           {error && (
             <Form.Group className="red">
@@ -111,6 +112,7 @@ const Login = () => {
             <Button
               type="submit"
               className="btn btn-dark btn-lg btn-block"
+              disabled={usernameError || passwordError || !username || !password}
             >
               Login
             </Button>
@@ -118,7 +120,7 @@ const Login = () => {
 
           <Form.Group controlId="formBasicCheckbox2" className="center">
             <span>New here?</span>
-            <Link className="form-link" to="/login"> Create an account</Link>
+            <Link className="form-link" to="/register"> Create an account</Link>
           </Form.Group>
 
         </Form>
