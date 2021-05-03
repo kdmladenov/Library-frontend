@@ -27,6 +27,7 @@
       "consistent-return": "off",
       "arrow-body-style": "off",
       "react/react-in-jsx-scope": "off",
-      "react/jsx-filename-extension": "off"
+      "react/jsx-filename-extension": "off"    
+    //   "react/jsx-props-no-spreading": "off"
     }
 }
