@@ -1,4 +1,7 @@
-
+.book-list{
+  display: flex;
+  flex-wrap: wrap;
+}
 .book-carousel {
   margin-left: auto;
   margin-right: auto;

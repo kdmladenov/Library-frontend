@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
 import Carousel from "react-multi-carousel";
 import PropTypes from "prop-types";
@@ -9,53 +8,26 @@ import "./books.css";
 import { bookCarouselBreakpoints } from "../../common/carousel";
 import server from "../../common/server";
 import Loading from "../UI/Loading";
+import useHttp from '../../hooks/useHttp';
 
 function BookCarousel(props) {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   const { title } = props;
-  useEffect(() => {
-    setLoading(true);
 
-    fetch(`${server.baseURL}/books`, {
-      method: "GET",
-      headers: {
-        Authorization: server.headers.Authorization,
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.error) {
-          throw new Error(result.message);
-        }
-        setBooks(result);
-      })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
-  }, []);
+  const { data, loading, error } = useHttp(
+    `${server.baseURL}/books`,
+    "GET",
+    [],
+  );
 
   if (loading) {
-    return (
-      <div>
-        <Loading>
-          <h1>Loading books...</h1>
-        </Loading>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
-    return (
-      <div>
-        <Loading>
-          <h1>error...</h1>
-        </Loading>
-      </div>
-    );
+    return <h1>{error}</h1>;
   }
-  const bookCardsToShow = books.map((book) => {
+
+  const bookCardsToShow = data.map((book) => {
     return (
       <BookCard
         key={book.bookId}

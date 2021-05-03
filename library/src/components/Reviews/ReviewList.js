@@ -2,7 +2,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-// import { propTypes } from "react-bootstrap/esm/Image";
 import server from "../../common/server";
 import Loading from "../UI/Loading";
 import ReviewCard from "./ReviewCard";
@@ -11,7 +10,6 @@ const ReviewsList = ({ bookId }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     setLoading(true);
 
@@ -45,7 +43,7 @@ const ReviewsList = ({ bookId }) => {
       </div>
     );
   }
-
+  // console.log(reviews);
   const reviewCardsToShow = reviews.map((review) => {
     return (
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -57,7 +55,7 @@ const ReviewsList = ({ bookId }) => {
   });
 
   return (
-    <div>
+    <div className="review-container">
       {reviews.length ? (
         <ul>{reviewCardsToShow}</ul>
       ) : (

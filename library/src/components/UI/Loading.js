@@ -1,15 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
+import Spinner from "react-bootstrap/Spinner";
 
-const Loading = ({ children }) => {
+const Loading = () => {
   return (
-    <div>
-      {children}
+    <div className="d-flex justify-content-center">
+      <Spinner animation="border" role="status">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
     </div>
   );
 };
 
-Loading.propTypes = {
-  children: PropTypes.element.isRequired,
-};
 export default Loading;

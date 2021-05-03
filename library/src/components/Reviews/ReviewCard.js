@@ -13,20 +13,19 @@ const ReviewCard = ({
   // userId,
   avatar,
   username,
-  // review_id,
+  reviewId,
   rating,
   title,
   dateCreated,
   dateEdited,
   content,
-  bookId,
+  // bookId,
   thumbsUp,
   thumbsDown,
 }) => {
   // const backButton = () => history.goBack();
   return (
-    // eslint-disable-next-line camelcase
-    <div className="review-card-detailed" id={bookId}>
+    <div id={`review-card-detailed-${reviewId}`}>
       <div id="review-card-user-info">
         <img
           src={`${server.baseURL}/${avatar}`}
@@ -70,14 +69,8 @@ const ReviewCard = ({
   );
 };
 ReviewCard.defaultProps = {
-  // avatar: PropTypes.string.isRequired,
-  // username: PropTypes.string.isRequired,
   rating: 0,
-  // title: PropTypes.string.isRequired,
-  dateCreated: "N/A",
   dateEdited: "N/A",
-  // content: PropTypes.string.isRequired,
-  // bookId: PropTypes.number.isRequired,
   thumbsUp: 0,
   thumbsDown: 0,
 };
@@ -86,10 +79,11 @@ ReviewCard.propTypes = {
   username: PropTypes.string.isRequired,
   rating: PropTypes.number,
   title: PropTypes.string.isRequired,
-  dateCreated: PropTypes.string,
+  dateCreated: PropTypes.string.isRequired,
   dateEdited: PropTypes.string,
   content: PropTypes.string.isRequired,
-  bookId: PropTypes.number.isRequired,
+  // bookId: PropTypes.number.isRequired,
+  reviewId: PropTypes.number.isRequired,
   thumbsUp: PropTypes.number,
   thumbsDown: PropTypes.number,
 };
