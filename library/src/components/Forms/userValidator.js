@@ -18,98 +18,100 @@ const validate = {
   phone: value => typeof value === 'undefined' || (typeof value === 'string' && value.match(userInput.PHONE_REGEX)),
 };
 
-export const validateUsername = (value, setError) => {
-  if (!value) {
-    setError(` is required!`);
-  } else if (!validate.username(value)) {
-    setError(` must be between ${userInput.MIN_USERNAME_LENGTH} and ${userInput.MAX_USERNAME_LENGTH} characters`);
-  } else {
-    setError('');
-  }
+const validateInput = {
+  username: value => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.username(value)) {
+      return ` must be between ${userInput.MIN_USERNAME_LENGTH} and ${userInput.MAX_USERNAME_LENGTH} characters`;
+    }
+    return '';
+  },
+
+  email: value => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.email(value)) {
+      return ` must be valid`;
+    }
+    return '';
+  },
+
+  reenteredEmail: (value, match) => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.reenteredEmail(value, match)) {
+      return ` does not match`;
+    }
+    return '';
+  },
+
+  password: value => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.password.length(value)) {
+      return `must be between ${userInput.MIN_PASSWORD_LENGTH} and ${userInput.MAX_PASSWORD_LENGTH} characters`;
+    }
+    if (!validate.password.lowerCase(value)) {
+      return ' must include a lowercase letter';
+    }
+    if (!validate.password.upperCase(value)) {
+      return ' must include an uppercase letter';
+    }
+    if (!validate.password.digit(value)) {
+      return ' must include a digit';
+    }
+    return '';
+  },
+
+  reenteredPassword: (value, match) => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.reenteredPassword(value, match)) {
+      return ` does not match`;
+    }
+    return '';
+  },
+
+  firstName: value => {
+    if (!validate.firstName(value)) {
+      return ` must be between ${userInput.MIN_FIRSTNAME_LENGTH} and ${userInput.MAX_FIRSTNAME_LENGTH} characters`;
+    }
+    return '';
+  },
+
+  lastName: value => {
+    if (!validate.lastName(value)) {
+      return ` must be between ${userInput.MIN_LASTNAME_LENGTH} and ${userInput.MAX_LASTNAME_LENGTH} characters`;
+    }
+    return '';
+  },
+
+  phone: value => {
+    if (!validate.phone(value)) {
+      return ` must be valid`;
+    }
+    return '';
+  },
+
+  birthDate: value => {
+    if (!validate.birthDate(value)) {
+      return ` must be valid date`;
+    }
+    return '';
+  },
+
+  gender: value => {
+    if (validate.gender(value)) {
+      return ` could be 'male', 'female' or 'other'`;
+    }
+    return '';
+  },
 };
 
-export const validateEmail = (value, setError) => {
-  if (!value) {
-    setError(` is required!`);
-  } else if (!validate.email(value)) {
-    setError(` must be valid`);
-  } else {
-    setError('');
-  }
-};
-
-export const validateReenteredEmail = (value, match, setError) => {
-  if (!value) {
-    setError(` is required!`);
-  } else if (!validate.reenteredEmail(value, match)) {
-    setError(` does not match`);
-  } else {
-    setError('');
-  }
-};
-
-export const validatePassword = (value, setError) => {
-  if (!value) {
-    setError(` is required!`);
-  } else if (!validate.password.length(value)) {
-    setError(`must be between ${userInput.MIN_PASSWORD_LENGTH} and ${userInput.MAX_PASSWORD_LENGTH} characters`);
-  } else if (!validate.password.lowerCase(value)) {
-    setError(' must include a lowercase letter');
-  } else if (!validate.password.upperCase(value)) {
-    setError(' must include an uppercase letter');
-  } else if (!validate.password.digit(value)) {
-    setError(' must include a digit');
-  } else {
-    setError('');
-  }
-};
-
-export const validateReenteredPassword = (value, match, setError) => {
-  if (!value) {
-    setError(` is required!`);
-  } else if (!validate.reenteredPassword(value, match)) {
-    setError(` does not match`);
-  } else {
-    setError('');
-  }
-};
-
-export const validateFirstName = (value, setError) => {
-  if (validate.firstName(value)) {
-    setError('');
-  } else {
-    setError(` must be between ${userInput.MIN_FIRSTNAME_LENGTH} and ${userInput.MAX_FIRSTNAME_LENGTH} characters`);
-  }
-};
-
-export const validateLastName = (value, setError) => {
-  if (validate.lastName(value)) {
-    setError('');
-  } else {
-    setError(` must be between ${userInput.MIN_LASTNAME_LENGTH} and ${userInput.MAX_LASTNAME_LENGTH} characters`);
-  }
-};
-
-export const validatePhone = (value, setError) => {
-  if (validate.phone(value)) {
-    setError('');
-  } else {
-    setError(` must be valid`);
-  }
-};
-
-export const validateBirthDate = (value, setError) => {
-  if (validate.birthDate(value)) {
-    setError('');
-  } else {
-    setError(` must be valid`);
-  }
-};
-
-export const validateGender = (value, setError) => {
-  if (validate.gender(value)) {
-    setError('');
-  } else {
-    setError(` could be 'male', 'female' or 'other'`);
-  }
-};
+export default validateInput;

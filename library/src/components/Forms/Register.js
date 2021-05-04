@@ -2,70 +2,47 @@ import './forms.css';
 import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import {
-  validateEmail,
-  validatePassword,
-  validateReenteredPassword,
-  validateUsername,
-} from './userValidator';
+import validateInput from './userValidator';
 import { BASE_URL } from '../../common/constants';
 
 const Register = () => {
+  const history = useHistory();
   const [error, setError] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [reenteredPassword, setReenteredPassword] = useState('');
   const [termsAgreement, setTermsAgreement] = useState(false);
 
-  const [usernameError, setUsernameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [reenteredPasswordError, setReenteredPasswordError] = useState('');
+  const [user, setUser] = useState({
+    username: '',
+    password: '',
+    reenteredPassword: '',
+    email: '',
+  });
 
-  const history = useHistory();
+  const updateUser = (prop, value) => setUser({ ...user, [prop]: value });
 
-  const handleUsernameInput = (value) => {
-    validateUsername(value, setUsernameError);
-    setUsername(value);
-  };
+  const [inputErrors, setInputErrors] = useState({
+    username: '',
+    password: '',
+    reenteredPassword: '',
+    email: '',
+  });
 
-  const handleEmailInput = (value) => {
-    validateEmail(value, setEmailError);
-    setEmail(value);
-  };
-
-  const handlePasswordInput = (value) => {
-    validatePassword(value, setPasswordError);
-    setPassword(value);
-  };
-
-  const handleReenteredPasswordInput = (value) => {
-    validateReenteredPassword(value, password, setReenteredPasswordError);
-    setReenteredPassword(value);
+  const handleInput = (prop, value, match) => {
+    setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
+    updateUser(prop, value);
   };
 
   const handleTermsAgreementCheck = () => {
-    validateUsername(username, setUsernameError);
-    validateEmail(email, setEmailError);
-    validatePassword(password, setPasswordError);
-    validateReenteredPassword(reenteredPassword, password, setReenteredPasswordError);
+    setInputErrors({
+      username: validateInput.username(user.username),
+      password: validateInput.email(user.email),
+      reenteredPassword: validateInput.password(user.password),
+      email: validateInput.reenteredPassword(user.reenteredPassword, user.password),
+    });
     setTermsAgreement(!termsAgreement);
-  };
-
-  const user = {
-    username,
-    password,
-    reenteredPassword,
-    email,
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-    if (usernameError || passwordError || reenteredPasswordError || emailError) {
-      return;
-    }
 
     fetch(`${BASE_URL}/users`, {
       method: 'POST',
@@ -94,57 +71,57 @@ const Register = () => {
               <p>{`Registration Failed: ${error}`}</p>
             </Form.Group>
           )}
-          <Form.Group controlId="formBasicName" className={usernameError ? 'red' : ''}>
+          <Form.Group controlId="formBasicName" className={inputErrors.username ? 'red' : ''}>
             <Form.Label>
-              {`Username${usernameError}`}
+              {`Username${inputErrors.username}`}
             </Form.Label>
             <Form.Control
               type="text"
               name="username"
               placeholder="Enter Username"
-              value={username}
-              onChange={(e) => handleUsernameInput(e.target.value)}
+              value={user.username}
+              onChange={(e) => handleInput(e.target.name, e.target.value)}
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicEmail" className={emailError ? 'red' : ''}>
+          <Form.Group controlId="formBasicEmail" className={inputErrors.email ? 'red' : ''}>
             <Form.Label>
-              {`Email${emailError}`}
+              {`Email${inputErrors.email}`}
             </Form.Label>
             <Form.Control
               type="email"
               name="email"
               placeholder="Enter Email"
-              value={email}
-              onChange={(e) => handleEmailInput(e.target.value)}
+              value={user.email}
+              onChange={(e) => handleInput(e.target.name, e.target.value)}
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword" className={passwordError ? 'red' : ''}>
+          <Form.Group controlId="formBasicPassword" className={inputErrors.password ? 'red' : ''}>
             <Form.Label>
-              {`Password${passwordError}`}
+              {`Password${inputErrors.password}`}
             </Form.Label>
             <Form.Control
               type="password"
               name="password"
               placeholder="Enter Password"
               autoComplete="off"
-              value={password}
-              onChange={(e) => handlePasswordInput(e.target.value)}
+              value={user.password}
+              onChange={(e) => handleInput(e.target.name, e.target.value)}
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicReenteredPassword" className={reenteredPasswordError ? 'red' : ''}>
+          <Form.Group controlId="formBasicReenteredPassword" className={inputErrors.reenteredPassword ? 'red' : ''}>
             <Form.Label>
-              {setReenteredPasswordError ? `Password ${reenteredPasswordError}` : `Confirm Password`}
+              {inputErrors.reenteredPassword ? `Password ${inputErrors.reenteredPassword}` : `Confirm Password`}
             </Form.Label>
             <Form.Control
               type="password"
               name="reenteredPassword"
               placeholder="Confirm Password"
               autoComplete="off"
-              value={reenteredPassword}
-              onChange={(e) => handleReenteredPasswordInput(e.target.value)}
+              value={user.reenteredPassword}
+              onChange={(e) => handleInput(e.target.name, e.target.value, user.password)}
             />
           </Form.Group>
 
@@ -163,7 +140,17 @@ const Register = () => {
             <Button
               type="submit"
               className="btn btn-dark btn-lg btn-block"
-              disabled={!termsAgreement || usernameError || passwordError || reenteredPasswordError || emailError}
+              disabled={
+                !termsAgreement
+                || inputErrors.username
+                || inputErrors.password
+                || inputErrors.reenteredPassword
+                || inputErrors.email
+                // || !user.username
+                // || !user.password
+                // || !user.reenteredPassword
+                // || !user.email
+              }
             >
               Register
             </Button>

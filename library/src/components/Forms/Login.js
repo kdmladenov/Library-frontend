@@ -2,44 +2,43 @@ import './forms.css';
 import { Button, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { validatePassword, validateUsername } from './userValidator';
+import validateInput from './userValidator';
 import { BASE_URL } from '../../common/constants';
 import AuthContext from '../../providers/AuthContext';
 
 const Login = () => {
-  const [error, setError] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(false);
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-
   const auth = useContext(AuthContext);
   const history = useHistory();
+  const [error, setError] = useState('');
+  const [remember, setRemember] = useState(false);
 
-  const handleUsernameInput = (value) => {
-    validateUsername(value, setUsernameError);
-    setUsername(value);
-  };
+  const [user, setUser] = useState({
+    username: '',
+    password: '',
+  });
 
-  const handlePasswordInput = (value) => {
-    validatePassword(value, setPasswordError);
-    setPassword(value);
+  const updateUser = (prop, value) => setUser({ ...user, [prop]: value });
+
+  const [inputErrors, setInputErrors] = useState({
+    username: '',
+    password: '',
+  });
+
+  const handleInput = (prop, value) => {
+    setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value) });
+    updateUser(prop, value);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (!usernameError && !passwordError) {
+    if (!inputErrors.username && !inputErrors.password) {
       fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
+        body: JSON.stringify(user),
       })
         .then(res => res.json())
         .then(data => {
@@ -50,7 +49,7 @@ const Login = () => {
           localStorage.setItem('token', token);
           auth.setAuthValue({
             isLoggedIn: true,
-            user: username,
+            user: user.username,
           });
           history.push('/home');
         })
@@ -68,30 +67,30 @@ const Login = () => {
               <p>{`Login Failed: ${error}`}</p>
             </Form.Group>
           )}
-          <Form.Group controlId="formBasicName" className={usernameError ? 'red' : ''}>
+          <Form.Group controlId="formBasicName" className={inputErrors.username ? 'red' : ''}>
             <Form.Label>
-              {`Username${usernameError}`}
+              {`Username${inputErrors.username}`}
             </Form.Label>
             <Form.Control
               type="text"
               name="username"
               placeholder="Enter Username"
-              value={username}
-              onChange={(e) => handleUsernameInput(e.target.value)}
+              value={user.username}
+              onChange={(e) => handleInput(e.target.name, e.target.value)}
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword" className={passwordError ? 'red' : ''}>
+          <Form.Group controlId="formBasicPassword" className={inputErrors.password ? 'red' : ''}>
             <Form.Label>
-              {`Password${passwordError}`}
+              {`Password${inputErrors.password}`}
             </Form.Label>
             <Form.Control
               type="password"
               name="password"
               placeholder="Enter Password"
               autoComplete="off"
-              value={password}
-              onChange={e => handlePasswordInput(e.target.value)}
+              value={user.password}
+              onChange={(e) => handleInput(e.target.name, e.target.value)}
             />
           </Form.Group>
 
@@ -112,7 +111,7 @@ const Login = () => {
             <Button
               type="submit"
               className="btn btn-dark btn-lg btn-block"
-              disabled={usernameError || passwordError || !username || !password}
+              disabled={inputErrors.username || inputErrors.password || !user.username || !user.password}
             >
               Login
             </Button>

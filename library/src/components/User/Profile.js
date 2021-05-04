@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
-import {
-  validateEmail, validateFirstName, validateLastName, validatePhone, validateReenteredEmail, validateBirthDate, validateGender,
-} from '../Forms/userValidator';
+import validateInput from '../Forms/userValidator';
 
 const Profile = () => {
+  const [error, setError] = useState('');
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -17,50 +16,23 @@ const Profile = () => {
     gender: '',
   });
 
-  const [error, setError] = useState('');
+  const updateUser = (prop, value) => setUser({ ...user, [prop]: value });
 
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [reenteredEmailError, setReenteredEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const [birthDateError, setBirthDateError] = useState('');
-  const [genderError, setGenderError] = useState('');
+  const [inputErrors, setInputErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    reenteredEmail: '',
+    phone: '',
+    birthDate: '',
+    gender: '',
+  });
 
-  const handleFirstNameInput = (value) => {
-    validateFirstName(value, setFirstNameError);
-    setUser({ ...user, firstName: value });
+  const handleInput = (prop, value, match) => {
+    setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
+    updateUser(prop, value);
   };
 
-  const handleLastNameInput = (value) => {
-    validateLastName(value, setLastNameError);
-    setUser({ ...user, lastName: value });
-  };
-
-  const handleEmailInput = (value) => {
-    validateEmail(value, setEmailError);
-    setUser({ ...user, email: value });
-  };
-
-  const handleReenteredEmailInput = (value) => {
-    validateReenteredEmail(value, user.email, setReenteredEmailError);
-    setUser({ ...user, reenteredEmail: value });
-  };
-
-  const handlePhoneInput = (value) => {
-    validatePhone(value, setPhoneError);
-    setUser({ ...user, phone: value });
-  };
-
-  const handleBirthDateInput = (value) => {
-    validateBirthDate(value, setBirthDateError);
-    setUser({ ...user, birthDate: value });
-  };
-
-  const handleGenderInput = (value) => {
-    validateGender(value, setGenderError);
-    setUser({ ...user, gender: value });
-  };
   useEffect(() => {
     const { userId } = getUser();
     if (user) {
@@ -78,7 +50,7 @@ const Profile = () => {
 
           setUser({ ...res, reenteredEmail: res.email });
         })
-        .catch(e => setError(e));
+        .catch(err => setError(err));
     }
   }, []);
 
@@ -98,7 +70,8 @@ const Profile = () => {
         if (res.message) {
           throw new Error(res.message);
         }
-      });
+      })
+      .catch(err => setError(err));
   };
 
   return (
@@ -114,100 +87,100 @@ const Profile = () => {
             )}
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-            <Form.Group controlId="FormBasicFirstName" className={firstNameError ? 'red' : ''}>
+            <Form.Group controlId="FormBasicFirstName" className={inputErrors.firstName ? 'red' : ''}>
               <Form.Label>
-                {`First Name ${firstNameError}`}
+                {`First Name ${inputErrors.firstName}`}
               </Form.Label>
               <Form.Control
                 type="text"
                 name="firstName"
                 placeholder="Enter First Name"
                 value={user.firstName}
-                onChange={(e) => handleFirstNameInput(e.target.value)}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-            <Form.Group controlId="FormGridLastName" className={lastNameError ? 'red' : ''}>
+            <Form.Group controlId="FormGridLastName" className={inputErrors.lastName ? 'red' : ''}>
               <Form.Label>
-                {`Last Name ${lastNameError}`}
+                {`Last Name ${inputErrors.lastName}`}
               </Form.Label>
               <Form.Control
                 type="text"
                 name="lastName"
                 placeholder="Enter Last Name"
                 value={user.lastName}
-                onChange={(e) => handleLastNameInput(e.target.value)}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-            <Form.Group controlId="FormGridEmail" className={emailError ? 'red' : ''}>
+            <Form.Group controlId="FormGridEmail" className={inputErrors.email ? 'red' : ''}>
               <Form.Label>
-                {`Email ${emailError}`}
+                {`Email ${inputErrors.email}`}
               </Form.Label>
               <Form.Control
                 type="email"
                 name="email"
                 placeholder="Enter Email"
                 value={user.email}
-                onChange={(e) => handleEmailInput(e.target.value)}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-            <Form.Group controlId="FormGridConfirmEmail" className={reenteredEmailError ? 'red' : ''}>
+            <Form.Group controlId="FormGridConfirmEmail" className={inputErrors.reenteredEmail ? 'red' : ''}>
               <Form.Label>
-                {reenteredEmailError ? `Email ${reenteredEmailError}` : `Confirm Email`}
+                {inputErrors.reenteredEmail ? `Email ${inputErrors.reenteredEmail}` : `Confirm Email`}
               </Form.Label>
               <Form.Control
                 type="email"
                 name="reenteredEmail"
                 placeholder="Confirm Email"
                 value={user.reenteredEmail}
-                onChange={(e) => handleReenteredEmailInput(e.target.value)}
+                onChange={(e) => handleInput(e.target.name, e.target.value, user.email)}
               />
             </Form.Group>
           </div>
           <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <Form.Group controlId="FormGridPhone" className={phoneError ? 'red' : ''}>
+            <Form.Group controlId="FormGridPhone" className={inputErrors.phone ? 'red' : ''}>
               <Form.Label>
-                {`Phone ${phoneError}`}
+                {`Phone ${inputErrors.phone}`}
               </Form.Label>
               <Form.Control
                 type="tel"
                 name="phone"
                 placeholder="Enter Phone"
                 value={user.phone}
-                onChange={(e) => handlePhoneInput(e.target.value)}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
           </div>
           <div className="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-            <Form.Group controlId="FormGridBirthDate" className={birthDateError ? 'red' : ''}>
+            <Form.Group controlId="FormGridBirthDate" className={inputErrors.birthDate ? 'red' : ''}>
               <Form.Label>
-                {`Birth Date ${birthDateError}`}
+                {`Birth Date ${inputErrors.birthDate}`}
               </Form.Label>
               <Form.Control
                 type="date"
                 name="birthDate"
                 placeholder="Enter Birth Date"
                 value={user.birthDate}
-                onChange={(e) => handleBirthDateInput(e.target.value)}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
           </div>
           <div className="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-            <Form.Group controlId="FormGridGender" className={genderError ? 'red' : ''}>
+            <Form.Group controlId="FormGridGender" className={inputErrors.gender ? 'red' : ''}>
               <Form.Label>
-                {`Gender ${birthDateError}`}
+                {`Gender ${inputErrors.gender}`}
               </Form.Label>
               <Form.Control
                 as="select"
                 placeholder="Gender"
                 name="gender"
                 defaultValue={user.gender}
-                onChange={(e) => handleGenderInput(e.target.value)}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
               >
                 <option value={user.gender} disabled>
                   {user.gender ? user.gender : 'Select Gender'}
