@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 const ChangePassword = () => {
   return (
     <div className="card h-100">
-      <div className="card-body">
+      <Form className="card-body change-password">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <h3 className="mb-3">Change Password</h3>
@@ -30,15 +30,17 @@ const ChangePassword = () => {
           </div>
 
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <Button
-              type="submit"
-              className="btn btn-dark btn-lg btn-block"
-            >
-              Save Changes
-            </Button>
+            <Form.Group>
+              <Button
+                type="submit"
+                className="btn btn-dark btn-lg btn-block"
+              >
+                Save Changes
+              </Button>
+            </Form.Group>
           </div>
         </div>
-      </div>
+      </Form>
     </div>
   );
 };

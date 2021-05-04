@@ -53,6 +53,24 @@
   border-radius: 100px;
 }
 
+button a {
+  color: #ffffff;
+}
+
+button a:hover {
+  color: #ffffff;
+  text-decoration: initial;
+}
+
+.about .form-group {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile .form-group, .change-password .form-group {
+  margin-left: initial;
+  margin-right: initial;
+}
 
 @media (min-width: 992px) {
   .col-lg-9 {

@@ -11,48 +11,107 @@ const validate = {
   reenteredPassword: (value, match) => value === match,
   firstName: value => typeof value === 'undefined' || (typeof value === 'string' && value.length >= userInput.MIN_FIRSTNAME_LENGTH && value.length <= userInput.MAX_FIRSTNAME_LENGTH),
   lastName: value => typeof value === 'undefined' || (typeof value === 'string' && value.length >= userInput.MIN_LASTNAME_LENGTH && value.length <= userInput.MAX_LASTNAME_LENGTH),
-  // gender: value => typeof value === 'undefined' || Object.keys(gender).includes(value),
+  gender: value => typeof value === 'undefined' || Object.keys({ male: 'male', female: 2, other: 3 }).includes(value),
   birthDate: value => typeof value === 'undefined' || (new Date(value).toString() !== 'Invalid Date' && typeof value === 'string' && value.length > 0),
   email: value => typeof value === 'string' && value.length <= userInput.MAX_EMAIL_LENGTH && value.match(userInput.EMAIL_REGEX),
+  reenteredEmail: (value, match) => value === match,
   phone: value => typeof value === 'undefined' || (typeof value === 'string' && value.match(userInput.PHONE_REGEX)),
 };
 
-export default validate;
+const validateInput = {
+  username: value => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.username(value)) {
+      return ` must be between ${userInput.MIN_USERNAME_LENGTH} and ${userInput.MAX_USERNAME_LENGTH} characters`;
+    }
+    return '';
+  },
 
-export const validateUsername = (value, setError) => {
-  if (validate.username(value)) {
-    setError('');
-  } else {
-    setError(` must be between ${userInput.MIN_USERNAME_LENGTH} and ${userInput.MAX_USERNAME_LENGTH} characters`);
-  }
+  email: value => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.email(value)) {
+      return ` must be valid`;
+    }
+    return '';
+  },
+
+  reenteredEmail: (value, match) => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.reenteredEmail(value, match)) {
+      return ` does not match`;
+    }
+    return '';
+  },
+
+  password: value => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.password.length(value)) {
+      return `must be between ${userInput.MIN_PASSWORD_LENGTH} and ${userInput.MAX_PASSWORD_LENGTH} characters`;
+    }
+    if (!validate.password.lowerCase(value)) {
+      return ' must include a lowercase letter';
+    }
+    if (!validate.password.upperCase(value)) {
+      return ' must include an uppercase letter';
+    }
+    if (!validate.password.digit(value)) {
+      return ' must include a digit';
+    }
+    return '';
+  },
+
+  reenteredPassword: (value, match) => {
+    if (!value) {
+      return ` is required!`;
+    }
+    if (!validate.reenteredPassword(value, match)) {
+      return ` does not match`;
+    }
+    return '';
+  },
+
+  firstName: value => {
+    if (!validate.firstName(value)) {
+      return ` must be between ${userInput.MIN_FIRSTNAME_LENGTH} and ${userInput.MAX_FIRSTNAME_LENGTH} characters`;
+    }
+    return '';
+  },
+
+  lastName: value => {
+    if (!validate.lastName(value)) {
+      return ` must be between ${userInput.MIN_LASTNAME_LENGTH} and ${userInput.MAX_LASTNAME_LENGTH} characters`;
+    }
+    return '';
+  },
+
+  phone: value => {
+    if (!validate.phone(value)) {
+      return ` must be valid`;
+    }
+    return '';
+  },
+
+  birthDate: value => {
+    if (!validate.birthDate(value)) {
+      return ` must be valid date`;
+    }
+    return '';
+  },
+
+  gender: value => {
+    if (validate.gender(value)) {
+      return ` could be 'male', 'female' or 'other'`;
+    }
+    return '';
+  },
 };
 
-export const validateEmail = (value, setError) => {
-  if (validate.email(value)) {
-    setError('');
-  } else {
-    setError(` must be valid`);
-  }
-};
-
-export const validatePassword = (value, setError) => {
-  if (!validate.password.length(value)) {
-    setError(`must be between ${userInput.MIN_PASSWORD_LENGTH} and ${userInput.MAX_PASSWORD_LENGTH} characters`);
-  } else if (!validate.password.lowerCase(value)) {
-    setError(' must include a lowercase letter');
-  } else if (!validate.password.upperCase(value)) {
-    setError(' must include an uppercase letter');
-  } else if (!validate.password.digit(value)) {
-    setError(' must include a digit');
-  } else {
-    setError('');
-  }
-};
-
-export const validateReenteredPassword = (value, match, setError) => {
-  if (validate.reenteredPassword(value, match)) {
-    setError('');
-  } else {
-    setError(` do not `);
-  }
-};
+export default validateInput;
