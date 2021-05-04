@@ -3,8 +3,10 @@ import { Button, Form } from 'react-bootstrap';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
+import Loading from '../UI/Loading';
 
 const Profile = () => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [user, setUser] = useState({
     firstName: '',
@@ -34,6 +36,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const { userId } = getUser();
     if (user) {
       fetch(`${BASE_URL}/users/${userId}`, {
@@ -48,6 +51,7 @@ const Profile = () => {
             throw new Error(res.message);
           }
 
+          setLoading(false);
           setUser({ ...res, reenteredEmail: res.email });
         })
         .catch(err => setError(err));
@@ -73,6 +77,16 @@ const Profile = () => {
       })
       .catch(err => setError(err));
   };
+
+  if (loading) {
+    return (
+      <div>
+        <Loading>
+          <h1>Loading...</h1>
+        </Loading>
+      </div>
+    );
+  }
 
   return (
     <div className="card h-100">
