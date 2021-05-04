@@ -2,15 +2,16 @@ import { NavLink, useHistory } from 'react-router-dom';
 import './Header.css';
 import {
   Navbar,
-  Button,
+  // Button,
   NavDropdown,
   Nav,
   Form,
-  FormControl,
+  // FormControl,
 } from "react-bootstrap";
 import { useContext } from 'react';
 import AuthContext, { getToken } from '../../providers/AuthContext';
 import { BASE_URL } from '../../common/constants';
+import Search from '../Search/Search';
 
 const Header = () => {
   const { isLoggedIn, setAuthValue } = useContext(AuthContext);
@@ -52,8 +53,7 @@ const Header = () => {
           </NavDropdown>
         </Nav>
         <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-success">Search</Button>
+          <Search />
         </Form>
         <Nav className="mr-auto">
           {isLoggedIn
