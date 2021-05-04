@@ -73,12 +73,12 @@ p.forgot-password:hover, .form-link:hover {
 
 .red label, .red {  
   color: #b60303;
-  background: linear-gradient(47deg, #ffffff3b, transparent);
 }
 
 .red label {
   padding-bottom: .5rem;
   margin-bottom: initial;
+  background: linear-gradient(47deg, #ffffff3b, transparent);
 }
 
 .red .form-control {
@@ -101,4 +101,8 @@ p.forgot-password:hover, .form-link:hover {
 
 .center {
   text-align: center;
+}
+
+.green {
+  color: #28a745;
 }

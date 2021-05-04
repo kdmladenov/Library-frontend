@@ -146,10 +146,6 @@ const Register = () => {
                 || inputErrors.password
                 || inputErrors.reenteredPassword
                 || inputErrors.email
-                // || !user.username
-                // || !user.password
-                // || !user.reenteredPassword
-                // || !user.email
               }
             >
               Register

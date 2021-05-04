@@ -1,7 +1,45 @@
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import { BASE_URL } from '../../common/constants';
+import { getToken } from '../../providers/AuthContext';
+import Loading from '../UI/Loading';
 
 const Timeline = () => {
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetch(`${BASE_URL}/users/timeline`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          throw new Error(res.message);
+        }
+        setLoading(false);
+        // console.log(res);
+      })
+      .catch(() => history.push('/notFound'));
+  }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <Loading>
+          <h1>Loading books...</h1>
+        </Loading>
+      </div>
+    );
+  }
+
   return (
     <VerticalTimeline>
       <VerticalTimelineElement

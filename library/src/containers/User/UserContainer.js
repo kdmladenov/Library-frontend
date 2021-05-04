@@ -10,6 +10,7 @@ const UserContainer = ({ children }) => {
           <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
             <div className="card h-100">
               <UserNavigation />
+              {/* <div>Avatar</div> */}
             </div>
           </div>
           <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">

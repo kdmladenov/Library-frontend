@@ -35,23 +35,26 @@ const App = () => {
         <Header />
         <Switch>
           <Redirect path="/" exact to="/home" />
-          <Route path="/home" component={Home} />
-          <Route path="/termsAndPolicy" component={TermsAndPolicy} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/termsAndPolicy" exact component={TermsAndPolicy} />
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact component={Logout} />
           <Route path="/register" exact component={Register} />
           <GuardedRoute
             path="/user/timeline"
+            exact
             component={UserTimeline}
             isLoggedIn={isLoggedIn}
           />
           <GuardedRoute
             path="/user/profile"
+            exact
             component={UserProfile}
             isLoggedIn={isLoggedIn}
           />
           <GuardedRoute
             path="/user/changePassword"
+            exact
             component={UserChangePassword}
             isLoggedIn={isLoggedIn}
           />
@@ -67,9 +70,9 @@ const App = () => {
             component={IndividualBook}
             isLoggedIn={isLoggedIn}
           />
-          <Route path="/forbidden" component={Forbidden} />
-          <Route path="/serviceUnavailable" component={ServiceUnavailable} />
-          <Route path="*" component={NotFound} />
+          <Route path="/forbidden" exact component={Forbidden} />
+          <Route path="/serviceUnavailable" exact component={ServiceUnavailable} />
+          <Route path="*" exact component={NotFound} />
         </Switch>
       </AuthContext.Provider>
     </BrowserRouter>

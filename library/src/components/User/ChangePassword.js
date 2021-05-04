@@ -1,31 +1,142 @@
+import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { BASE_URL } from '../../common/constants';
+import { getToken } from '../../providers/AuthContext';
+import validateInput from '../Forms/userValidator';
+import Loading from '../UI/Loading';
 
 const ChangePassword = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+
+  const [input, setInput] = useState({
+    currentPassword: '',
+    password: '',
+    reenteredPassword: '',
+  });
+
+  const [inputErrors, setInputErrors] = useState({
+    currentPassword: '',
+    password: '',
+    reenteredPassword: '',
+  });
+
+  const updateInput = (prop, value) => setInput({ ...input, [prop]: value });
+
+  const handleInput = (prop, value, match) => {
+    setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
+    updateInput(prop, value);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    fetch(`${BASE_URL}/users/change-password`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify(input),
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`Unsuccessful attempt!`);
+        }
+        return res.json();
+      })
+      .then(res => {
+        setError('');
+        setMessage(res.message);
+      })
+      .catch(err => {
+        setMessage('');
+        setError(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+        setInput({
+          currentPassword: '',
+          password: '',
+          reenteredPassword: '',
+        });
+      });
+  };
+
+  if (loading) {
+    return (
+      <div>
+        <Loading>
+          <h1>Loading...</h1>
+        </Loading>
+      </div>
+    );
+  }
+
   return (
     <div className="card h-100">
-      <Form className="card-body change-password">
+      <Form className="card-body change-password" onSubmit={handleFormSubmit}>
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            {error && (
+              <Form.Group className="red">
+                <h4>{`${error}`}</h4>
+              </Form.Group>
+            )}
+            {message && (
+              <Form.Group className="green">
+                <h4>{`${message}`}</h4>
+              </Form.Group>
+            )}
             <h3 className="mb-3">Change Password</h3>
           </div>
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <Form.Group controlId="FormGridCurrentPassword">
-              <Form.Label>Current Password</Form.Label>
-              <Form.Control type="password" placeholder="Enter Current Password" />
+            <Form.Group controlId="FormGridCurrentPassword" className={inputErrors.currentPassword ? 'red' : ''}>
+              <Form.Label>
+                {`Current Password ${inputErrors.currentPassword}`}
+              </Form.Label>
+              <Form.Control
+                type="password"
+                name="currentPassword"
+                placeholder="Enter Current Password"
+                autoComplete="off"
+                value={input.currentPassword}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
+              />
             </Form.Group>
           </div>
 
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <Form.Group controlId="FormGridEmail">
-              <Form.Label>New Password</Form.Label>
-              <Form.Control type="password" placeholder="Enter New Password" />
+            <Form.Group controlId="FormGridNewPassword" className={inputErrors.password ? 'red' : ''}>
+              <Form.Label>
+                {`New Password ${inputErrors.password}`}
+              </Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Enter New Password"
+                autoComplete="off"
+                value={input.password}
+                onChange={(e) => handleInput(e.target.name, e.target.value)}
+              />
             </Form.Group>
           </div>
 
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <Form.Group controlId="FormGridConfirmEmail">
-              <Form.Label>Confirm New Password</Form.Label>
-              <Form.Control type="password" placeholder="Confirm New Password" />
+            <Form.Group controlId="FormGridConfirmNewPassword" className={inputErrors.reenteredPassword ? 'red' : ''}>
+              <Form.Label>
+                {`Confirm New Password ${inputErrors.reenteredPassword}`}
+              </Form.Label>
+              <Form.Control
+                type="password"
+                name="reenteredPassword"
+                placeholder="Confirm New Password"
+                autoComplete="off"
+                value={input.reenteredPassword}
+                onChange={(e) => handleInput(e.target.name, e.target.value, input.password)}
+              />
             </Form.Group>
           </div>
 
