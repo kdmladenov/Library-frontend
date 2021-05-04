@@ -6,9 +6,10 @@ import "./books.css";
 import icon from "../../data/covers/icon.png";
 import { bookDetailsCarouselBreakpoints } from "../../common/carousel";
 import BookCardRating from "../UI/BookCardRating";
-import PropCard from "./PropsCarousel/PropsCard";
+
 import ShowMoreButton from "../UI/ShowMoreButton";
 import { BASE_URL } from '../../common/constants';
+import PropsCard from './PropsCard';
 
 const BookCardDetailed = ({
   bookId,
@@ -59,22 +60,22 @@ const BookCardDetailed = ({
           responsive={bookDetailsCarouselBreakpoints}
           containerClass="props-carousel-container"
         >
-          <PropCard id={1} title="Genre" icon={icon} property={genre} />
-          <PropCard
+          <PropsCard id={1} title="Genre" icon={icon} property={genre} />
+          <PropsCard
             id={2}
             title="Date published"
             icon={icon}
             property={datePublished}
           />
-          <PropCard id={3} title="Language" icon={icon} property={language} />
-          <PropCard
+          <PropsCard id={3} title="Language" icon={icon} property={language} />
+          <PropsCard
             id={4}
             title="Age recommendation"
             icon={icon}
             property={ageRecommendation}
           />
-          <PropCard id={5} title="ISBN" icon={icon} property={isbn} />
-          <PropCard id={6} title="Page count" icon={icon} property={pages} />
+          <PropsCard id={5} title="ISBN" icon={icon} property={isbn} />
+          <PropsCard id={6} title="Page count" icon={icon} property={pages} />
         </Carousel>
       </div>
       <div id="book-detail-card-summary">
