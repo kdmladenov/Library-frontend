@@ -1,13 +1,15 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import server from "../../common/server";
 import Loading from "../../components/UI/Loading";
 import BookCard from "../../components/Books/BookCard";
 import useHttp from "../../hooks/useHttp";
+import { BASE_URL } from "../../common/constants";
 
 const Books = (props) => {
+  const { search: query } = props.location;
   const { data, loading, error } = useHttp(
-    `${server.baseURL}/books`,
+    `${BASE_URL}/books${query}`,
     "GET",
     [],
   );

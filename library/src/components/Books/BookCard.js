@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./books.css";
 import BookCardRating from "../UI/BookCardRating";
-import server from "../../common/server";
+import { BASE_URL } from '../../common/constants';
 
 const BookCard = ({
   bookId,
@@ -22,7 +22,7 @@ const BookCard = ({
     <div className="bookCard" id={bookId}>
       <img
         type="button"
-        src={`${server.baseURL}/${frontCover}`}
+        src={`${BASE_URL}/${frontCover}`}
         id="book-card-image"
         onClick={goToDetails ? goToDetails : () => {}}
         alt="front cover"

@@ -8,7 +8,7 @@ import { bookDetailsCarouselBreakpoints } from "../../common/carousel";
 import BookCardRating from "../UI/BookCardRating";
 import PropCard from "./PropsCarousel/PropsCard";
 import ShowMoreButton from "../UI/ShowMoreButton";
-import server from "../../common/server";
+import { BASE_URL } from '../../common/constants';
 
 const BookCardDetailed = ({
   bookId,
@@ -29,7 +29,7 @@ const BookCardDetailed = ({
   return (
     <div className="book-card-detailed" id={bookId}>
       <img
-        src={`${server.baseURL}/${frontCover}`}
+        src={`${BASE_URL}/${frontCover}`}
         id="book-detail-card-image"
         alt="front cover"
       />

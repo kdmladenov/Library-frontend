@@ -17,9 +17,65 @@ export const userInput = {
 
 export const BASE_URL = 'http://localhost:5555';
 
-// export const server = {
-//   baseURL: "http://localhost:5555",
-//   headers: {
-//     Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjk2LCJ1c2VybmFtZSI6IktyYXN5Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjE5NTIwODQ3LCJleHAiOjE5Nzk1MjA4NDd9.4qnMMu6RjXI98SyUVA4t5A4SiFm_5XOJQvw9Nze8Nls",
-//   },
-// };
+export const bookColumnsOptions = [
+  {
+    label: "Title",
+    value: "title",
+  },
+  {
+    label: "Book ID",
+    value: "bookId",
+  },
+  {
+    label: "Author",
+    value: "author",
+  },
+  {
+    label: "Date of Publishing",
+    value: "datePublished",
+  },
+  {
+    label: "ISBN",
+    value: "isbn",
+  },
+  {
+    label: "Booked Until",
+    value: "bookedUntil",
+  },
+  {
+    label: "Genre",
+    value: "genre",
+  },
+  {
+    label: "Age Recommendation",
+    value: "ageRecommendation",
+  },
+  {
+    label: "Language",
+    value: "language",
+  },
+  {
+    label: "Pages",
+    value: "pages",
+  },
+  {
+    label: "Summary",
+    value: "summary",
+  },
+  {
+    label: "Is the book borrowed",
+    value: "isBorrowed",
+  },
+  {
+    label: "Is the book deleted",
+    value: "isDeleted",
+  },
+  {
+    label: "Number of reviews",
+    value: "reviewCount",
+  },
+  {
+    label: "Book Rating",
+    value: "bookRating",
+  },
+];

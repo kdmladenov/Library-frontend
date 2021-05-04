@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import "./reviews.css";
 import BookCardRating from "../UI/BookCardRating";
 import ShowMoreButton from "../UI/ShowMoreButton";
-import server from "../../common/server";
+import { BASE_URL } from '../../common/constants';
 
 const ReviewCard = ({
   // userId,
@@ -28,7 +28,7 @@ const ReviewCard = ({
     <div id={`review-card-detailed-${reviewId}`}>
       <div id="review-card-user-info">
         <img
-          src={`${server.baseURL}/${avatar}`}
+          src={`${BASE_URL}/${avatar}`}
           id="review-user-avatar"
           alt="user avatar"
         />
@@ -53,13 +53,13 @@ const ReviewCard = ({
       </div>
       <div id="review-card-thumbs">
         <img
-          src={`${server.baseURL}/storage/icons/thumbUp.png`}
+          src={`${BASE_URL}/storage/icons/thumbUp.png`}
           id="review-thumbs"
           alt="thumbs up"
         />
         <div id="review-card-thumb">{thumbsUp || 0}</div>
         <img
-          src={`${server.baseURL}/storage/icons/thumbDown.png`}
+          src={`${BASE_URL}/storage/icons/thumbDown.png`}
           id="review-thumbs"
           alt="thumbs down"
         />

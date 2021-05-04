@@ -6,15 +6,15 @@ import "react-multi-carousel/lib/styles.css";
 import BookCard from "./BookCard";
 import "./books.css";
 import { bookCarouselBreakpoints } from "../../common/carousel";
-import server from "../../common/server";
 import Loading from "../UI/Loading";
 import useHttp from '../../hooks/useHttp';
+import { BASE_URL } from '../../common/constants';
 
 function BookCarousel(props) {
   const { title } = props;
 
   const { data, loading, error } = useHttp(
-    `${server.baseURL}/books`,
+    `${BASE_URL}/books`,
     "GET",
     [],
   );

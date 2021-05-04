@@ -2,7 +2,8 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import server from "../../common/server";
+import { BASE_URL } from "../../common/constants";
+import { getToken } from "../../providers/AuthContext";
 import Loading from "../UI/Loading";
 import ReviewCard from "./ReviewCard";
 
@@ -10,12 +11,14 @@ const ReviewsList = ({ bookId }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const token = getToken();
+
   useEffect(() => {
     setLoading(true);
 
-    fetch(`${server.baseURL}/books/${bookId}/reviews`, {
+    fetch(`${BASE_URL}/books/${bookId}/reviews`, {
       headers: {
-        Authorization: server.headers.Authorization,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -47,10 +50,7 @@ const ReviewsList = ({ bookId }) => {
   const reviewCardsToShow = reviews.map((review) => {
     return (
       // eslint-disable-next-line react/jsx-props-no-spreading
-      <div>
-        <ReviewCard key={review.reviewId} {...review} />
-        <hr />
-      </div>
+      <ReviewCard key={review.reviewId} {...review} />
     );
   });
 
