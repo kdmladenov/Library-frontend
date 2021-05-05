@@ -12,10 +12,7 @@ const GuardedRoute = ({ component: Component, isLoggedIn, ...rest }) => {
 };
 
 GuardedRoute.propTypes = {
-  component: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  component: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
 };
 

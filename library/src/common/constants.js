@@ -79,3 +79,11 @@ export const bookColumnsOptions = [
     value: "bookRating",
   },
 ];
+
+export const readingPoints = {
+  RETURN_ON_TIME: 5,
+  RETURN_LATE_MULTIPLIER: -0.2,
+  POST_REVIEW: 15,
+  DELETE_REVIEW: -15,
+  GET_BANNED_MULTIPLIER: -0.2,
+};
