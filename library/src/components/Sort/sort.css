@@ -1,0 +1,4 @@
+.sort-bar {
+  display: flex;
+  flex-wrap: wrap;
+}

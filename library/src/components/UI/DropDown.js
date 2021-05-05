@@ -1,7 +1,7 @@
 import { Dropdown } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-const SearchDropdown = ({ options, selected, onSelectedChange }) => {
+const DropDown = ({ options, selected, onSelectedChange }) => {
   const renderedOptions = options.map((option) => {
     return (
       <Dropdown.Item
@@ -25,18 +25,31 @@ const SearchDropdown = ({ options, selected, onSelectedChange }) => {
     </div>
   );
 };
-
-SearchDropdown.propTypes = {
-  options: PropTypes.arrayOf(
+DropDown.propTypes = {
+  options: PropTypes.oneOfType(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+      }),
+    ),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.number.isRequired,
+        value: PropTypes.number.isRequired,
+      }),
+    ),
+  ).isRequired,
+  selected: PropTypes.oneOfType(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     }),
+    PropTypes.shape({
+      label: PropTypes.number.isRequired,
+      value: PropTypes.number.isRequired,
+    }),
   ).isRequired,
-  selected: PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  }).isRequired,
   onSelectedChange: PropTypes.func.isRequired,
 };
-export default SearchDropdown;
+export default DropDown;
