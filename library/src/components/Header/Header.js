@@ -5,14 +5,15 @@ import {
   // Button,
   NavDropdown,
   Nav,
-  Form,
+  // Form,
   // FormControl,
 } from "react-bootstrap";
 import { useContext } from 'react';
 import AuthContext, { getToken } from '../../providers/AuthContext';
 import { BASE_URL } from '../../common/constants';
-import Search from '../Search/Search';
-import Sort from '../Sort/Sort';
+// import Search from '../Search/Search';
+// import Sort from '../Sort/Sort';
+import Paging from '../Paging/Paging';
 
 const Header = () => {
   const { isLoggedIn, setAuthValue } = useContext(AuthContext);
@@ -53,12 +54,16 @@ const Header = () => {
             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
           </NavDropdown>
         </Nav>
-        <div>
+        {/* <div>
           <Search />
         </div>
         <Form>
           <Sort />
-        </Form>
+        </Form> */}
+        <div>
+          <Paging />
+        </div>
+
         <Nav className="mr-auto">
           {isLoggedIn
             ? (

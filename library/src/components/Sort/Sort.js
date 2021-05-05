@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { bookColumnsOptions, sortDirections } from "../../common/constants";
-import ColumnDropdown from '../Search/ColumnDropdown';
+import DropDown from '../UI/DropDown';
 import './sort.css';
 
 const Sort = () => {
@@ -10,24 +10,22 @@ const Sort = () => {
 
   const history = useHistory();
 
+  useEffect(() => {
+    history.push(`/books?sort=${sortColumn.value}&order=${sortDirection.value}`);
+  }, [sortColumn, sortDirection]);
+
   return (
     <div className="sort-bar">
-      <ColumnDropdown
+      <DropDown
         selected={sortColumn}
         onSelectedChange={setSortColumn}
         options={bookColumnsOptions}
       />
-      <ColumnDropdown
+      <DropDown
         selected={sortDirection}
         onSelectedChange={setSortDirection}
         options={sortDirections}
       />
-      <button
-        type="button"
-        onClick={() => history.push(`/books?sort=${sortColumn.value}&order=${sortDirection.value}`)}
-      >
-        Sort
-      </button>
     </div>
   );
 };

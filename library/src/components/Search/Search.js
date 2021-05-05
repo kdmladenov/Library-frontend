@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { bookColumnsOptions } from "../../common/constants";
-import ColumnDropdown from "./ColumnDropdown";
+import DropDown from "../UI/DropDown";
 import "./search.css";
 
 const Search = () => {
@@ -16,7 +16,7 @@ const Search = () => {
   };
   return (
     <div className="search-bar">
-      <ColumnDropdown
+      <DropDown
         selected={searchColumn}
         onSelectedChange={setSearchColumn}
         options={bookColumnsOptions}
