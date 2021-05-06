@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import './Timeline.css';
@@ -47,6 +47,7 @@ const Timeline = () => {
 
   const createTimelineElement = (e) => {
     if (e.event === 'review') {
+      const bookId = e.id.split(' ')[1].split('_')[1];
       const points = readingPoints.POST_REVIEW;
       return (
         <VerticalTimelineElement
@@ -55,9 +56,12 @@ const Timeline = () => {
           contentStyle={{ background: '#466d61', color: '#fff', border: '1px solid #fff' }}
           contentArrowStyle={{ borderRight: '7px solid  #fff' }}
           iconStyle={{ background: '#466d61', color: '#fff' }}
-          icon={points > 0 ? `+${points}` : `${points}`}
+          icon={<div>{points > 0 ? `+${points}` : `${points}`}</div>}
         >
-          <img className="book-cover" src={`${BASE_URL}/${e.front_cover}`} alt="front cover" />
+          <span className="date-top">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
+          <Link to={`/books/${bookId}`}>
+            <img className="book-cover" src={`${BASE_URL}/${e.front_cover}`} alt="front cover" />
+          </Link>
           <div className="timeline-element-info">
             <h3 className="vertical-timeline-element-event">REVIEW</h3>
             <h5 className="vertical-timeline-element-title">{e.title}</h5>
@@ -69,6 +73,7 @@ const Timeline = () => {
     }
 
     if (e.event === 'read' && e.date) {
+      const bookId = e.id.split(' ')[1].split('_')[1];
       const points = e.overdue < 0 ? readingPoints.RETURN_ON_TIME : Math.ceil(readingPoints.RETURN_ON_TIME + e.overdue * readingPoints.RETURN_LATE_MULTIPLIER);
       return (
         <VerticalTimelineElement
@@ -77,9 +82,13 @@ const Timeline = () => {
           contentStyle={{ background: '#012915', color: '#fff', border: '1px solid #fff' }}
           contentArrowStyle={{ borderRight: '7px solid  #fff' }}
           iconStyle={{ background: '#012915', color: '#fff' }}
-          icon={points > 0 ? `+${points}` : `${points}`}
+          icon={<div>{points > 0 ? `+${points}` : `${points}`}</div>}
         >
-          <img className="book-cover" src={`${BASE_URL}/${e.front_cover}`} alt="front cover" />
+          <span className="date-top">{new Date(e.dateBorrowed).toLocaleDateString('ca-ES')}</span>
+          <span className="date-bottom">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
+          <Link to={`/books/${bookId}`}>
+            <img className="book-cover" src={`${BASE_URL}/${e.front_cover}`} alt="front cover" />
+          </Link>
           <div className="timeline-element-info">
             <h3 className="vertical-timeline-element-event">READ</h3>
             <h5 className="vertical-timeline-element-title">{e.title}</h5>
@@ -92,6 +101,12 @@ const Timeline = () => {
 
     if (e.event === 'ban') {
       const points = e.banDuration * readingPoints.GET_BANNED_MULTIPLIER;
+      const addDays = (date, days) => {
+        const copy = new Date(Number(date));
+        copy.setDate(date.getDate() + days);
+        return copy;
+      };
+
       return (
         <VerticalTimelineElement
           key={e.id}
@@ -99,18 +114,37 @@ const Timeline = () => {
           contentStyle={{ background: '#670202', color: '#fff', border: '1px solid #fff' }}
           contentArrowStyle={{ borderRight: '7px solid  #fff' }}
           iconStyle={{ background: '#670202', color: '#fff' }}
-          icon={points > 0 ? `+${points}` : `${points}`}
+          icon={<div>{points > 0 ? `+${points}` : `${points}`}</div>}
         >
+          <span className="date-top">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
+          <span className="date-bottom">{new Date(addDays(new Date(e.date), +e.banDuration)).toLocaleDateString('ca-ES')}</span>
           <img className="ban-image" src={`${BASE_URL}/storage/icons/banned.png`} alt="front cover" />
           <div className="timeline-element-info">
             <h5 className="vertical-timeline-element-title">{`Reason: ${e.banDescription}`}</h5>
+            <p>{`Duration: ${e.banDuration} days`}</p>
           </div>
+        </VerticalTimelineElement>
+      );
+    }
+
+    if (e.event === 'registration') {
+      const points = readingPoints.WELCOME;
+      return (
+        <VerticalTimelineElement
+          key={e.id}
+          className="vertical-timeline-element--points"
+          contentStyle={{ background: '#4a7532', color: '#fff', border: '1px solid #fff' }}
+          contentArrowStyle={{ borderRight: '7px solid  #fff' }}
+          iconStyle={{ background: '#4a7532', color: '#fff' }}
+          icon={<div>{`+${points}`}</div>}
+        >
+          <span className="date-top">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
+          <h4>Warm Welcome!</h4>
         </VerticalTimelineElement>
       );
     }
   };
 
-  console.log(totalReadingPoints);
   return (
     <VerticalTimeline
       // layout="2-columns"
@@ -120,16 +154,13 @@ const Timeline = () => {
         className="vertical-timeline-element--points"
         contentStyle={{ background: 'transparent', color: '#fff', border: '1px solid #fff' }}
         contentArrowStyle={{ borderRight: '7px solid  #fff' }}
-        iconStyle={{ background: '#466d61', color: '#fff' }}
-        icon={totalReadingPoints}
+        iconStyle={{ background: '#000000', color: '#fff' }}
+        icon={<div>{totalReadingPoints}</div>}
       >
-        <h4>Total Reading Points Earned</h4>
+        <span className="date-top">{new Date().toLocaleDateString('ca-ES')}</span>
+        <h4>Total Reading Points</h4>
       </VerticalTimelineElement>
       {userEvents.map(e => createTimelineElement(e))}
-      <VerticalTimelineElement
-        iconStyle={{ background: 'rgb(16, 204, 82)', color: '#fff' }}
-        // icon={<StarIcon />}
-      />
     </VerticalTimeline>
   );
 };
