@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import PropTypes from "prop-types";
 import "react-multi-carousel/lib/styles.css";
@@ -7,14 +7,29 @@ import BookCard from "./BookCard";
 import "./books.css";
 import { bookCarouselBreakpoints } from "../../common/carousel";
 import Loading from "../UI/Loading";
-import useHttp from '../../hooks/useHttp';
-import { BASE_URL } from '../../common/constants';
+import useHttp from "../../hooks/useHttp";
+import { BASE_URL } from "../../common/constants";
 
 function BookCarousel(props) {
   const { title } = props;
+  let option = "";
+
+  switch (title) {
+    case "New Releases":
+      option = "?sort=bookId&order=desc";
+      break;
+    case "Top Rated Books":
+      option = "?sort=bookRating&order=desc";
+      break;
+    case "Most Popular Books":
+      option = "?sort=timesBorrowed&order=desc";
+      break;
+    default:
+      option = "";
+  }
 
   const { data, loading, error } = useHttp(
-    `${BASE_URL}/books`,
+    `${BASE_URL}/books${option}`,
     "GET",
     [],
   );
