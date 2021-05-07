@@ -1,9 +1,15 @@
+.outer::-webkit-scrollbar {
+  display: none;
+}
+
 .outer {
   padding-top: 2vh;
   min-height: 92vh;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  position: fixed;
+  width: 100vw;
+  height: 92vh;
+  overflow-y: scroll;
 }
 
 .card {

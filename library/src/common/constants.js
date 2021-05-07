@@ -80,6 +80,14 @@ export const bookColumnsOptions = [
   },
 ];
 
+export const readingPoints = {
+  RETURN_ON_TIME: 5,
+  RETURN_LATE_MULTIPLIER: -0.2,
+  POST_REVIEW: 15,
+  GET_BANNED_MULTIPLIER: -0.2,
+  WELCOME: 15,
+};
+
 export const sortDirections = [
   {
     label: "Ascending",
