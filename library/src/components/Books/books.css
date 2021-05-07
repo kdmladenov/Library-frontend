@@ -1,4 +1,4 @@
-.book-list{
+.book-list {
   display: flex;
   flex-wrap: wrap;
 }
@@ -137,7 +137,7 @@
     "cover props props"
     "cover summary summary"
     "rating summary summary"
-    "booked summary summary";
+    "borrowed summary summary";
   grid-gap: 2.5%;
 }
 
@@ -150,7 +150,7 @@
       "rating"
       "props"
       "summary"
-      "booked";
+      "borrowed";
   }
 }
 #book-detail-card-image {
@@ -166,13 +166,20 @@
 #book-card-rating-count {
 }
 
-#book-detail-card-bookedUntil-booked {
-  grid-area: booked;
-background-color: coral;
+#book-detail-card-borrowedUntil-borrowed {
+  grid-area: borrowed;
+  background-color: coral;
+  color: black;
 }
-#book-detail-card-bookedUntil-available {
-  grid-area: booked;
-background-color: chartreuse;
+#book-detail-card-borrowedUntil-return {
+  grid-area: borrowed;
+  background-color: blue;
+  color: white;
+}
+#book-detail-card-borrowedUntil-available {
+  grid-area: borrowed;
+  background-color: chartreuse;
+  color: black;
 }
 #book-detail-card-title {
   grid-area: title;
@@ -204,7 +211,7 @@ background-color: chartreuse;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.props-carousel-container{
+.props-carousel-container {
   width: 630px;
 }
 #book-detail-props-carousel {
@@ -234,13 +241,13 @@ background-color: chartreuse;
 }
 .props-card:hover {
   box-shadow: 0 4px 8px 0 rgba(216, 159, 159, 0.2),
-  0 6px 20px 0 rgba(0, 0, 0, 0.39);
+    0 6px 20px 0 rgba(0, 0, 0, 0.39);
 }
-#prop-card-title{
-  font-size:15px;
+#prop-card-title {
+  font-size: 15px;
 }
-#prop-card-property{
-  font-size:15px;
+#prop-card-property {
+  font-size: 15px;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -276,21 +283,20 @@ background-color: chartreuse;
   /* overflow: hidden; */
   /* text-overflow: ellipsis; */
 }
-#book-detail-card-review-count{
+#book-detail-card-review-count {
   line-height: 17px;
   font-size: 13px;
   font-weight: bold;
   padding-top: 9px;
   padding-left: 8px;
 }
-#book-detail-props-carousel{
-display: block;
+#book-detail-props-carousel {
+  display: block;
 }
-#prop-card-icon{
+#prop-card-icon {
   height: 25px;
 }
-#book-card-detailed-view{
-
+#book-card-detailed-view {
 }
 #show-more-button {
   background-color: transparent;

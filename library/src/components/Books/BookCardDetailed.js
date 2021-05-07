@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-nested-ternary */
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -6,10 +7,12 @@ import "./books.css";
 import icon from "../../data/covers/icon.png";
 import { bookDetailsCarouselBreakpoints } from "../../common/carousel";
 import BookCardRating from "../UI/BookCardRating";
-
 import ShowMoreButton from "../UI/ShowMoreButton";
-import { BASE_URL } from '../../common/constants';
-import PropsCard from './PropsCard';
+import { BASE_URL } from "../../common/constants";
+import PropsCard from "./PropsCard";
+import { getToken, getUser } from "../../providers/AuthContext";
+// import useHttp from "../../hooks/useHttp";
+import Loading from "../UI/Loading";
 
 const BookCardDetailed = ({
   bookId,
@@ -18,7 +21,8 @@ const BookCardDetailed = ({
   author,
   bookRating,
   reviewCount,
-  bookedUntil,
+  borrowedUntil,
+  borrowedByUser,
   summary,
   datePublished,
   isbn,
@@ -27,6 +31,73 @@ const BookCardDetailed = ({
   language,
   pages,
 }) => {
+  const { userId } = getUser();
+  const [record, setRecord] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleBorrowBook = () => {
+    const token = getToken();
+
+    setLoading(true);
+
+    fetch(`${BASE_URL}/books/${bookId}/records`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.error) {
+          throw new Error(result.message);
+        }
+        setRecord(`You have borrowed this book.`);
+        console.log(record, result);
+      })
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+
+    if (loading) {
+      return <Loading />;
+    }
+
+    if (error) {
+      return <h1>{error}</h1>;
+    }
+  };
+
+  const handleReturnBook = () => {
+    const token = getToken();
+
+    setLoading(true);
+
+    fetch(`${BASE_URL}/books/${bookId}/records`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.error) {
+          throw new Error(result.message);
+        }
+        setRecord(`You have returned this book.`);
+        console.log(record, result);
+      })
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+
+    if (loading) {
+      return <Loading />;
+    }
+
+    if (error) {
+      return <h1>{error}</h1>;
+    }
+  };
+
   return (
     <div className="book-card-detailed" id={bookId}>
       <img
@@ -44,14 +115,27 @@ const BookCardDetailed = ({
         type="button"
         // to implement return a book
         id={
-          bookedUntil
-            ? "book-detail-card-bookedUntil-booked"
-            : "book-detail-card-bookedUntil-available"
+          !borrowedUntil
+            ? "book-detail-card-borrowedUntil-available"
+            : borrowedUntil && borrowedByUser === userId
+              ? "book-detail-card-borrowedUntil-return"
+              : "book-detail-card-borrowedUntil-borrowed"
+        }
+        onClick={
+          !borrowedUntil
+            ? () => handleBorrowBook()
+            : borrowedUntil && borrowedByUser === userId
+              ? () => handleReturnBook()
+              : null
         }
       >
-        {bookedUntil
-          ? `Booked until ${new Date(bookedUntil).toLocaleDateString("en-US")}`
-          : "Available"}
+        {!borrowedUntil
+          ? "Available"
+          : borrowedUntil && borrowedByUser === userId
+            ? "Return"
+            : `Borrowed until ${new Date(borrowedUntil).toLocaleDateString(
+              "en-US",
+            )}`}
       </button>
       <div id="book-detail-card-title">{title}</div>
       <div id="book-detail-card-author">{author}</div>
@@ -87,7 +171,8 @@ const BookCardDetailed = ({
 BookCardDetailed.defaultProps = {
   bookRating: 0,
   reviewCount: 0,
-  bookedUntil: "",
+  borrowedUntil: null,
+  borrowedByUser: null,
 };
 BookCardDetailed.propTypes = {
   bookId: PropTypes.number.isRequired,
@@ -99,7 +184,8 @@ BookCardDetailed.propTypes = {
   genre: PropTypes.string.isRequired,
   pages: PropTypes.number.isRequired,
   datePublished: PropTypes.string.isRequired,
-  bookedUntil: PropTypes.string,
+  borrowedUntil: PropTypes.string,
+  borrowedByUser: PropTypes.number,
   summary: PropTypes.string.isRequired,
   isbn: PropTypes.string.isRequired,
   ageRecommendation: PropTypes.string.isRequired,

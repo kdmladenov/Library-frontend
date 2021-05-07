@@ -39,8 +39,8 @@ export const bookColumnsOptions = [
     value: "isbn",
   },
   {
-    label: "Booked Until",
-    value: "bookedUntil",
+    label: "Borrowed Until",
+    value: "borrowedUntil",
   },
   {
     label: "Genre",

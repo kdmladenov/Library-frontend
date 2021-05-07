@@ -10,7 +10,6 @@ import { BASE_URL } from '../../common/constants';
 
 const IndividualBook = (props) => {
   const { id } = props.match.params;
-
   const { data, loading, error } = useHttp(
     `${BASE_URL}/books/${id}`,
   );
