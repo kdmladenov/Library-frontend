@@ -16,8 +16,25 @@ img.ban-image {
   vertical-align: top;
 }
 
+span.date-top {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+span.date-bottom {
+  position: absolute;
+  right: 0.5rem;
+  top: 2rem;
+  border-top: 1px solid #fff;
+}
+
 .vertical-timeline-element--points .vertical-timeline-element-content {
-  max-height: 4rem;
+  max-height: 6rem;
+}
+
+.vertical-timeline-element-content h4{
+  max-width: 220px;
 }
 
 .vertical-timeline-element-content {
@@ -68,6 +85,7 @@ span.vertical-timeline-element-icon {
   span.date-top {
     position: absolute;
     top: -0.6rem;
+    right: initial;
     left: -9rem;
     padding-bottom: 0.3rem;
     border-bottom: 1px solid #fff;
@@ -78,6 +96,15 @@ span.vertical-timeline-element-icon {
     position: absolute;
     top: 1.5rem;
     left: -9rem;
+    border-top: initial;
+  }
+
+  .vertical-timeline-element--points .vertical-timeline-element-content {
+    max-height: 4rem;
+  }
+
+  .vertical-timeline-element-content h4{
+    max-width: initial;
   }
 }
 

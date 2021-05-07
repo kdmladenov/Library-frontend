@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import './Profile.css';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
@@ -8,6 +9,13 @@ import Loading from '../UI/Loading';
 const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+
+  const [avatarButtonsVisible, toggleAvatarButtons] = useState(false);
+  const inputRef = useRef();
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const fd = new FormData();
+  const [avatar, setAvatar] = useState(null);
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -69,13 +77,36 @@ const Profile = () => {
       },
       body: JSON.stringify(user),
     })
-      .then(res => res.json())
       .then(res => {
-        if (res.message) {
-          throw new Error(res.message);
+        if (!res.ok) {
+          throw new Error(`Unsuccessful update!`);
         }
+        return res.json();
       })
-      .catch(err => setError(err));
+      .then(() => {
+        setError('');
+        setMessage(`Successful update!`);
+      })
+      .catch(err => {
+        setMessage('');
+        setError(err.message);
+      });
+
+    fetch(`${BASE_URL}/users/avatar`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${getToken()}` },
+      body: avatar,
+    })
+      .then(res => res.json())
+      .then(res => console.log(res));
+  };
+
+  const changeAvatar = () => {
+    inputRef.current.click();
+  };
+
+  const deleteAvatar = () => {
+
   };
 
   if (loading) {
@@ -93,12 +124,51 @@ const Profile = () => {
       <Form className="card-body profile" onSubmit={handleFormSubmit}>
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <h3 className="mb-3">Profile</h3>
             {error && (
               <Form.Group className="red">
-                <p>{`Update Failed: ${error}`}</p>
+                <h4>{`${error}`}</h4>
               </Form.Group>
             )}
+            {message && (
+              <Form.Group className="green">
+                <h4>{`${message}`}</h4>
+              </Form.Group>
+            )}
+            <h3 className="mb-3">Profile</h3>
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            {avatarButtonsVisible && (
+              <div className="edit-avatar-buttons">
+                <button type="button" onClick={changeAvatar}>Change Avatar</button>
+                <button type="button" onClick={deleteAvatar}>Delete Avatar</button>
+                <input
+                  type="file"
+                  name="avatar"
+                  ref={inputRef}
+                  style={{ visibility: "hidden", display: "none" }}
+                  onChange={(e) => {
+                    setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+                    toggleAvatarButtons(false);
+                    fd.append('avatar', e.target.files[0]);
+                    setAvatar(e.target.files[0]);
+                    console.log(fd.getAll('avatar'));
+                  }}
+                />
+              </div>
+            )}
+            <button
+              className="change-avatar-button"
+              type="button"
+              onClick={() => toggleAvatarButtons(!avatarButtonsVisible)}
+            >
+              <img className="change avatar" src={`${BASE_URL}/storage/avatars/uploadAvatar.png`} alt="upload user avatar" />
+              <div
+                className="avatar"
+                style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/${user.avatar})` }}
+              >
+                avatar
+              </div>
+            </button>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <Form.Group controlId="FormBasicFirstName" className={inputErrors.firstName ? 'red' : ''}>

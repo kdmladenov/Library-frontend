@@ -39,7 +39,7 @@ const Timeline = () => {
     return (
       <div>
         <Loading>
-          <h1>Loading books...</h1>
+          <h1>Loading...</h1>
         </Loading>
       </div>
     );
@@ -139,7 +139,7 @@ const Timeline = () => {
           icon={<div>{`+${points}`}</div>}
         >
           <span className="date-top">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
-          <h4>Warm Welcome!</h4>
+          <h4>Welcome!</h4>
         </VerticalTimelineElement>
       );
     }

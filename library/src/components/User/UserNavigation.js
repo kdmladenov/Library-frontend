@@ -49,9 +49,7 @@ const UserNavigation = () => {
     <div className="card-body">
       <div className="account-settings">
         <div className="user-profile">
-          <div className="user-avatar">
-            <img src={user.avatar ? `${BASE_URL}/${user.avatar}` : `${BASE_URL}/storage/avatars/defaultAvatar.png`} alt="user avatar" />
-          </div>
+          <div className="user-avatar" style={{ backgroundImage: `url(${BASE_URL}/${user.avatar})` }} />
           <h4 className="user-name">{user.username}</h4>
         </div>
         <div className="about">
