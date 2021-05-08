@@ -11,7 +11,6 @@ import ShowMoreButton from "../UI/ShowMoreButton";
 import { BASE_URL } from "../../common/constants";
 import PropsCard from "./PropsCard";
 import { getToken, getUser } from "../../providers/AuthContext";
-import Loading from "../UI/Loading";
 
 const BookCardDetailed = ({
   bookId,
@@ -31,16 +30,12 @@ const BookCardDetailed = ({
   pages,
   isBorrowed,
 }) => {
-  // to fix whole component reloading
   const { userId } = getUser();
   const [borrowed, setIsBorrowed] = useState(Boolean(isBorrowed));
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleBorrowing = (method) => {
     const token = getToken();
-
-    setLoading(true);
 
     fetch(`${BASE_URL}/books/${bookId}/records`, {
       method,
@@ -55,13 +50,8 @@ const BookCardDetailed = ({
         }
         setIsBorrowed(!borrowed);
       })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .catch((e) => setError(e.message));
   };
-
-  if (loading) {
-    return <Loading />;
-  }
 
   if (error) {
     return <h1>{error}</h1>;
