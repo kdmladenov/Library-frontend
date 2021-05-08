@@ -12,18 +12,18 @@ const Register = () => {
 
   const [user, setUser] = useState({
     username: '',
+    email: '',
     password: '',
     reenteredPassword: '',
-    email: '',
   });
 
   const updateUser = (prop, value) => setUser({ ...user, [prop]: value });
 
   const [inputErrors, setInputErrors] = useState({
     username: '',
+    email: '',
     password: '',
     reenteredPassword: '',
-    email: '',
   });
 
   const handleInput = (prop, value, match) => {
@@ -43,7 +43,7 @@ const Register = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
+    console.log(user);
     fetch(`${BASE_URL}/users`, {
       method: 'POST',
       headers: {
@@ -51,11 +51,14 @@ const Register = () => {
       },
       body: JSON.stringify(user),
     })
-      .then(res => res.json())
-      .then(data => {
-        if (data.message) {
-          throw new Error(data.message);
+      .then(res => {
+        console.log(res);
+        if (!res.ok) {
+          throw new Error(res.status);
         }
+        return res.json();
+      })
+      .then(() => {
         history.push('/home');
       })
       .catch(err => setError(err.message));

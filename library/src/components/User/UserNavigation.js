@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
-import Loading from '../UI/Loading';
 
 const UserNavigation = ({ avatarUrl }) => {
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
   const { username } = getUser();
   const [user, setUser] = useState({
     username,
@@ -16,7 +14,6 @@ const UserNavigation = ({ avatarUrl }) => {
   });
 
   useEffect(() => {
-    setLoading(true);
     fetch(`${BASE_URL}/users/avatar`, {
       method: 'GET',
       headers: {
@@ -29,21 +26,10 @@ const UserNavigation = ({ avatarUrl }) => {
           throw new Error(res.message);
         }
 
-        setLoading(false);
         setUser({ ...user, ...res });
       })
       .catch(() => history.push('/notFound'));
   }, []);
-
-  if (loading) {
-    return (
-      <div>
-        <Loading>
-          <h1>Loading...</h1>
-        </Loading>
-      </div>
-    );
-  }
 
   return (
     <div className="card-body">
@@ -57,24 +43,30 @@ const UserNavigation = ({ avatarUrl }) => {
             <Button
               className="btn btn-dark btn-lg btn-block"
               // onClick={() => setContent('timeline')}
+              onClick={() => history.push('/user/timeline')}
             >
-              <Link to="/user/timeline">Timeline</Link>
+              Timeline
+              {/* <Link to="/user/timeline">Timeline</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
               // onClick={() => setContent('profile')}
+              onClick={() => history.push('/user/profile')}
             >
-              <Link to="/user/profile">Profile</Link>
+              Profile
+              {/* <Link to="/user/profile">Profile</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
               // onClick={() => setContent('changePassword')}
+              onClick={() => history.push('/user/changePassword')}
             >
-              <Link to="/user/changePassword">Change Password</Link>
+              Change Password
+              {/* <Link to="/user/changePassword">Change Password</Link> */}
             </Button>
           </Form.Group>
         </div>

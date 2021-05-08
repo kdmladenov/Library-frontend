@@ -24,12 +24,16 @@ const UserContainer = ({ children, avatarUrl }) => {
   );
 };
 
+UserContainer.defaultProps = {
+  avatarUrl: '',
+};
+
 UserContainer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  avatarUrl: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 export default UserContainer;
