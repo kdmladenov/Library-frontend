@@ -46,7 +46,6 @@ const ReviewsList = ({ bookId }) => {
       </div>
     );
   }
-  // console.log(reviews);
   const reviewCardsToShow = reviews.map((review) => {
     return (
       // eslint-disable-next-line react/jsx-props-no-spreading

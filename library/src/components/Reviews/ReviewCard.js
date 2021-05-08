@@ -21,23 +21,21 @@ const ReviewCard = ({
   dateCreated,
   dateEdited,
   content,
-  // bookId,
   thumbsUp,
   thumbsDown,
-  thumbsUpList,
-  thumbsDownList,
+  userThumbsUpList,
+  userThumbsDownList,
 }) => {
   const { userId } = getUser();
   const [countThumbsUp, setCountThumbsUp] = useState(thumbsUp);
   const [countThumbsDown, setCountThumbsDown] = useState(thumbsDown);
   const [currentVote, setCurrentVote] = useState(
-    thumbsUpList && thumbsUpList.toString().split(',').map(Number).includes(userId)
+    userThumbsUpList && userThumbsUpList.toString().split(',').map(Number).includes(userId)
       ? "UP"
-      : thumbsDownList && thumbsDownList.toString().split(',').map(Number).includes(userId)
+      : userThumbsDownList && userThumbsDownList.toString().split(',').map(Number).includes(userId)
         ? "DOWN"
         : "",
   );
-  console.log(currentVote);
   const [error, setError] = useState(null);
   const token = getToken();
 
@@ -140,8 +138,8 @@ ReviewCard.defaultProps = {
   dateEdited: "N/A",
   thumbsUp: 0,
   thumbsDown: 0,
-  thumbsUpList: '',
-  thumbsDownList: '',
+  userThumbsUpList: '',
+  userThumbsDownList: '',
 };
 ReviewCard.propTypes = {
   avatar: PropTypes.string.isRequired,
@@ -151,12 +149,11 @@ ReviewCard.propTypes = {
   dateCreated: PropTypes.string.isRequired,
   dateEdited: PropTypes.string,
   content: PropTypes.string.isRequired,
-  // userId: PropTypes.number.isRequired,
   reviewId: PropTypes.number.isRequired,
   thumbsUp: PropTypes.number,
   thumbsDown: PropTypes.number,
-  thumbsUpList: PropTypes.string,
-  thumbsDownList: PropTypes.string,
+  userThumbsUpList: PropTypes.string,
+  userThumbsDownList: PropTypes.string,
 };
 
 export default ReviewCard;
