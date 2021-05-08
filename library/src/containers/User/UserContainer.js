@@ -2,14 +2,14 @@ import './UserContainer.css';
 import PropTypes from 'prop-types';
 import UserNavigation from '../../components/User/UserNavigation';
 
-const UserContainer = ({ children }) => {
+const UserContainer = ({ children, avatarUrl }) => {
   return (
     <div className="outer" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/user-account.jpg)` }}>
       <div className="container">
         <div className="row gutters">
           <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
             <div className="card h-100">
-              <UserNavigation />
+              <UserNavigation avatarUrl={avatarUrl} />
               {/* <div>Avatar</div> */}
             </div>
           </div>
@@ -29,7 +29,7 @@ UserContainer.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  // setContent: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
 };
 
 export default UserContainer;

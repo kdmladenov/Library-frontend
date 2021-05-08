@@ -52,7 +52,7 @@ label {
   margin-right: 1rem;
 }
 
-.form-link {
+.form-link, p.forgot-password {
   color: #a5ffb6;
   text-decoration: initial;
   text-shadow: 0 0 3px #000000;
@@ -72,19 +72,26 @@ p.forgot-password:hover, .form-link:hover {
 }
 
 .red label, .red {  
-  color: #b60303;
+  color: #f73636;
 }
 
 .red label {
+  text-shadow: 0 1px 0 black;
   padding-bottom: .5rem;
   margin-bottom: initial;
-  background: linear-gradient(47deg, #ffffff3b, transparent);
+  background: linear-gradient(90deg, #ffffff, #ffffff00);
 }
 
-.red .form-control {
+.red .form-control, .red .form-control:focus {
   border-color: #b60303;
   border-width: 0.05rem;
-  box-shadow: 0 0 3px #b60303;
+  box-shadow: 0 0 3px 1px #b60303;
+}
+
+.red p {
+  text-shadow: 0 1px 0 black;
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, #ffffff, #ffffff00);
 }
 
 .form-wrapper-inner .btn {

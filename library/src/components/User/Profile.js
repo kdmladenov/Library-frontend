@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import './Profile.css';
 import { BASE_URL } from '../../common/constants';
@@ -6,16 +8,21 @@ import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
 import Loading from '../UI/Loading';
 
-const Profile = () => {
+const Profile = ({ avatarUrl, setAvatarUrl }) => {
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState({
+    avatar: '',
+    profile: '',
+  });
+  const [messages, setMessages] = useState({
+    avatar: '',
+    profile: '',
+  });
 
   const [avatarButtonsVisible, toggleAvatarButtons] = useState(false);
   const inputRef = useRef();
-  const [avatarUrl, setAvatarUrl] = useState('');
-  const fd = new FormData();
-  const [avatar, setAvatar] = useState(null);
+  // const [avatarUrl, setAvatarUrl] = useState('');
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -53,16 +60,17 @@ const Profile = () => {
           Authorization: `Bearer ${getToken()}`,
         },
       })
-        .then(res => res.json())
         .then(res => {
-          if (res.message) {
-            throw new Error(res.message);
-          }
-
+          console.log(res.status);
+          return res.json();
+        })
+        .then(res => {
           setLoading(false);
           setUser({ ...res, reenteredEmail: res.email });
         })
-        .catch(err => setError(err));
+        .catch(() => {
+          history.push('*');
+        });
     }
   }, []);
 
@@ -78,27 +86,47 @@ const Profile = () => {
       body: JSON.stringify(user),
     })
       .then(res => {
+        console.log(res.status);
         if (!res.ok) {
           throw new Error(`Unsuccessful update!`);
         }
         return res.json();
       })
       .then(() => {
-        setError('');
-        setMessage(`Successful update!`);
+        setErrors({ ...errors, profile: '' });
+        setMessages({ ...messages, profile: `Profile data was successful updated!` });
       })
       .catch(err => {
-        setMessage('');
-        setError(err.message);
+        setErrors({ ...errors, profile: err.message });
+        setMessages({ ...messages, profile: '' });
       });
 
-    fetch(`${BASE_URL}/users/avatar`, {
-      method: 'PUT',
-      headers: { Authorization: `Bearer ${getToken()}` },
-      body: avatar,
-    })
-      .then(res => res.json())
-      .then(res => console.log(res));
+    const data = new FormData();
+    const avatar = document.querySelector('input[type="file"]').files[0];
+    data.append("avatar", avatar);
+
+    if (avatar) {
+      fetch(`${BASE_URL}/users/avatar`, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${getToken()}` },
+        body: data,
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`Unsuccessful avatar upload!`);
+          }
+          return res.json();
+        })
+        .then(() => {
+          setErrors({ ...errors, avatar: '' });
+          setMessages({ ...messages, avatar: `Avatar was successful uploaded!` });
+        })
+        .catch(err => {
+          setErrors({ ...errors, avatar: err.message });
+          setMessages({ ...messages, avatar: '' });
+          setAvatarUrl('');
+        });
+    }
   };
 
   const changeAvatar = () => {
@@ -124,14 +152,16 @@ const Profile = () => {
       <Form className="card-body profile" onSubmit={handleFormSubmit}>
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            {error && (
+            {(errors.profile || errors.avatar) && (
               <Form.Group className="red">
-                <h4>{`${error}`}</h4>
+                {errors.profile && <h4>{`${errors.profile}`}</h4>}
+                {errors.avatar && <h4>{`${errors.avatar}`}</h4>}
               </Form.Group>
             )}
-            {message && (
+            {(messages.profile || messages.avatar) && (
               <Form.Group className="green">
-                <h4>{`${message}`}</h4>
+                {messages.profile && <h4>{`${messages.profile}`}</h4>}
+                {messages.avatar && <h4>{`${messages.avatar}`}</h4>}
               </Form.Group>
             )}
             <h3 className="mb-3">Profile</h3>
@@ -141,21 +171,18 @@ const Profile = () => {
               <div className="edit-avatar-buttons">
                 <button type="button" onClick={changeAvatar}>Change Avatar</button>
                 <button type="button" onClick={deleteAvatar}>Delete Avatar</button>
-                <input
-                  type="file"
-                  name="avatar"
-                  ref={inputRef}
-                  style={{ visibility: "hidden", display: "none" }}
-                  onChange={(e) => {
-                    setAvatarUrl(URL.createObjectURL(e.target.files[0]));
-                    toggleAvatarButtons(false);
-                    fd.append('avatar', e.target.files[0]);
-                    setAvatar(e.target.files[0]);
-                    console.log(fd.getAll('avatar'));
-                  }}
-                />
               </div>
             )}
+            <input
+              type="file"
+              name="avatar"
+              ref={inputRef}
+              style={{ visibility: "hidden", display: "none" }}
+              onChange={(e) => {
+                setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+                toggleAvatarButtons(false);
+              }}
+            />
             <button
               className="change-avatar-button"
               type="button"
@@ -289,6 +316,11 @@ const Profile = () => {
       </Form>
     </div>
   );
+};
+
+Profile.propTypes = {
+  avatarUrl: PropTypes.string.isRequired,
+  setAvatarUrl: PropTypes.func.isRequired,
 };
 
 export default Profile;
