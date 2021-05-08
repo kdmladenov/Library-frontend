@@ -11,7 +11,7 @@ const validate = {
   reenteredPassword: (value, match) => value === match,
   firstName: value => typeof value === 'undefined' || (typeof value === 'string' && value.length >= userInput.MIN_FIRSTNAME_LENGTH && value.length <= userInput.MAX_FIRSTNAME_LENGTH),
   lastName: value => typeof value === 'undefined' || (typeof value === 'string' && value.length >= userInput.MIN_LASTNAME_LENGTH && value.length <= userInput.MAX_LASTNAME_LENGTH),
-  gender: value => typeof value === 'undefined' || Object.keys({ male: 'male', female: 2, other: 3 }).includes(value),
+  gender: value => typeof value === 'undefined' || Object.keys({ male: 1, female: 2, other: 3 }).includes(value),
   birthDate: value => typeof value === 'undefined' || (new Date(value).toString() !== 'Invalid Date' && typeof value === 'string' && value.length > 0),
   email: value => typeof value === 'string' && value.length <= userInput.MAX_EMAIL_LENGTH && value.match(userInput.EMAIL_REGEX),
   reenteredEmail: (value, match) => value === match,
@@ -126,7 +126,7 @@ const validateInput = {
   },
 
   gender: value => {
-    if (validate.gender(value)) {
+    if (!validate.gender(value)) {
       return ` could be 'male', 'female' or 'other'`;
     }
     return '';

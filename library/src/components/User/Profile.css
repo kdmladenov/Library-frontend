@@ -1,0 +1,76 @@
+img.avatar {
+  width: 5rem;
+}
+
+div.avatar {
+  width: 5rem;
+  height: 5rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;  
+  color: transparent;
+}
+
+.change-avatar-button {
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  top: -5rem;
+  right: 2rem;
+  background-color: transparent;
+  border: none;
+}
+
+img.change.avatar {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 50%;
+  visibility: hidden;
+  right: 0;
+}
+
+.change-avatar-button:hover img.change.avatar {
+  visibility: visible;
+}
+
+.edit-avatar-buttons {
+  position: absolute;
+  right: 8rem;
+  top: -5rem;
+  width: 8rem;
+  height: 5rem;
+  background-color: #ffffffa2;
+  border: 0.05rem solid #ffffff;
+  border-radius: 0.25rem;
+}
+
+.edit-avatar-buttons button {
+  background-color: transparent;
+  color: #000000;
+  height: 2.45rem;
+  border: none;
+  line-height: 2.5rem;
+  vertical-align: middle;
+  width: 7.9rem;
+}
+
+.edit-avatar-buttons button:hover {
+  background-color: #355c46;
+  color: #ffffff;
+  border-radius: 0.25rem;
+}
+
+.profile .red label {
+  background: linear-gradient(180deg, #000000eb, transparent);
+}
+
+.profile .red label, .profile .red {
+  color: #fd6b6b;
+  text-shadow: 0 0 black;
+}
+
+.profile .green h4, .profile .red h4 {
+  font-size: 2rem
+}

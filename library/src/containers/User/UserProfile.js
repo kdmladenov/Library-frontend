@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import UserContainer from './UserContainer';
 import Profile from '../../components/User/Profile';
 
 const UserProfile = () => {
+  const [avatarUrl, setAvatarUrl] = useState('');
   return (
-    <UserContainer>
-      <Profile />
+    <UserContainer avatarUrl={avatarUrl}>
+      <Profile avatarUrl={avatarUrl} setAvatarUrl={setAvatarUrl} />
     </UserContainer>
   );
 };

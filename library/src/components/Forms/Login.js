@@ -32,7 +32,9 @@ const Login = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (!inputErrors.username && !inputErrors.password) {
+    if (inputErrors.username || inputErrors.password || !user.username || !user.password) {
+      setError('Invalid username or password');
+    } else {
       fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -64,12 +66,12 @@ const Login = () => {
           <h3>Login</h3>
           {error && (
             <Form.Group className="red">
-              <p>{`Login Failed: ${error}`}</p>
+              <p>{`${error}`}</p>
             </Form.Group>
           )}
-          <Form.Group controlId="formBasicName" className={inputErrors.username ? 'red' : ''}>
+          <Form.Group controlId="formBasicName">
             <Form.Label>
-              {`Username${inputErrors.username}`}
+              Username
             </Form.Label>
             <Form.Control
               type="text"
@@ -80,9 +82,9 @@ const Login = () => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword" className={inputErrors.password ? 'red' : ''}>
+          <Form.Group controlId="formBasicPassword">
             <Form.Label>
-              {`Password${inputErrors.password}`}
+              Password
             </Form.Label>
             <Form.Control
               type="password"
@@ -111,7 +113,6 @@ const Login = () => {
             <Button
               type="submit"
               className="btn btn-dark btn-lg btn-block"
-              disabled={inputErrors.username || inputErrors.password || !user.username || !user.password}
             >
               Login
             </Button>

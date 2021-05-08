@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import Loading from '../UI/Loading';
 
-const UserNavigation = () => {
+const UserNavigation = ({ avatarUrl }) => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const { username } = getUser();
@@ -49,9 +49,7 @@ const UserNavigation = () => {
     <div className="card-body">
       <div className="account-settings">
         <div className="user-profile">
-          <div className="user-avatar">
-            <img src={user.avatar ? `${BASE_URL}/${user.avatar}` : `${BASE_URL}/storage/avatars/defaultAvatar.png`} alt="user avatar" />
-          </div>
+          <div className="user-avatar" style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/${user.avatar})` }} />
           <h4 className="user-name">{user.username}</h4>
         </div>
         <div className="about">
@@ -85,7 +83,12 @@ const UserNavigation = () => {
   );
 };
 
-// UserNavigation.propTypes = {
-//   setContent: PropTypes.func.isRequired,
-// };
+UserNavigation.defaultProps = {
+  avatarUrl: ``,
+};
+
+UserNavigation.propTypes = {
+  avatarUrl: PropTypes.string,
+};
+
 export default UserNavigation;

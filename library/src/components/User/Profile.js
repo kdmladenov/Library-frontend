@@ -1,13 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
+import './Profile.css';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
 import Loading from '../UI/Loading';
 
-const Profile = () => {
+const Profile = ({ avatarUrl, setAvatarUrl }) => {
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({
+    avatar: '',
+    profile: '',
+  });
+  const [messages, setMessages] = useState({
+    avatar: '',
+    profile: '',
+  });
+
+  const [avatarButtonsVisible, toggleAvatarButtons] = useState(false);
+  const inputRef = useRef();
+  // const [avatarUrl, setAvatarUrl] = useState('');
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -45,16 +60,17 @@ const Profile = () => {
           Authorization: `Bearer ${getToken()}`,
         },
       })
-        .then(res => res.json())
         .then(res => {
-          if (res.message) {
-            throw new Error(res.message);
-          }
-
+          console.log(res.status);
+          return res.json();
+        })
+        .then(res => {
           setLoading(false);
           setUser({ ...res, reenteredEmail: res.email });
         })
-        .catch(err => setError(err));
+        .catch(() => {
+          history.push('*');
+        });
     }
   }, []);
 
@@ -69,13 +85,56 @@ const Profile = () => {
       },
       body: JSON.stringify(user),
     })
-      .then(res => res.json())
       .then(res => {
-        if (res.message) {
-          throw new Error(res.message);
+        console.log(res.status);
+        if (!res.ok) {
+          throw new Error(`Unsuccessful update!`);
         }
+        return res.json();
       })
-      .catch(err => setError(err));
+      .then(() => {
+        setErrors({ ...errors, profile: '' });
+        setMessages({ ...messages, profile: `Profile data was successful updated!` });
+      })
+      .catch(err => {
+        setErrors({ ...errors, profile: err.message });
+        setMessages({ ...messages, profile: '' });
+      });
+
+    const data = new FormData();
+    const avatar = document.querySelector('input[type="file"]').files[0];
+    data.append("avatar", avatar);
+
+    if (avatar) {
+      fetch(`${BASE_URL}/users/avatar`, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${getToken()}` },
+        body: data,
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`Unsuccessful avatar upload!`);
+          }
+          return res.json();
+        })
+        .then(() => {
+          setErrors({ ...errors, avatar: '' });
+          setMessages({ ...messages, avatar: `Avatar was successful uploaded!` });
+        })
+        .catch(err => {
+          setErrors({ ...errors, avatar: err.message });
+          setMessages({ ...messages, avatar: '' });
+          setAvatarUrl('');
+        });
+    }
+  };
+
+  const changeAvatar = () => {
+    inputRef.current.click();
+  };
+
+  const deleteAvatar = () => {
+
   };
 
   if (loading) {
@@ -93,12 +152,50 @@ const Profile = () => {
       <Form className="card-body profile" onSubmit={handleFormSubmit}>
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <h3 className="mb-3">Profile</h3>
-            {error && (
+            {(errors.profile || errors.avatar) && (
               <Form.Group className="red">
-                <p>{`Update Failed: ${error}`}</p>
+                {errors.profile && <h4>{`${errors.profile}`}</h4>}
+                {errors.avatar && <h4>{`${errors.avatar}`}</h4>}
               </Form.Group>
             )}
+            {(messages.profile || messages.avatar) && (
+              <Form.Group className="green">
+                {messages.profile && <h4>{`${messages.profile}`}</h4>}
+                {messages.avatar && <h4>{`${messages.avatar}`}</h4>}
+              </Form.Group>
+            )}
+            <h3 className="mb-3">Profile</h3>
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            {avatarButtonsVisible && (
+              <div className="edit-avatar-buttons">
+                <button type="button" onClick={changeAvatar}>Change Avatar</button>
+                <button type="button" onClick={deleteAvatar}>Delete Avatar</button>
+              </div>
+            )}
+            <input
+              type="file"
+              name="avatar"
+              ref={inputRef}
+              style={{ visibility: "hidden", display: "none" }}
+              onChange={(e) => {
+                setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+                toggleAvatarButtons(false);
+              }}
+            />
+            <button
+              className="change-avatar-button"
+              type="button"
+              onClick={() => toggleAvatarButtons(!avatarButtonsVisible)}
+            >
+              <img className="change avatar" src={`${BASE_URL}/storage/avatars/uploadAvatar.png`} alt="upload user avatar" />
+              <div
+                className="avatar"
+                style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/${user.avatar})` }}
+              >
+                avatar
+              </div>
+            </button>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <Form.Group controlId="FormBasicFirstName" className={inputErrors.firstName ? 'red' : ''}>
@@ -219,6 +316,11 @@ const Profile = () => {
       </Form>
     </div>
   );
+};
+
+Profile.propTypes = {
+  avatarUrl: PropTypes.string.isRequired,
+  setAvatarUrl: PropTypes.func.isRequired,
 };
 
 export default Profile;
