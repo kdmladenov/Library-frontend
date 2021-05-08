@@ -32,6 +32,7 @@ const BookCardDetailed = ({
 }) => {
   const { userId } = getUser();
   const [borrowed, setIsBorrowed] = useState(Boolean(isBorrowed));
+  const [borrowedBy, setBorrowedBy] = useState(borrowedByUser);
   const [error, setError] = useState(null);
 
   const handleBorrowing = (method) => {
@@ -49,6 +50,7 @@ const BookCardDetailed = ({
           throw new Error(result.message);
         }
         setIsBorrowed(!borrowed);
+        setBorrowedBy(userId);
       })
       .catch((e) => setError(e.message));
   };
@@ -56,7 +58,6 @@ const BookCardDetailed = ({
   if (error) {
     return <h1>{error}</h1>;
   }
-
   return (
     <div className="book-card-detailed" id={bookId}>
       <img
@@ -75,25 +76,25 @@ const BookCardDetailed = ({
         id={
           !borrowed
             ? "book-detail-card-borrowedUntil-available"
-            : borrowed && borrowedByUser === userId
+            : (borrowed && borrowedBy === userId)
               ? "book-detail-card-borrowedUntil-return"
               : "book-detail-card-borrowedUntil-borrowed"
         }
         onClick={
           !borrowed
             ? () => handleBorrowing("POST")
-            : borrowed && borrowedByUser === userId
+            : (borrowed && borrowedBy === userId)
               ? () => handleBorrowing("DELETE")
               : null
         }
       >
         {!borrowed
-          ? "Available to borrow"
-          : borrowed && borrowedByUser === userId
-            ? `Return this book until ${new Date(
+          ? "You can borrow this book now!"
+          : (borrowed && borrowedBy === userId)
+            ? `You have borrowed this book until ${new Date(
               borrowedUntil,
-            ).toLocaleDateString("en-US")}`
-            : `Borrowed until ${new Date(borrowedUntil).toLocaleDateString(
+            ).toLocaleDateString("en-US")}. To return it click here.`
+            : `The book will be available after ${new Date(borrowedUntil).toLocaleDateString(
               "en-US",
             )}`}
       </button>
