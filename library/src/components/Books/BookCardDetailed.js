@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./books.css";
-import { OverlayTrigger } from "react-bootstrap";
 import icon from "../../data/covers/icon.png";
 import { bookDetailsCarouselBreakpoints } from "../../common/carousel";
 import BookCardRating from "../UI/BookCardRating";
@@ -13,7 +12,6 @@ import { BASE_URL } from "../../common/constants";
 import PropsCard from "./PropsCard";
 import { getToken, getUser } from "../../providers/AuthContext";
 import Loading from "../UI/Loading";
-import popover from "../UI/Popover";
 
 const BookCardDetailed = ({
   bookId,
@@ -82,53 +80,33 @@ const BookCardDetailed = ({
         </div>
         <div id="book-detail-card-review-count">{reviewCount || 0}</div>
       </div>
-      <OverlayTrigger
-        trigger="click"
-        placement="right"
-        overlay={
+      <button
+        type="button"
+        id={
           !borrowed
-            ? popover(
-              "You have borrowed this book",
-              "You can return it in 1 month",
-            )
+            ? "book-detail-card-borrowedUntil-available"
             : borrowed && borrowedByUser === userId
-              ? popover("You have returned this book", "Thank you!")
-              : popover(
-                "You can't borrow this book now",
-                `You can do that after ${new Date(
-                  borrowedUntil,
-                ).toLocaleDateString("en-US")}`,
-              )
+              ? "book-detail-card-borrowedUntil-return"
+              : "book-detail-card-borrowedUntil-borrowed"
+        }
+        onClick={
+          !borrowed
+            ? () => handleBorrowing("POST")
+            : borrowed && borrowedByUser === userId
+              ? () => handleBorrowing("DELETE")
+              : null
         }
       >
-        <button
-          type="button"
-          id={
-            !borrowed
-              ? "book-detail-card-borrowedUntil-available"
-              : borrowed && borrowedByUser === userId
-                ? "book-detail-card-borrowedUntil-return"
-                : "book-detail-card-borrowedUntil-borrowed"
-          }
-          onClick={
-            !borrowed
-              ? () => handleBorrowing("POST")
-              : borrowed && borrowedByUser === userId
-                ? () => handleBorrowing("DELETE")
-                : null
-          }
-        >
-          {!borrowed
-            ? "Available to borrow"
-            : borrowed && borrowedByUser === userId
-              ? `Return this book until ${new Date(
-                borrowedUntil,
-              ).toLocaleDateString("en-US")}`
-              : `Borrowed until ${new Date(borrowedUntil).toLocaleDateString(
-                "en-US",
-              )}`}
-        </button>
-      </OverlayTrigger>
+        {!borrowed
+          ? "Available to borrow"
+          : borrowed && borrowedByUser === userId
+            ? `Return this book until ${new Date(
+              borrowedUntil,
+            ).toLocaleDateString("en-US")}`
+            : `Borrowed until ${new Date(borrowedUntil).toLocaleDateString(
+              "en-US",
+            )}`}
+      </button>
       <div id="book-detail-card-title">{title}</div>
       <div id="book-detail-card-author">{author}</div>
       <div id="book-detail-props-carousel">
