@@ -42,11 +42,13 @@ const Login = () => {
         },
         body: JSON.stringify(user),
       })
-        .then(res => res.json())
-        .then(data => {
-          if (data.message) {
-            throw new Error(data.message);
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(res.status);
           }
+          return res.json();
+        })
+        .then(data => {
           const { token } = data;
           localStorage.setItem('token', token);
           auth.setAuthValue({
@@ -55,7 +57,14 @@ const Login = () => {
           });
           history.push('/home');
         })
-        .catch(err => setError(err.message));
+        .catch(err => {
+          if (err.message === '401') {
+            setError('Invalid username or password!');
+          }
+          if (err.message.startsWith('5')) {
+            history.push('/serviceUnavailable');
+          }
+        });
     }
   };
 

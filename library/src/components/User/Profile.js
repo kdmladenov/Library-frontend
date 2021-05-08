@@ -10,19 +10,20 @@ import Loading from '../UI/Loading';
 
 const Profile = ({ avatarUrl, setAvatarUrl }) => {
   const history = useHistory();
+  const inputRef = useRef();
   const [loading, setLoading] = useState(false);
+  const [avatarButtonsVisible, toggleAvatarButtons] = useState(false);
+
   const [errors, setErrors] = useState({
     avatar: '',
     profile: '',
   });
+
   const [messages, setMessages] = useState({
     avatar: '',
     profile: '',
   });
 
-  const [avatarButtonsVisible, toggleAvatarButtons] = useState(false);
-  const inputRef = useRef();
-  // const [avatarUrl, setAvatarUrl] = useState('');
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -32,8 +33,6 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     birthDate: '',
     gender: '',
   });
-
-  const updateUser = (prop, value) => setUser({ ...user, [prop]: value });
 
   const [inputErrors, setInputErrors] = useState({
     firstName: '',
@@ -45,9 +44,13 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     gender: '',
   });
 
+  const updateUser = (prop, value) => setUser({ ...user, [prop]: value });
+
   const handleInput = (prop, value, match) => {
     setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
     updateUser(prop, value);
+    setErrors({ profile: '', data: '' });
+    setMessages({ profile: '', data: '' });
   };
 
   useEffect(() => {
@@ -61,7 +64,6 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         },
       })
         .then(res => {
-          console.log(res.status);
           return res.json();
         })
         .then(res => {
@@ -86,18 +88,28 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
       body: JSON.stringify(user),
     })
       .then(res => {
-        console.log(res.status);
         if (!res.ok) {
-          throw new Error(`Unsuccessful update!`);
+          throw new Error(res.status);
         }
         return res.json();
       })
       .then(() => {
         setErrors({ ...errors, profile: '' });
-        setMessages({ ...messages, profile: `Profile data was successful updated!` });
+        setMessages({ ...messages, profile: `Data was successful updated!` });
       })
       .catch(err => {
-        setErrors({ ...errors, profile: err.message });
+        if (err.message.startsWith('5')) {
+          history.push('/serviceUnavailable');
+        }
+        if (err.message === '404') {
+          history.push('*');
+        }
+        if (err.message === '409') {
+          setErrors({ ...errors, profile: 'This e-mail is already registered!' });
+        }
+        if (err.message === '400') {
+          setErrors({ ...errors, profile: 'Emails are required or do not match!' });
+        }
         setMessages({ ...messages, profile: '' });
       });
 
@@ -113,7 +125,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
       })
         .then(res => {
           if (!res.ok) {
-            throw new Error(`Unsuccessful avatar upload!`);
+            throw new Error(res.status);
           }
           return res.json();
         })
@@ -122,9 +134,12 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           setMessages({ ...messages, avatar: `Avatar was successful uploaded!` });
         })
         .catch(err => {
-          setErrors({ ...errors, avatar: err.message });
-          setMessages({ ...messages, avatar: '' });
-          setAvatarUrl('');
+          if (err.message === 404) {
+            history.push('*');
+          }
+          if (err.message.startsWith('5')) {
+            history.push('/serviceUnavailable');
+          }
         });
     }
   };

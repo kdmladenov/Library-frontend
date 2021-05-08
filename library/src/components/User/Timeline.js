@@ -22,17 +22,26 @@ const Timeline = () => {
         Authorization: `Bearer ${getToken()}`,
       },
     })
-      .then(res => res.json())
       .then(res => {
-        if (res.message) {
-          throw new Error(res.message);
+        if (!res.ok) {
+          throw new Error(res.status);
         }
+        return res.json();
+      })
+      .then(res => {
         setLoading(false);
         setUserEvents(res);
         const points = res.find(e => e.event === 'registration').id.split('_')[1];
         setTotalReadingPoints(points);
       })
-      .catch(() => history.push('/notFound'));
+      .catch((err) => {
+        if (err.message === '404') {
+          history.push('*');
+        }
+        if (err.message.startsWith('5')) {
+          history.push('/serviceUnavailable');
+        }
+      });
   }, []);
 
   if (loading) {
@@ -84,8 +93,8 @@ const Timeline = () => {
           iconStyle={{ background: '#012915', color: '#fff' }}
           icon={<div>{points > 0 ? `+${points}` : `${points}`}</div>}
         >
-          <span className="date-top">{new Date(e.dateBorrowed).toLocaleDateString('ca-ES')}</span>
-          <span className="date-bottom">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
+          <span className="date-top">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
+          <span className="date-bottom">{new Date(e.dateBorrowed).toLocaleDateString('ca-ES')}</span>
           <Link to={`/books/${bookId}`}>
             <img className="book-cover" src={`${BASE_URL}/${e.front_cover}`} alt="front cover" />
           </Link>
@@ -116,8 +125,8 @@ const Timeline = () => {
           iconStyle={{ background: '#670202', color: '#fff' }}
           icon={<div>{points > 0 ? `+${points}` : `${points}`}</div>}
         >
-          <span className="date-top">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
-          <span className="date-bottom">{new Date(addDays(new Date(e.date), +e.banDuration)).toLocaleDateString('ca-ES')}</span>
+          <span className="date-top">{new Date(addDays(new Date(e.date), +e.banDuration)).toLocaleDateString('ca-ES')}</span>
+          <span className="date-bottom">{new Date(e.date).toLocaleDateString('ca-ES')}</span>
           <img className="ban-image" src={`${BASE_URL}/storage/icons/banned.png`} alt="front cover" />
           <div className="timeline-element-info">
             <h5 className="vertical-timeline-element-title">{`Reason: ${e.banDescription}`}</h5>
