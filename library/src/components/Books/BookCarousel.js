@@ -76,7 +76,6 @@ const BookCarousel = (props) => {
       >
         {bookCardsToShow}
       </Carousel>
-      ;
     </div>
   );
 };

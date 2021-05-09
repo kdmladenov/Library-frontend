@@ -2,16 +2,15 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Carousel from "react-multi-carousel";
+import { Button } from 'react-bootstrap';
 import "react-multi-carousel/lib/styles.css";
 import "./books.css";
-import icon from "../../data/covers/icon.png";
 import { bookDetailsCarouselBreakpoints } from "../../common/carousel";
 import BookCardRating from "../UI/BookCardRating";
 import ShowMoreButton from "../UI/ShowMoreButton";
 import { BASE_URL } from "../../common/constants";
 import PropsCard from "./PropsCard";
 import { getToken, getUser } from "../../providers/AuthContext";
-import Loading from "../UI/Loading";
 
 const BookCardDetailed = ({
   bookId,
@@ -31,16 +30,13 @@ const BookCardDetailed = ({
   pages,
   isBorrowed,
 }) => {
-  // to fix whole component reloading
   const { userId } = getUser();
   const [borrowed, setIsBorrowed] = useState(Boolean(isBorrowed));
-  const [loading, setLoading] = useState(false);
+  const [borrowedBy, setBorrowedBy] = useState(borrowedByUser);
   const [error, setError] = useState(null);
 
   const handleBorrowing = (method) => {
     const token = getToken();
-
-    setLoading(true);
 
     fetch(`${BASE_URL}/books/${bookId}/records`, {
       method,
@@ -54,19 +50,14 @@ const BookCardDetailed = ({
           throw new Error(result.message);
         }
         setIsBorrowed(!borrowed);
+        setBorrowedBy(userId);
       })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .catch((e) => setError(e.message));
   };
-
-  if (loading) {
-    return <Loading />;
-  }
 
   if (error) {
     return <h1>{error}</h1>;
   }
-
   return (
     <div className="book-card-detailed" id={bookId}>
       <img
@@ -76,37 +67,37 @@ const BookCardDetailed = ({
       />
       <div id="book-card-rating-count">
         <div>
-          <BookCardRating bookRating={bookRating || 0} />
+          <BookCardRating bookRating={bookRating || 0} starWidthAndHeight="50px" />
         </div>
         <div id="book-detail-card-review-count">{reviewCount || 0}</div>
       </div>
-      <button
+      <Button
         type="button"
         id={
           !borrowed
             ? "book-detail-card-borrowedUntil-available"
-            : borrowed && borrowedByUser === userId
+            : (borrowed && borrowedBy === userId)
               ? "book-detail-card-borrowedUntil-return"
               : "book-detail-card-borrowedUntil-borrowed"
         }
         onClick={
           !borrowed
             ? () => handleBorrowing("POST")
-            : borrowed && borrowedByUser === userId
+            : (borrowed && borrowedBy === userId)
               ? () => handleBorrowing("DELETE")
               : null
         }
       >
         {!borrowed
-          ? "Available to borrow"
-          : borrowed && borrowedByUser === userId
-            ? `Return this book until ${new Date(
+          ? "You can borrow this book now!"
+          : (borrowed && borrowedBy === userId)
+            ? `You have borrowed this book until ${new Date(
               borrowedUntil,
-            ).toLocaleDateString("en-US")}`
-            : `Borrowed until ${new Date(borrowedUntil).toLocaleDateString(
+            ).toLocaleDateString("en-US")}. To return it click here.`
+            : `The book will be available after ${new Date(borrowedUntil).toLocaleDateString(
               "en-US",
             )}`}
-      </button>
+      </Button>
       <div id="book-detail-card-title">{title}</div>
       <div id="book-detail-card-author">{author}</div>
       <div id="book-detail-props-carousel">
@@ -114,22 +105,22 @@ const BookCardDetailed = ({
           responsive={bookDetailsCarouselBreakpoints}
           containerClass="props-carousel-container"
         >
-          <PropsCard id={1} title="Genre" icon={icon} property={genre} />
+          <PropsCard id={1} title="Genre" icon={`${BASE_URL}/storage/icons/genre-icon.png`} property={genre} />
           <PropsCard
             id={2}
             title="Date published"
-            icon={icon}
+            icon={`${BASE_URL}/storage/icons/date-icon.png`}
             property={datePublished}
           />
-          <PropsCard id={3} title="Language" icon={icon} property={language} />
+          <PropsCard id={3} title="Language" icon={`${BASE_URL}/storage/icons/language-icon.png`} property={language} />
           <PropsCard
             id={4}
             title="Age recommendation"
-            icon={icon}
+            icon={`${BASE_URL}/storage/icons/icon.png`}
             property={ageRecommendation}
           />
-          <PropsCard id={5} title="ISBN" icon={icon} property={isbn} />
-          <PropsCard id={6} title="Page count" icon={icon} property={pages} />
+          <PropsCard id={5} title="ISBN" icon={`${BASE_URL}/storage/icons/isbn-icon.png`} property={isbn} />
+          <PropsCard id={6} title="Page count" icon={`${BASE_URL}/storage/icons/page-icon.png`} property={pages} />
         </Carousel>
       </div>
       <div id="book-detail-card-summary">

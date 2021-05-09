@@ -3,15 +3,18 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../common/constants";
-import { getToken } from "../../providers/AuthContext";
+import { getToken, getUser } from "../../providers/AuthContext";
 import Loading from "../UI/Loading";
 import ReviewCard from "./ReviewCard";
+import ReviewForm from "./ReviewForm";
+import "./reviews.css";
 
 const ReviewsList = ({ bookId }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const token = getToken();
+  const { userId } = getUser();
 
   useEffect(() => {
     setLoading(true);
@@ -46,7 +49,6 @@ const ReviewsList = ({ bookId }) => {
       </div>
     );
   }
-  // console.log(reviews);
   const reviewCardsToShow = reviews.map((review) => {
     return (
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -59,8 +61,13 @@ const ReviewsList = ({ bookId }) => {
       {reviews.length ? (
         <ul>{reviewCardsToShow}</ul>
       ) : (
-        <div>There are no reviews yet.</div>
+        <h2>There are no reviews yet.</h2>
       )}
+      {!reviews.find((r) => r.userId === userId) ? (
+        <button onClick={<ReviewForm />} type="button">
+          Write a review
+        </button>
+      ) : null}
     </div>
   );
 };

@@ -32,7 +32,6 @@ const IndividualBook = (props) => {
     data && (
       <div>
         <BookCardDetailed {...data} />
-        <hr />
         <ReviewsList {...data} />
       </div>
     )

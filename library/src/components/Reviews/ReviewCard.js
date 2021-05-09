@@ -1,16 +1,18 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable quote-props */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import "./reviews.css";
 import BookCardRating from "../UI/BookCardRating";
 import ShowMoreButton from "../UI/ShowMoreButton";
-import { BASE_URL } from '../../common/constants';
+import { BASE_URL } from "../../common/constants";
+import { getToken, getUser } from "../../providers/AuthContext";
 
 const ReviewCard = ({
-  // userId,
+  userId: authorId,
   avatar,
   username,
   reviewId,
@@ -19,20 +21,129 @@ const ReviewCard = ({
   dateCreated,
   dateEdited,
   content,
-  // bookId,
   thumbsUp,
   thumbsDown,
+  userThumbsUpList,
+  userThumbsDownList,
 }) => {
-  // const backButton = () => history.goBack();
-  return (
-    <div id={`review-card-detailed-${reviewId}`}>
-      <div id="review-card-user-info">
-        <img
-          src={`${BASE_URL}/${avatar}`}
-          id="review-user-avatar"
-          alt="user avatar"
-        />
-        <div id="review-card-username">{username}</div>
+  const { userId } = getUser();
+  const [countThumbsUp, setCountThumbsUp] = useState(thumbsUp);
+  const [countThumbsDown, setCountThumbsDown] = useState(thumbsDown);
+  const [currentVote, setCurrentVote] = useState(
+    userThumbsUpList && userThumbsUpList.toString().split(",").map(Number).includes(userId)
+      ? "UP"
+      : userThumbsDownList && userThumbsDownList.toString().split(",").map(Number).includes(userId)
+        ? "DOWN"
+        : "",
+  );
+  const [isReviewDeleted, setIsReviewDeleted] = useState(false);
+
+  const [error, setError] = useState(null);
+  const token = getToken();
+
+  const handleVoteButton = (method, reactionName) => {
+    fetch(`${BASE_URL}/reviews/${reviewId}/votes`, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ reactionName }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.error) {
+          throw new Error(result.message);
+        }
+        if (method === "PUT" && reactionName === "THUMBS_UP") {
+          if (currentVote === "DOWN") {
+            setCountThumbsDown(countThumbsDown - 1);
+          }
+          setCurrentVote("UP");
+          setCountThumbsUp(countThumbsUp + 1);
+        }
+        if (method === "DELETE" && reactionName === "THUMBS_UP") {
+          setCurrentVote("");
+          setCountThumbsUp(countThumbsUp - 1);
+        }
+        if (method === "PUT" && reactionName === "THUMBS_DOWN") {
+          if (currentVote === "UP") {
+            setCountThumbsUp(countThumbsUp - 1);
+          }
+          setCurrentVote("DOWN");
+          setCountThumbsDown(countThumbsDown + 1);
+        }
+        if (method === "DELETE" && reactionName === "THUMBS_DOWN") {
+          setCurrentVote("");
+          setCountThumbsDown(countThumbsDown - 1);
+        }
+      })
+      .catch((e) => setError(e.message));
+  };
+  const handleCEDReviewButton = (method) => {
+    fetch(`${BASE_URL}/reviews/${reviewId}`, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.error) {
+          throw new Error(result.message);
+        }
+        setIsReviewDeleted(true);
+      })
+      .catch((e) => setError(e.message));
+  };
+
+  if (error) {
+    return <h1>{error}</h1>;
+  }
+
+  return (!isReviewDeleted ? (
+    <div
+      id={
+        authorId === userId
+          ? "review-card-detailed-current-user"
+          : "review-card-detailed-regular"
+      }
+    >
+      <div id="review-card-user-edit">
+        <div id="review-card-user-info">
+          <img
+            src={`${BASE_URL}/${avatar}`}
+            id="review-user-avatar"
+            alt="user avatar"
+          />
+          <div id="review-card-username">{username}</div>
+        </div>
+        {authorId === userId ? (
+          <div id="review-card-edit-delete">
+            <button
+              id="review-edit-button"
+              type="button"
+            >
+              <img
+                src={`${BASE_URL}/storage/icons/edit-icon.svg`}
+                id="review-edit-icon"
+                alt="edit review"
+              />
+            </button>
+            <button
+              id="review-delete-button"
+              type="button"
+              onClick={() => handleCEDReviewButton("DELETE")}
+            >
+              <img
+                src={`${BASE_URL}/storage/icons/delete-icon.png`}
+                id="review-delete-icon"
+                alt="delete review"
+              />
+            </button>
+          </div>
+        ) : null}
       </div>
       <div id="review-card-rating-title">
         <div id="review-card-rating">
@@ -49,30 +160,54 @@ const ReviewCard = ({
         </div>
       </div>
       <div id="review-card-content">
-        <ShowMoreButton breakpoint={300} text={content} />
+        {content.length > 300 ? (
+          <ShowMoreButton breakpoint={300} text={content} />
+        ) : (
+          content
+        )}
       </div>
       <div id="review-card-thumbs">
         <img
+          onClick={
+            currentVote === "" || currentVote === "DOWN"
+              ? () => handleVoteButton("PUT", "THUMBS_UP")
+              : () => handleVoteButton("DELETE", "THUMBS_UP")
+          }
           src={`${BASE_URL}/storage/icons/thumbUp.png`}
-          id="review-thumbs"
+          id={
+            currentVote === "UP"
+              ? "review-img-thumbs-up-active"
+              : "review-img-thumbs-up-inactive"
+          }
           alt="thumbs up"
         />
-        <div id="review-card-thumb">{thumbsUp || 0}</div>
+        <div id="review-card-thumb">{countThumbsUp || 0}</div>
         <img
+          onClick={
+            currentVote === "" || currentVote === "UP"
+              ? () => handleVoteButton("PUT", "THUMBS_DOWN")
+              : () => handleVoteButton("DELETE", "THUMBS_DOWN")
+          }
           src={`${BASE_URL}/storage/icons/thumbDown.png`}
-          id="review-thumbs"
+          id={
+            currentVote === "DOWN"
+              ? "review-img-thumbs-down-active"
+              : "review-img-thumbs-down-inactive"
+          }
           alt="thumbs down"
         />
-        <div id="review-card-thumb">{thumbsDown || 0}</div>
+        <div id="review-card-thumb">{countThumbsDown || 0}</div>
       </div>
     </div>
-  );
+  ) : null);
 };
 ReviewCard.defaultProps = {
   rating: 0,
   dateEdited: "N/A",
   thumbsUp: 0,
   thumbsDown: 0,
+  userThumbsUpList: "",
+  userThumbsDownList: "",
 };
 ReviewCard.propTypes = {
   avatar: PropTypes.string.isRequired,
@@ -82,10 +217,12 @@ ReviewCard.propTypes = {
   dateCreated: PropTypes.string.isRequired,
   dateEdited: PropTypes.string,
   content: PropTypes.string.isRequired,
-  // bookId: PropTypes.number.isRequired,
   reviewId: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
   thumbsUp: PropTypes.number,
   thumbsDown: PropTypes.number,
+  userThumbsUpList: PropTypes.string,
+  userThumbsDownList: PropTypes.string,
 };
 
-export default withRouter(ReviewCard);
+export default ReviewCard;

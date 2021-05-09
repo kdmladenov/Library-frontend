@@ -1,41 +1,109 @@
-.review-container{
+.review-container {
+  display: block ;
+  padding-top: 20px;
   margin-left: 10px;
-  margin-right: auto;
+  margin-right: 10px;
 }
 
-.review-card-detailed{
+#review-card-detailed-regular {
+  border:grey solid 0.5px;
+  border-radius: 5px;
+  margin-top: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#review-card-detailed-current-user {
+  border:rgb(4, 230, 132) solid 6px;
+  border-radius: 5px;
+  margin-top: 2px;
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
 
-#review-card-user-info{
+#review-card-detailed-regular:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+#review-card-detailed-current-user:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+#review-card-user-edit{
+  display: flex;
+  justify-content: space-between;
+}
+#review-card-user-info {
 display: flex;
 flex-wrap: wrap;
+height: 27;
+padding-bottom: 5px;
+padding-top: 5px;
 }
 
-#review-user-avatar{
-  height: 20px;
-  width: 20px;
+#review-user-avatar {
+  height: 35px;
+  width: 35px;
+}
+
+#review-user-avatar:hover {
+  height: 60px;
+  width: 60px;
   margin-right: 10px;
 }
 
 #review-card-username{
+  height: 27px;
+  font-size: 17pt;
+  padding-left: 10px;
+}
+#review-card-edit-delete{
 
+}
+
+#review-delete-icon {
+  height: 20px;
+}
+
+#review-delete-button { 
+  height: 27px;
+  background-color: transparent;
+  border:white
+}
+
+#review-edit-button { 
+  height: 27px;
+  background-color: white;
+  border:white;
+  padding-right: 10px;
+}
+
+#review-edit-icon {
+  height: 20px;
 }
 
 #review-card-rating-title{
   display: flex;
-  flex-wrap: wrap;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 #review-card-rating{
   margin-right: 10px;
+  height: 25px;
+  width: 100px;
 }
 #review-card-title{
+  height: 27px;
+  font-size: 15pt;
+  font-weight: bold;
 }
 
 #review-card-dates{
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 #review-card-date-created{
@@ -46,19 +114,66 @@ flex-wrap: wrap;
 }
 
 #review-card-content{
+  border: solid 1px rgb(199, 199, 199);
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  /* background-color: rgb(250, 249, 249); */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
+#review-card-content:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
 #review-card-thumbs{
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 #review-card-thumb{
   margin-right: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
-#review-thumbs{
+#review-img-thumbs-up-active {
   height: 20px;
   width: 20px;
   margin-right: 10px;
+}
+
+#review-img-thumbs-up-inactive {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  opacity: 0.3;
+}
+
+#review-img-thumbs-down-active{
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+}
+
+#review-img-thumbs-down-inactive{
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  opacity: 0.3;
+}
+#review-img-thumbs-down-inactive:hover{
+  height: 30px;
+  width: 30px;
+}
+#review-img-thumbs-down-active:hover{
+  height: 30px;
+  width: 30px;
+}
+#review-img-thumbs-up-inactive:hover{
+  height: 30px;
+  width: 30px;
+}
+#review-img-thumbs-up-active:hover{
+  height: 30px;
+  width: 30px;
 }

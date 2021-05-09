@@ -10,8 +10,14 @@ const Sort = () => {
 
   const history = useHistory();
 
+  const endpoint = history.location.search.slice(1).split('&');
+  const search = endpoint.find(i => i.startsWith("search=")) ? `${endpoint.find(i => i.startsWith("search="))}&` : "";
+  const searchBy = endpoint.find(i => i.startsWith("searchBy=")) ? `${endpoint.find(i => i.startsWith("searchBy="))}&` : "";
+  const page = endpoint.find(i => i.startsWith("page=")) ? `${endpoint.find(i => i.startsWith("page="))}&` : "";
+  const pageSize = endpoint.find(i => i.startsWith("pageSize=")) ? `${endpoint.find(i => i.startsWith("pageSize="))}&` : "";
+
   useEffect(() => {
-    history.push(`/books?sort=${sortColumn.value}&order=${sortDirection.value}`);
+    history.push(`/books?${search}${searchBy}${page}${pageSize}sort=${sortColumn.value}&order=${sortDirection.value}`);
   }, [sortColumn, sortDirection]);
 
   return (
