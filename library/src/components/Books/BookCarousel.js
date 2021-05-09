@@ -1,16 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import PropTypes from "prop-types";
-import "react-multi-carousel/lib/styles.css";
+import 'react-multi-carousel/lib/styles.css';
+import './BookCarousel.css';
 import BookCard from "./BookCard";
-import "./books.css";
+import './books.css';
 import { bookCarouselBreakpoints } from "../../common/carousel";
 import Loading from "../UI/Loading";
 import useHttp from "../../hooks/useHttp";
 import { BASE_URL } from "../../common/constants";
 
-function BookCarousel(props) {
+const BookCarousel = (props) => {
+  const history = useHistory();
   const { title } = props;
   let option = "";
 
@@ -47,8 +49,7 @@ function BookCarousel(props) {
       <BookCard
         key={book.bookId}
         {...book}
-        // eslint-disable-next-line react/prop-types
-        goToDetails={() => props.history.push(`/books/${book.bookId}`)}
+        goToDetails={() => history.push(`/books/${book.bookId}`)}
       />
     );
   });
@@ -61,6 +62,7 @@ function BookCarousel(props) {
         swipeable="true"
         draggable="true"
         showDots="true"
+        renderDotsOutside
         ssr="true" // means to render carousel on server-side.
         infinite="true"
         autoPlay={false}
@@ -77,7 +79,7 @@ function BookCarousel(props) {
       ;
     </div>
   );
-}
+};
 
 BookCarousel.propTypes = {
   title: PropTypes.string.isRequired,

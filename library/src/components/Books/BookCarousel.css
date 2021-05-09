@@ -1,0 +1,14 @@
+.react-multi-carousel-dot-list {
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+.react-multi-carousel-track {
+  transition: transform 0.3s ease-in-out !important;
+}
+
+.react-multi-carousel-list.carousel-container {
+  max-width: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -3,12 +3,14 @@
   flex-wrap: wrap;
 }
 .book-carousel {
+  background-color: #c3bbb4;
   margin-left: auto;
   margin-right: auto;
 }
-.carousel-container {
+
+/* .carousel-container {
   height: 337px !important;
-}
+} */
 /* .react-multi-carousel-list{
   align-self: flex-start !important;
 } */
@@ -28,11 +30,18 @@
   /* align-content: center; */
   /* display: block; */
   /* justify-content: center; */
-  width: 145px;
+  width: 180px;
   height: 300px;
   border: 1px solid gainsboro;
   border-radius: 2%;
   margin: 0.3%;
+  background-color: #ffffff;
+}
+
+.bookCard #book-card-title,
+.bookCard #book-card-author,
+.bookCard #card-title {
+  text-align: center;
 }
 
 .bookCard:hover {

@@ -13,9 +13,9 @@ const NotFound = () => {
           <p className="small">You may have mistyped the address or the page may have moved.</p>
         </div>
         <Button
-          type="submit"
+          type="button"
           className="btn btn-dark btn-lg btn-block"
-          onChange={() => history.push('/home')}
+          onClick={() => history.push('/home')}
         >
           GO TO HOME PAGE
         </Button>

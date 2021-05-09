@@ -1,33 +1,37 @@
 const bookCarouselBreakpoints = {
   desktopMax: {
     breakpoint: { max: 3000, min: 1080 },
-    items: 7,
-    slidesToSlide: 7, // optional, default to 1.
+    items: 5,
+    slidesToSlide: 1, // optional, default to 1.
+    partialVisibilityGutter: 40, // this is needed to tell the amount of px that should be visible.
   },
   desktopHigh: {
     breakpoint: { max: 1080, min: 925 },
     items: 6,
-    slidesToSlide: 6, // optional, default to 1.
+    slidesToSlide: 1, // optional, default to 1.
+    partialVisibilityGutter: 40, // this is needed to tell the amount of px that should be visible.
   },
   desktopMid: {
     breakpoint: { max: 925, min: 771 },
     items: 5,
-    slidesToSlide: 5, // optional, default to 1.
+    slidesToSlide: 1, // optional, default to 1.
+    partialVisibilityGutter: 40, // this is needed to tell the amount of px that should be visible.
   },
   desktopMin: {
     breakpoint: { max: 771, min: 617 },
     items: 4,
-    slidesToSlide: 4, // optional, default to 1.
+    slidesToSlide: 1, // optional, default to 1.
+    partialVisibilityGutter: 40, // this is needed to tell the amount of px that should be visible.
   },
   tablet: {
     breakpoint: { max: 617, min: 464 },
     items: 3,
-    slidesToSlide: 3, // optional, default to 1.
+    slidesToSlide: 1, // optional, default to 1.
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 2,
-    slidesToSlide: 2, // optional, default to 1.
+    items: 1,
+    slidesToSlide: 1, // optional, default to 1.
   },
 };
 
