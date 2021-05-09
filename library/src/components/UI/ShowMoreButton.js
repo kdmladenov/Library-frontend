@@ -15,25 +15,27 @@ const ShowMoreButton = ({ text, breakpoint }) => {
   const numberOfItems = showMore ? { text }.length : breakpoint;
   return (
     <div>
-      <div>{text.slice(0, numberOfItems)}</div>
-      {!showMore && (
-        <button
-          id="show-more-button"
-          type="button"
-          onClick={() => showMoreClick()}
-        >
-          ...Show more
-        </button>
-      )}
-      {showMore && (
-        <button
-          id="show-less-button"
-          type="button"
-          onClick={() => showLessClick()}
-        >
-          ...Show less
-        </button>
-      )}
+      <div>
+        {text.slice(0, numberOfItems)}
+        {!showMore && (
+          <button
+            id="show-more-button"
+            type="button"
+            onClick={() => showMoreClick()}
+          >
+            ...show more
+          </button>
+        )}
+        {showMore && (
+          <button
+            id="show-less-button"
+            type="button"
+            onClick={() => showLessClick()}
+          >
+            ...show less
+          </button>
+        )}
+      </div>
     </div>
   );
 };

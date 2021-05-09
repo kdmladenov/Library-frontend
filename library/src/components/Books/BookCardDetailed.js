@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Carousel from "react-multi-carousel";
+import { Button } from 'react-bootstrap';
 import "react-multi-carousel/lib/styles.css";
 import "./books.css";
-import icon from "../../data/covers/icon.png";
 import { bookDetailsCarouselBreakpoints } from "../../common/carousel";
 import BookCardRating from "../UI/BookCardRating";
 import ShowMoreButton from "../UI/ShowMoreButton";
@@ -67,11 +67,11 @@ const BookCardDetailed = ({
       />
       <div id="book-card-rating-count">
         <div>
-          <BookCardRating bookRating={bookRating || 0} />
+          <BookCardRating bookRating={bookRating || 0} starWidthAndHeight="50px" />
         </div>
         <div id="book-detail-card-review-count">{reviewCount || 0}</div>
       </div>
-      <button
+      <Button
         type="button"
         id={
           !borrowed
@@ -97,7 +97,7 @@ const BookCardDetailed = ({
             : `The book will be available after ${new Date(borrowedUntil).toLocaleDateString(
               "en-US",
             )}`}
-      </button>
+      </Button>
       <div id="book-detail-card-title">{title}</div>
       <div id="book-detail-card-author">{author}</div>
       <div id="book-detail-props-carousel">
@@ -105,22 +105,22 @@ const BookCardDetailed = ({
           responsive={bookDetailsCarouselBreakpoints}
           containerClass="props-carousel-container"
         >
-          <PropsCard id={1} title="Genre" icon={icon} property={genre} />
+          <PropsCard id={1} title="Genre" icon={`${BASE_URL}/storage/icons/genre-icon.png`} property={genre} />
           <PropsCard
             id={2}
             title="Date published"
-            icon={icon}
+            icon={`${BASE_URL}/storage/icons/date-icon.png`}
             property={datePublished}
           />
-          <PropsCard id={3} title="Language" icon={icon} property={language} />
+          <PropsCard id={3} title="Language" icon={`${BASE_URL}/storage/icons/language-icon.png`} property={language} />
           <PropsCard
             id={4}
             title="Age recommendation"
-            icon={icon}
+            icon={`${BASE_URL}/storage/icons/icon.png`}
             property={ageRecommendation}
           />
-          <PropsCard id={5} title="ISBN" icon={icon} property={isbn} />
-          <PropsCard id={6} title="Page count" icon={icon} property={pages} />
+          <PropsCard id={5} title="ISBN" icon={`${BASE_URL}/storage/icons/isbn-icon.png`} property={isbn} />
+          <PropsCard id={6} title="Page count" icon={`${BASE_URL}/storage/icons/page-icon.png`} property={pages} />
         </Carousel>
       </div>
       <div id="book-detail-card-summary">

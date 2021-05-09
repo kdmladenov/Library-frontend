@@ -90,11 +90,13 @@ export const readingPoints = {
 
 export const sortDirections = [
   {
-    label: "Ascending",
+    label: "Asc",
     value: "asc",
   },
   {
-    label: "Descending",
+    label: "Desc",
     value: "desc",
   },
 ];
+
+export const totalBooksNumber = 11;

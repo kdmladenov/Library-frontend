@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { totalBooksNumber } from '../../common/constants';
 // import DropDown from "../UI/DropDown";
 
-const totalBooksNumber = 11; // To change the harcoded value
 const rangePageSize = [...Array(11)].map((_, i) => {
   return {
     label: i + 5,
@@ -19,6 +19,12 @@ const Paging = () => {
   // const [pageSize, setPageSize] = useState(rangePageSize[5].value);
 
   const history = useHistory();
+
+  const endpoint = history.location.search.slice(1).split('&');
+  const sort = endpoint.find(i => i.startsWith("sort=")) ? `${endpoint.find(i => i.startsWith("sort="))}&` : "";
+  const order = endpoint.find(i => i.startsWith("order=")) ? `${endpoint.find(i => i.startsWith("order="))}&` : "";
+  const search = endpoint.find(i => i.startsWith("search=")) ? `${endpoint.find(i => i.startsWith("search="))}&` : "";
+  const searchBy = endpoint.find(i => i.startsWith("searchBy=")) ? `${endpoint.find(i => i.startsWith("searchBy="))}&` : "";
 
   // useEffect(() => {
   //   history.push(`/books?page=${pageNumber.value}&pageSize=${pageSize.value}`);
@@ -38,7 +44,7 @@ const Paging = () => {
           className="page-link"
           onClick={() => {
             history.push(
-              `/books?page=${number}&pageSize=${rangePageSize[0].value}`,
+              `/books?${sort}${order}${search}${searchBy}page=${number}&pageSize=${rangePageSize[0].value}`,
             );
             setPageNumber(number);
           }}
@@ -100,71 +106,3 @@ const Paging = () => {
   );
 };
 export default Paging;
-
-// import React, { useEffect, useState } from "react";
-// import { useHistory } from "react-router-dom";
-// import DropDown from "../UI/DropDown";
-// import "./paging.css";
-
-// const totalBooksNumber = 11; // To change the harcoded value
-// const rangePageSize = [...Array(11)].map((_, i) => {
-//   return {
-//     label: i + 5,
-//     value: i + 5,
-//   };
-// });
-
-// let rangePageNumber = [
-//   ...Array(Math.ceil(totalBooksNumber / rangePageSize[5].value)),
-// ].map((_, i) => {
-//   return {
-//     label: i + 1,
-//     value: i + 1,
-//   };
-// });
-
-// const Paging = () => {
-//   const [pageNumber, setPageNumber] = useState(rangePageNumber[0]);
-//   const [pageSize, setPageSize] = useState(rangePageSize[5]);
-
-//   const history = useHistory();
-
-//   useEffect(() => {
-//     history.push(`/books?page=${pageNumber.value}&pageSize=${pageSize.value}`);
-//   }, [pageNumber, pageSize]);
-//   // console.log('page', pageNumber.value, 'size', pageSize.value, '1');
-//   useEffect(() => {
-//     rangePageNumber = [
-//       ...Array(Math.ceil(totalBooksNumber / pageSize.value)),
-//     ].map((_, i) => {
-//       return {
-//         label: i + 1,
-//         value: i + 1,
-//       };
-//     });
-//   }, [pageSize]);
-//   // console.log('page', pageNumber.value, 'size', pageSize.value, '2');
-
-//   return (
-//     <div className="paging-bar">
-//       <DropDown
-//         selected={pageNumber}
-//         onSelectedChange={setPageNumber}
-//         options={rangePageNumber}
-//       />
-//       <DropDown
-//         selected={pageSize}
-//         onSelectedChange={setPageSize}
-//         options={rangePageSize}
-//         // range 5-15 items per page
-//       />
-//       <button
-//         type="button"
-//         onClick={() => history.push(`/books?page=${pageNumber.value + 1}&pageSize=${pageSize.value}`)}
-//       >
-//         Next
-//       </button>
-//     </div>
-//   );
-// };
-// export default Paging;

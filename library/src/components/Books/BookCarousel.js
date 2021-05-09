@@ -74,7 +74,6 @@ function BookCarousel(props) {
       >
         {bookCardsToShow}
       </Carousel>
-      ;
     </div>
   );
 }
