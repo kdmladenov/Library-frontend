@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { bookColumnsOptions, sortDirections } from "../../common/constants";
+import { sortOptions, sortDirections } from "../../common/constants";
 import DropDown from '../UI/DropDown';
 import './sort.css';
 
 const Sort = () => {
-  const [sortColumn, setSortColumn] = useState(bookColumnsOptions[0]);
+  const [sortColumn, setSortColumn] = useState(sortOptions[0]);
   const [sortDirection, setSortDirection] = useState(sortDirections[0]);
 
   const history = useHistory();
@@ -25,7 +25,7 @@ const Sort = () => {
       <DropDown
         selected={sortColumn}
         onSelectedChange={setSortColumn}
-        options={bookColumnsOptions}
+        options={sortOptions}
       />
       <DropDown
         selected={sortDirection}

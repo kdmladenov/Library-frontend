@@ -19,67 +19,90 @@ export const DEFAULT_AVATAR = `storage/avatars/defaultAvatar.png`;
 
 export const BASE_URL = "http://localhost:5555";
 
-export const bookColumnsOptions = [
+export const searchOptions = [
   {
     label: "Title",
     value: "title",
   },
-  // {
-  //   label: "Book ID",
-  //   value: "bookId",
-  // },
   {
     label: "Author",
     value: "author",
   },
-  // {
-  //   label: "Date of Publishing",
-  //   value: "datePublished",
-  // },
   {
     label: "ISBN",
     value: "isbn",
   },
-  // {
-  //   label: "Borrowed Until",
-  //   value: "borrowedUntil",
-  // },
-  // {
-  //   label: "Genre",
-  //   value: "genre",
-  // },
-  // {
-  //   label: "Age Recommendation",
-  //   value: "ageRecommendation",
-  // },
-  // {
-  //   label: "Language",
-  //   value: "language",
-  // },
-  // {
-  //   label: "Pages",
-  //   value: "pages",
-  // },
-  // {
-  //   label: "Summary",
-  //   value: "summary",
-  // },
-  // {
-  //   label: "Is the book borrowed",
-  //   value: "isBorrowed",
-  // },
-  // {
-  //   label: "Is the book deleted",
-  //   value: "isDeleted",
-  // },
-  // {
-  //   label: "Number of reviews",
-  //   value: "reviewCount",
-  // },
-  // {
-  //   label: "Book Rating",
-  //   value: "bookRating",
-  // },
+  {
+    label: "Genre",
+    value: "genre",
+  },
+  {
+    label: "Language",
+    value: "language",
+  },
+];
+
+export const sortOptions = [
+  {
+    label: "Title",
+    value: "title",
+  },
+  {
+    label: "Book ID",
+    value: "bookId",
+  },
+  {
+    label: "Author",
+    value: "author",
+  },
+  {
+    label: "Date of Publishing",
+    value: "datePublished",
+  },
+  {
+    label: "ISBN",
+    value: "isbn",
+  },
+  {
+    label: "Borrowed Until",
+    value: "borrowedUntil",
+  },
+  {
+    label: "Genre",
+    value: "genre",
+  },
+  {
+    label: "Age Recommendation",
+    value: "ageRecommendation",
+  },
+  {
+    label: "Language",
+    value: "language",
+  },
+  {
+    label: "Pages",
+    value: "pages",
+  },
+  {
+    label: "Summary",
+    value: "summary",
+  },
+  {
+    label: "Is the book borrowed",
+    value: "isBorrowed",
+  },
+  {
+    label: "Is the book deleted",
+    value: "isDeleted",
+  },
+  {
+    label: "Number of reviews",
+    value: "reviewCount",
+  },
+  {
+    label: "Book Rating",
+    value: "bookRating",
+  },
 ];
 
 export const readingPoints = {

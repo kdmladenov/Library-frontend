@@ -72,7 +72,7 @@ const Header = () => {
 
   return (
     <Navbar bg="dark" variant="dark" expand="md" fixed="top">
-      <NavLink className="logo" to="/home" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/logo.png)` }} />
+      <NavLink className="logo" to="/home" style={{ backgroundImage: `url(${BASE_URL}/storage/icons/logo.png)` }} />
       <Search />
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -80,10 +80,6 @@ const Header = () => {
           <NavLink to="/books" className="nav-link" role="button">BOOKS</NavLink>
           <NavLink to="/about" className="nav-link" role="button">ABOUT</NavLink>
           <NavLink to="/contacts" className="nav-link" role="button">CONTACT</NavLink>
-          {/* </Nav> */}
-          {/* <Form>
-            <Sort />
-          </Form> */}
           {isLoggedIn
             ? (
               <>

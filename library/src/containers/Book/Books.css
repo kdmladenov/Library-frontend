@@ -1,0 +1,61 @@
+.books-container-outer {
+  padding-top: 13vh;
+  background-color: #fbf7ed;
+}
+
+.books-container-inner {
+  max-width: 80vw;
+  margin: 0 auto;
+}
+
+.books-container-header {
+  display: flex;
+  justify-content: center;  
+  flex-wrap: wrap;
+}
+
+form.sorting {
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+.create-book-btn {
+  margin: 0.5rem;
+  width: 8rem;
+  background-color: #276951;
+  align-self: flex-end;
+}
+
+.book-list {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.book-list .bookCard {
+  margin: 1.5rem;
+}
+
+.btn-success.focus, .btn-success:focus {
+  color: #fff;
+  background-color: #276951;
+  border-color: #1e7e34;
+  box-shadow: none;
+}
+
+@media only screen and (min-width: 550px) {
+  .create-book-btn {
+    margin: 1rem;
+  }
+
+  form.sorting {
+    display: inline-block;
+    margin: 1rem;
+  }
+}
+
+@media only screen and (min-width: 1050px) {
+  .books-container-outer {
+    padding-top: 8vh;
+  }
+}

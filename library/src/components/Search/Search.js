@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { BASE_URL, bookColumnsOptions } from "../../common/constants";
+import { BASE_URL, searchOptions } from "../../common/constants";
 import DropDown from "../UI/DropDown";
 import "./search.css";
 
 const Search = () => {
-  const [searchColumn, setSearchColumn] = useState(bookColumnsOptions[0]);
+  const [searchColumn, setSearchColumn] = useState(searchOptions[0]);
   const [term, setTerm] = useState("");
   const history = useHistory();
 
@@ -36,7 +36,7 @@ const Search = () => {
         id="search-dropdown"
         selected={searchColumn}
         onSelectedChange={setSearchColumn}
-        options={bookColumnsOptions}
+        options={searchOptions}
       />
       <input
         type="text"
