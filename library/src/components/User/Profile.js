@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import './Profile.css';
-import { BASE_URL } from '../../common/constants';
+import { BASE_URL, DEFAULT_AVATAR } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
 import Loading from '../UI/Loading';
@@ -13,6 +13,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   const inputRef = useRef();
   const [loading, setLoading] = useState(false);
   const [avatarButtonsVisible, toggleAvatarButtons] = useState(false);
+  const [avatarIsDeleted, setAvatarIsDeleted] = useState(false);
 
   const [errors, setErrors] = useState({
     avatar: '',
@@ -78,6 +79,8 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    setErrors({ profile: '', data: '' });
+    setMessages({ profile: '', data: '' });
 
     fetch(`${BASE_URL}/users/edit-profile`, {
       method: 'PUT',
@@ -142,6 +145,31 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           }
         });
     }
+
+    if (avatarIsDeleted) {
+      fetch(`${BASE_URL}/users/avatar`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
+          return res.json();
+        })
+        .then(() => {
+          setErrors({ ...errors, avatar: '' });
+          setMessages({ ...messages, avatar: `Avatar was successful deleted!` });
+        })
+        .catch(err => {
+          if (err.message === 404) {
+            history.push('*');
+          }
+          if (err.message.startsWith('5')) {
+            history.push('/serviceUnavailable');
+          }
+        });
+    }
   };
 
   const changeAvatar = () => {
@@ -149,7 +177,9 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   };
 
   const deleteAvatar = () => {
-
+    setAvatarIsDeleted(true);
+    setAvatarUrl(`${BASE_URL}/${DEFAULT_AVATAR}`);
+    toggleAvatarButtons(false);
   };
 
   if (loading) {
