@@ -363,8 +363,12 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   );
 };
 
+Profile.defaultProps = {
+  avatarUrl: '',
+};
+
 Profile.propTypes = {
-  avatarUrl: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string,
   setAvatarUrl: PropTypes.func.isRequired,
 };
 

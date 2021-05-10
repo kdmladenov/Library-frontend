@@ -5,14 +5,13 @@ import { useHistory } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 
-const UserNavigation = ({ avatarUrl }) => {
+const UserNavigation = ({ avatarUrl, setContent }) => {
   const history = useHistory();
   const { username } = getUser();
   const [user, setUser] = useState({
     username,
     avatar: '',
   });
-
   useEffect(() => {
     fetch(`${BASE_URL}/users/avatar`, {
       method: 'GET',
@@ -42,8 +41,8 @@ const UserNavigation = ({ avatarUrl }) => {
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
-              // onClick={() => setContent('timeline')}
-              onClick={() => history.push('/user/timeline')}
+              onClick={() => setContent('timeline')}
+              // onClick={() => history.push('/user/timeline')}
             >
               Timeline
               {/* <Link to="/user/timeline">Timeline</Link> */}
@@ -52,8 +51,8 @@ const UserNavigation = ({ avatarUrl }) => {
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
-              // onClick={() => setContent('profile')}
-              onClick={() => history.push('/user/profile')}
+              onClick={() => setContent('profile')}
+              // onClick={() => history.push('/user/profile')}
             >
               Profile
               {/* <Link to="/user/profile">Profile</Link> */}
@@ -62,11 +61,19 @@ const UserNavigation = ({ avatarUrl }) => {
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
-              // onClick={() => setContent('changePassword')}
-              onClick={() => history.push('/user/changePassword')}
+              onClick={() => setContent('changePassword')}
+              // onClick={() => history.push('/user/changePassword')}
             >
               Change Password
               {/* <Link to="/user/changePassword">Change Password</Link> */}
+            </Button>
+          </Form.Group>
+          <Form.Group>
+            <Button
+              className="btn btn-dark btn-lg btn-block"
+              onClick={() => setContent('deleteAccount')}
+            >
+              Delete Account
             </Button>
           </Form.Group>
         </div>
@@ -81,6 +88,7 @@ UserNavigation.defaultProps = {
 
 UserNavigation.propTypes = {
   avatarUrl: PropTypes.string,
+  setContent: PropTypes.func.isRequired,
 };
 
 export default UserNavigation;

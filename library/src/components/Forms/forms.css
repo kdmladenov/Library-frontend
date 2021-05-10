@@ -8,11 +8,11 @@
 .form-wrapper-inner {
   background-color: #00000070;
   min-height: 100vh;
-  padding-top: 27vh;
+  padding-top: 20vh;
 }
 
 .login, .register {
-  max-width: 20rem;
+  max-width: 25rem;
   margin-left: auto;
   margin-right: auto;
   color: #ffffff;

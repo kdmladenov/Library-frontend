@@ -26,7 +26,6 @@ const Header = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log(isLoggedIn, ` before the fetch`);
       fetch(`${BASE_URL}/users/avatar`, {
         method: 'GET',
         headers: {
@@ -85,7 +84,6 @@ const Header = () => {
           {/* <Form>
             <Sort />
           </Form> */}
-          {/* <Nav className="mr-auto"> */}
           {isLoggedIn
             ? (
               <>
@@ -99,9 +97,7 @@ const Header = () => {
                   id="basic-nav-dropdown"
                   disabled={false}
                 >
-                  <NavDropdown.Item href="/user/timeline">Timeline</NavDropdown.Item>
-                  <NavDropdown.Item href="/user/profile">Profile</NavDropdown.Item>
-                  <NavDropdown.Item href="/user/changePassword">Change Password</NavDropdown.Item>
+                  <NavDropdown.Item href="/user">Account</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/logout" onClick={logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
