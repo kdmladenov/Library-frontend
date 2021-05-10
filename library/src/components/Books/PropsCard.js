@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./books.css";
+// import "./books.css";
 
 const PropsCard = ({
   id,

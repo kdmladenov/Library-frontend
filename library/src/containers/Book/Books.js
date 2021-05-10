@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import Sort from '../../components/Sort/Sort';
-// import Paging from "../../components/Paging/Paging";
+import Paging from "../../components/Paging/Paging";
 import BookCard from '../../components/Books/BookCard';
 import useHttp from '../../hooks/useHttp';
 import { BASE_URL } from '../../common/constants';
@@ -55,9 +55,9 @@ const Books = (props) => {
           {isLoggedIn && <Button className="create-book-btn btn-success" onClick={() => history.push('/home')}>Create Book</Button>}
         </div>
         {data.length ? <ul>{bookCardsToShow}</ul> : <h2> No books are found... </h2>}
-        {/* <div id="paging-books">
+        <div id="paging-books">
           <Paging />
-        </div> */}
+        </div>
       </div>
     </div>
   );

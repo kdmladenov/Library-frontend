@@ -1,10 +1,10 @@
 /* eslint-disable no-nested-ternary */
+import "react-multi-carousel/lib/styles.css";
+import './BookCardDetailed.css';
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Carousel from "react-multi-carousel";
 import { Button } from 'react-bootstrap';
-import "react-multi-carousel/lib/styles.css";
-import "./books.css";
 import { bookDetailsCarouselBreakpoints } from "../../common/carousel";
 import BookCardRating from "../UI/BookCardRating";
 import ShowMoreButton from "../UI/ShowMoreButton";
@@ -65,7 +65,7 @@ const BookCardDetailed = ({
         id="book-detail-card-image"
         alt="front cover"
       />
-      <div id="book-card-rating-count">
+      <div id="book-detailed-card-rating-count">
         <div>
           <BookCardRating bookRating={bookRating || 0} starWidthAndHeight="50px" />
         </div>

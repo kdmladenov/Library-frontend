@@ -1,6 +1,7 @@
 .books-container-outer {
   padding-top: 13vh;
   background-color: #fbf7ed;
+  min-height: 100vh;
 }
 
 .books-container-inner {
@@ -38,9 +39,17 @@ form.sorting {
 
 .btn-success.focus, .btn-success:focus {
   color: #fff;
-  background-color: #276951;
-  border-color: #1e7e34;
+  background-color: #847462;
+  border-color: #95e198;
   box-shadow: none;
+}
+
+
+#paging-books{
+  position: relative;
+  margin: auto;
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (min-width: 550px) {

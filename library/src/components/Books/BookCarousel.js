@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import 'react-multi-carousel/lib/styles.css';
 import './BookCarousel.css';
 import BookCard from "./BookCard";
-import './books.css';
 import { bookCarouselBreakpoints } from "../../common/carousel";
 import Loading from "../UI/Loading";
 import useHttp from "../../hooks/useHttp";

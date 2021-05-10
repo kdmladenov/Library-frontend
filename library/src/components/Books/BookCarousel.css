@@ -20,11 +20,11 @@
     position: initial;
   }
 
-  .react-multiple-carousel__arrow--right {
-    right: calc(15vw - 4rem);
+  .home-container .react-multiple-carousel__arrow--right {
+    right: calc(13vw - 4rem);
   }
 
-  .react-multiple-carousel__arrow--left {
-    left: calc(15vw - 4rem);
+  .home-container .react-multiple-carousel__arrow--left {
+    left: calc(13vw - 4rem);
   }
 }
