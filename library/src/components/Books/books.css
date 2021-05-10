@@ -3,18 +3,6 @@
   flex-wrap: wrap;
   margin: 40px 20px 40px 20px;
 }
-.book-carousel {
-  background-color: #c3bbb4;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* .carousel-container {
-  height: 337px !important;
-} */
-/* .react-multi-carousel-list{
-  align-self: flex-start !important;
-} */
 
 .bookCard {
   display: grid;
@@ -41,12 +29,17 @@
 
 .bookCard #book-card-title,
 .bookCard #book-card-author,
-.bookCard #card-title {
+.bookCard #cardTitle {
   text-align: center;
 }
 
+.bookCard {
+  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.8), 0 0 10px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s ease-in-out;
+}
+
 .bookCard:hover {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+  transform: scale(1.08);
 }
 
 #book-card-image {

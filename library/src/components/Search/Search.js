@@ -42,7 +42,7 @@ const Search = () => {
         type="text"
         id="search-input"
         value={term}
-        placeholder="Search"
+        placeholder="Search a book"
         onKeyUp={(e) => handleKeyPress(e)}
         onChange={(e) => setTerm(e.target.value)}
       />

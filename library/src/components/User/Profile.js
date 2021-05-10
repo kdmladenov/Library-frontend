@@ -221,7 +221,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
                 type="text"
                 name="firstName"
                 placeholder="Enter First Name"
-                value={user.firstName}
+                value={user.firstName || ''}
                 onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
@@ -235,7 +235,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
                 type="text"
                 name="lastName"
                 placeholder="Enter Last Name"
-                value={user.lastName}
+                value={user.lastName || ''}
                 onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
@@ -277,7 +277,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
                 type="tel"
                 name="phone"
                 placeholder="Enter Phone"
-                value={user.phone}
+                value={user.phone || ''}
                 onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
@@ -291,7 +291,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
                 type="date"
                 name="birthDate"
                 placeholder="Enter Birth Date"
-                value={user.birthDate}
+                value={user.birthDate || ''}
                 onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
@@ -305,7 +305,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
                 as="select"
                 placeholder="Gender"
                 name="gender"
-                defaultValue={user.gender}
+                defaultValue={user.gender || 'Select Gender'}
                 onChange={(e) => handleInput(e.target.name, e.target.value)}
               >
                 <option value={user.gender} disabled>

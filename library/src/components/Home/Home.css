@@ -7,7 +7,7 @@ body::-webkit-scrollbar {
   background-size: cover;
   background-repeat: no-repeat;
   height: 72vh;
-  padding-top: 25vh;
+  padding-top: 30vh;
 }
 
 .greeting {
@@ -27,13 +27,50 @@ body::-webkit-scrollbar {
   font-size: 150%;
 }
 
+.carousel-outer {
+  background-color: #fbf7ed;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-top: 1rem solid;
+  border-image: linear-gradient(
+    89deg
+    , rgb(251 247 237), rgb(251 247 237), rgb(19 89 63), rgb(19 89 63), rgb(19 89 63), rgb(251 247 237), rgb(251 247 237)) 1;
+}
+
+.carousel-outer:first-child {
+  border-top: initial;
+}
+
+.home-container #carousel-title {
+  font-size: 2rem;
+  text-align: center;
+}
+
 @media only screen and (min-width: 600px) {
   .home-image {
     height: 50vh;
-    padding-top: 17vh;
+    padding-top: 21vh;
   }
 
   .greeting h1 {
     font-size: 2.5rem;
+  }
+}
+
+@media only screen and (min-width: 618px) {
+  .carousel-outer {
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+}
+
+@media only screen and (min-width: 1050px) {
+  .home-image {
+    padding-top: 17vh;
+  }
+
+  .carousel-outer {
+    padding-left: 15vw;
+    padding-right: 15vw;
   }
 }

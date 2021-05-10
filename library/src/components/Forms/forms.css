@@ -7,15 +7,16 @@
 
 .form-wrapper-inner {
   background-color: #00000070;
-  min-height: 92vh;
-  padding-top: 10vh;
+  min-height: 100vh;
+  padding-top: 27vh;
 }
 
 .login, .register {
-  max-width: 25rem;
+  max-width: 20rem;
   margin-left: auto;
   margin-right: auto;
   color: #ffffff;
+  padding-bottom: 1rem;
 }
 
 .form-control {

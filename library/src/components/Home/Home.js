@@ -10,9 +10,15 @@ const Home = () => {
           <h1>BETWEEN THE PAGES</h1>
         </div>
       </div>
-      <BookCarousel title="Most Popular Books" />
-      <BookCarousel title="New Releases" />
-      <BookCarousel title="Top Rated Books" />
+      <div className="carousel-outer">
+        <BookCarousel title="Most Popular Books" />
+      </div>
+      <div className="carousel-outer">
+        <BookCarousel title="New Releases" />
+      </div>
+      <div className="carousel-outer">
+        <BookCarousel title="Top Rated Books" />
+      </div>
     </div>
   );
 };

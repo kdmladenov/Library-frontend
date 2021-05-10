@@ -3,12 +3,11 @@
 }
 
 .outer {
-  padding-top: 2vh;
-  min-height: 92vh;
+  padding-top: 17vh;
   background-size: cover;
   position: fixed;
   width: 100vw;
-  height: 92vh;
+  height: 100vh;
   overflow-y: scroll;
 }
 
@@ -97,6 +96,6 @@ button a:hover {
     max-width: 30%;
   }
   .outer {
-    padding-top: 10vh;
+    padding-top: 18vh;
   }
 }

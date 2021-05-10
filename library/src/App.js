@@ -37,9 +37,9 @@ const App = () => {
           <Redirect path="/" exact to="/home" />
           <Route path="/home" exact component={Home} />
           <Route path="/termsAndPolicy" exact component={TermsAndPolicy} />
+          <Route path="/register" exact component={Register} />
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact component={Logout} />
-          <Route path="/register" exact component={Register} />
           <GuardedRoute
             path="/user/timeline"
             exact

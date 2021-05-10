@@ -26,7 +26,7 @@ const DropDown = ({ options, selected, onSelectedChange }) => {
   );
 };
 DropDown.propTypes = {
-  options: PropTypes.oneOfType(
+  options: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.shape({
         label: PropTypes.string.isRequired,
@@ -39,8 +39,12 @@ DropDown.propTypes = {
         value: PropTypes.number.isRequired,
       }),
     ),
-  ).isRequired,
-  selected: PropTypes.oneOfType(
+  ]).isRequired,
+  // options: PropTypes.oneOfType([
+  //   PropTypes.arrayOf(PropTypes.object),
+  //   PropTypes.func,
+  // ]).isRequired,
+  selected: PropTypes.oneOfType([
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
@@ -49,7 +53,7 @@ DropDown.propTypes = {
       label: PropTypes.number.isRequired,
       value: PropTypes.number.isRequired,
     }),
-  ).isRequired,
+  ]).isRequired,
   onSelectedChange: PropTypes.func.isRequired,
 };
 export default DropDown;

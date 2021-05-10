@@ -25,29 +25,32 @@ const Header = () => {
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`${BASE_URL}/users/avatar`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
+    if (isLoggedIn) {
+      console.log(isLoggedIn, ` before the fetch`);
+      fetch(`${BASE_URL}/users/avatar`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
       })
-      .then(res => {
-        setUser({ ...user, ...res });
-      })
-      .catch(err => {
-        if (err.message.startsWith('5')) {
-          history.push('/serviceUnavailable');
-        }
-        if (err.message === '404') {
-          history.push('*');
-        }
-      });
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
+          return res.json();
+        })
+        .then(res => {
+          setUser({ ...user, ...res });
+        })
+        .catch(err => {
+          if (err.message.startsWith('5')) {
+            history.push('/serviceUnavailable');
+          }
+          if (err.message === '404') {
+            history.push('*');
+          }
+        });
+    }
   }, [isLoggedIn]);
 
   const logout = () => {
@@ -59,17 +62,17 @@ const Header = () => {
     })
       .then(res => res.json())
       .then(() => {
-        localStorage.removeItem('token');
         setAuthValue({
           user: null,
           isLoggedIn: false,
         });
+        localStorage.removeItem('token');
         history.push('/logout');
       });
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="xl">
+    <Navbar bg="dark" variant="dark" expand="md" fixed="top">
       <NavLink className="logo" to="/home" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/logo.png)` }} />
       <Search />
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -78,11 +81,11 @@ const Header = () => {
           <NavLink to="/books" className="nav-link" role="button">BOOKS</NavLink>
           <NavLink to="/about" className="nav-link" role="button">ABOUT</NavLink>
           <NavLink to="/contacts" className="nav-link" role="button">CONTACT</NavLink>
-        </Nav>
-        {/* <Form>
-          <Sort />
-        </Form> */}
-        <Nav className="mr-auto">
+          {/* </Nav> */}
+          {/* <Form>
+            <Sort />
+          </Form> */}
+          {/* <Nav className="mr-auto"> */}
           {isLoggedIn
             ? (
               <>
@@ -106,8 +109,8 @@ const Header = () => {
             )
             : (
               <>
-                <NavLink to="/login" className="dropdown-item">Login</NavLink>
-                <NavLink to="/register" className="dropdown-item">Register</NavLink>
+                <NavLink to="/login" className="nav-link">LOGIN</NavLink>
+                <NavLink to="/register" className="nav-link">REGISTER</NavLink>
               </>
             )}
         </Nav>

@@ -1,6 +1,10 @@
+/* .book-carousel {
+  padding-left: 15vw;
+  padding-right: 15vw;
+} */
+
 .react-multi-carousel-dot-list {
   position: relative;
-  margin-top: 1.5rem;
 }
 
 .react-multi-carousel-track {
@@ -8,7 +12,24 @@
 }
 
 .react-multi-carousel-list.carousel-container {
-  max-width: 70vw;
-  margin-left: auto;
-  margin-right: auto;
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+.react-multi-carousel-item {
+  text-align: -webkit-center;
+}
+
+@media only screen and (min-width: 618px) {
+  .react-multi-carousel-list {
+    position: initial;
+  }
+
+  .react-multiple-carousel__arrow--right {
+    right: calc(15vw - 4rem);
+  }
+
+  .react-multiple-carousel__arrow--left {
+    left: calc(15vw - 4rem);
+  }
 }

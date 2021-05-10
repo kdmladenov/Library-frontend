@@ -43,7 +43,6 @@ const Register = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
     fetch(`${BASE_URL}/users`, {
       method: 'POST',
       headers: {
@@ -52,7 +51,6 @@ const Register = () => {
       body: JSON.stringify(user),
     })
       .then(res => {
-        console.log(res);
         if (!res.ok) {
           throw new Error(res.status);
         }
