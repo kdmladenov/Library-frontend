@@ -34,7 +34,7 @@ const UserNavigation = ({ avatarUrl, setContent }) => {
     <div className="card-body">
       <div className="account-settings">
         <div className="user-profile">
-          <div className="user-avatar" style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/${user.avatar})` }} />
+          <div className="user-avatar" style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/storage/avatars/defaultAvatar.png)` }} />
           <h4 className="user-name">{user.username}</h4>
         </div>
         <div className="about">

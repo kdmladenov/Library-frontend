@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import './Books.css';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import Sort from '../../components/Sort/Sort';
@@ -14,6 +14,7 @@ import AuthContext from '../../providers/AuthContext';
 
 const Books = (props) => {
   const { user } = useContext(AuthContext);
+  const [createBtnIsVisible, setCreateBtnIsVisible] = useState(false);
   const history = useHistory();
   const { search: query } = props.location;
   const { data, error } = useHttp( // removed loading to fix sort
@@ -22,6 +23,13 @@ const Books = (props) => {
     [],
   );
 
+  useEffect(() => {
+    if (user.role === 'admin') {
+      setCreateBtnIsVisible(true);
+    }
+  }, []);
+
+  console.log(setCreateBtnIsVisible);
   // if (loading) {
   //   return <Loading />;
   // }
@@ -52,7 +60,7 @@ const Books = (props) => {
             <div>Sorting Options</div>
             <Sort />
           </Form>
-          {user.role === 'admin' && <Button className="create-book-btn btn-success" onClick={() => history.push('/books/create')}>Create Book</Button>}
+          {createBtnIsVisible && <Button className="create-book-btn btn-success" onClick={() => history.push('/books/create')}>Create Book</Button>}
         </div>
         {data.length ? <ul>{bookCardsToShow}</ul> : <h2> No books are found... </h2>}
         <div id="paging-books">
