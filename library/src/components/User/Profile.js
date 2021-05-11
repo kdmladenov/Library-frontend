@@ -347,6 +347,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
               <Button
                 type="submit"
                 className="btn btn-dark btn-lg btn-block"
+                disabled={!Object.values(inputErrors).every(err => err === '')}
               >
                 Save Changes
               </Button>
