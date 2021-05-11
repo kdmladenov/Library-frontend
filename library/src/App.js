@@ -77,14 +77,14 @@ const App = () => {
             path="/books/create"
             exact
             component={CreateBook}
-            isLoggedIn={isLoggedIn}
+            isLoggedIn={isLoggedIn && user.role === 'admin'}
             // check if isAdmin
           />
           <GuardedRoute
             path="/books/:id"
             exact
             component={IndividualBook}
-            isLoggedIn={isLoggedIn && user.role === 'admin'}
+            isLoggedIn={isLoggedIn}
           />
           <Route path="/forbidden" exact component={Forbidden} />
           <Route path="/serviceUnavailable" exact component={ServiceUnavailable} />

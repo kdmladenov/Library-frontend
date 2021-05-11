@@ -91,7 +91,7 @@ padding-top: 5px;
 #review-card-rating{
   margin-right: 10px;
   height: 25px;
-  width: 100px;
+  width: 145px;
 }
 #review-card-title{
   height: 27px;
@@ -177,3 +177,75 @@ padding-top: 5px;
   height: 30px;
   width: 30px;
 }
+
+#create-review-form {
+  display: block;
+  border:grey solid 0.5px;
+  border-radius: 5px;
+  margin-top: 2px;
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#create-review-form:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+#crete-review-username{
+  height: 27px;
+  font-size: 17pt;
+  margin-bottom: 10px;
+
+}
+
+#create-review-rating{
+  display:flex;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+#review-form-title{
+  display: flex;
+  padding: 5px;
+  border: solid 1px rgb(199, 199, 199);
+  border-radius: 5px;
+  height: 27px;
+  width: 60%;
+  font-size: 15pt;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#review-form-title:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+#create-review-close-btn{
+  height: 27px;
+  background-color: transparent;
+  border:white; 
+}
+
+#review-form-content{
+  width: 100%;
+  border: solid 1px rgb(199, 199, 199);
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  /* background-color: rgb(250, 249, 249); */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#review-form-content:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+#review-card-user-edit{
+  display: flex;
+  justify-content: space-between;
+}
+
