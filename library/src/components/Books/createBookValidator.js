@@ -13,7 +13,7 @@ const validate = {
   genre: (value) => typeof value === 'undefined' || Object.keys(bookGenre).includes(value),
   ageRecommendation: (value) => typeof value === 'undefined' || Object.keys(bookAgeRecommendation).includes(value),
   language: (value) => typeof value === 'undefined' || Object.keys(bookLanguage).includes(value),
-  pages: (value) => typeof value === 'undefined' || typeof value === 'number',
+  pages: (value) => typeof value === 'undefined' || (bookInput.NUMBERS_ONLY_REGEX.test(value) && value >= bookInput.MIN_PAGES_COUNT && value <= bookInput.MAX_PAGES_COUNT),
 };
 
 const validateInput = {
@@ -23,7 +23,7 @@ const validateInput = {
       return ` is required!`;
     }
     if (!validate.title(value)) {
-      return '';
+      return ` must be between ${bookInput.MIN_TITLE_LENGTH} and ${bookInput.MAX_TITLE_LENGTH} characters`;
     }
     return '';
   },
@@ -31,8 +31,8 @@ const validateInput = {
     if (!value) {
       return ` is required!`;
     }
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.author(value)) {
+      return ` must be between ${bookInput.MIN_AUTHOR_LENGTH} and ${bookInput.MAX_AUTHOR_LENGTH} characters`;
     }
     return '';
   },
@@ -40,44 +40,44 @@ const validateInput = {
     if (!value) {
       return ` is required!`;
     }
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.isbn(value)) {
+      return ' must number in range 3 to 10 digits';
     }
     return '';
   },
   summary: (value) => {
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.summary(value)) {
+      return 'must be valid text';
     }
     return '';
   },
   datePublished: (value) => {
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.datePublished(value)) {
+      return ' must be later than 1900 year';
     }
     return '';
   },
   genre: (value) => {
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.genre(value)) {
+      return ' must be valid';
     }
     return '';
   },
   ageRecommendation: (value) => {
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.ageRecommendation(value)) {
+      return ' must be valid';
     }
     return '';
   },
   language: (value) => {
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.language(value)) {
+      return ' must be valid';
     }
     return '';
   },
   pages: (value) => {
-    if (!validate.title(value)) {
-      return '';
+    if (!validate.pages(value)) {
+      return ` must be number in range ${bookInput.MIN_PAGES_COUNT} and ${bookInput.MAX_PAGES_COUNT}`;
     }
     return '';
   },

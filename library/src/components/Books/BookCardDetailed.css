@@ -11,7 +11,7 @@
 
 #book-detail-card-image {
   grid-area: cover;
-  height: 450px;
+  max-height: 450px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;

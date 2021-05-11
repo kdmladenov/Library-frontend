@@ -23,6 +23,9 @@ export const bookInput = {
   MIN_DATE_PUBLISHED: '1900-01-01',
   ISBN_REGEX: /^\(?([0-9]{3})\)?[-]([0-9]{10})$/,
   RATING_REGEX: /^[1-5]$/,
+  MIN_PAGES_COUNT: 4,
+  MAX_PAGES_COUNT: 1600,
+  NUMBERS_ONLY_REGEX: /^\d+$/,
 };
 
 export const DEFAULT_AVATAR = `storage/avatars/defaultAvatar.png`;

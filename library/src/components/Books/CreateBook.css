@@ -5,12 +5,15 @@
   border: 0.05rem solid #ffffff;
 }
 
-.create-book-form{
-}
-
-
-#cover {
+#bookCoverBtn {
   grid-area: cover;
+  max-height: 450px;
+  vertical-align: super;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  margin: 0 auto;
+  height: fit-content;
 }
 #title {
   grid-area: title;
@@ -20,7 +23,6 @@
 }
 #summary {
   grid-area: summary;
-  grid-column: 2 / span 2
 }
 #datePublished {
   grid-area: datePublished;
@@ -43,26 +45,104 @@
 #create {
   grid-area: create;
 }
+#outcomeInfo {
+  grid-area: outcomeInfo;
+}
+
 
 .create-book-form {
   background-color: #847462;
   width: 90%;
   max-width: 70rem;
-  margin: 0 auto;
-  margin-top: 15vh;
+  margin: 17vh auto 5vh;
   border-radius: 5px;
   padding: 15px;
   padding-bottom: 3rem;
   display: grid;
-  grid-template-columns: 31% 32% 32%;
-  grid-template-rows: 12% 12% 12% 12% 25% 7%;
+  grid-template-columns: 99%;;
+  grid-template-rows: auto;
   grid-template-areas:
-      "cover title author"
-      "cover isbn datePublished"
-      "cover genre pages"
-      "cover language ageRecommendation"
-      "cover summary summary"
-      "cover create create";
-  grid-gap: 2.5%;
+      "cover"
+      "outcomeInfo"
+      "title"
+      "author"
+      "isbn"
+      "datePublished"
+      "genre"
+      "pages"
+      "language"
+      "ageRecommendation"
+      "summary"
+      "create";
+  grid-gap: 0.5%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+img.upload-book-cover {
+  position: absolute;
+  padding-left: 0.8rem;
+  padding-top: 5rem;
+  visibility: hidden;
+}
+
+#bookCoverBtn #book-detail-card-image {
+  max-height: 280px
+}
+
+#bookCoverBtn:hover #book-detail-card-image {
+  filter: brightness(0.5);
+}
+
+#bookCoverBtn:hover img.upload-book-cover {
+  visibility: visible;
+}
+
+#errors .red {
+  color: #ff6f6f;
+  background: linear-gradient(180deg, #000000eb, #00000057);
+  text-align: center;
+  padding: 0.5rem;
+}
+
+#messages .green {
+  color: #28a745;
+  background: linear-gradient(180deg, #ffffffeb, #ffffff57);
+  text-align: center;
+  padding: 0.5rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .create-book-form {
+    grid-template-columns: 49% 49%;;
+    grid-template-areas:
+        "cover cover"
+        "outcomeInfo outcomeInfo"
+        "title author"
+        "isbn datePublished"
+        "genre pages"
+        "language ageRecommendation"
+        "summary summary"
+        "create create";
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .create-book-form {
+    grid-template-columns: 25% 35% 35%;
+    grid-template-areas:
+        "cover outcomeInfo outcomeInfo"
+        "cover messages messages"
+        "cover title author"
+        "cover isbn datePublished"
+        "cover genre pages"
+        "cover language ageRecommendation"
+        "cover summary summary"
+        "cover create create";
+  }
+}
+
+@media only screen and (min-width: 1050px) {
+  .create-book-form {
+    margin-top: 12vh;
+  }
 }

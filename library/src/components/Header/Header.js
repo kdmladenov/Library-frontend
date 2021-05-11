@@ -69,8 +69,8 @@ const Header = () => {
           user: null,
           isLoggedIn: false,
         });
-        localStorage.removeItem('token');
         history.push('/logout');
+        localStorage.removeItem('token');
       });
   };
 

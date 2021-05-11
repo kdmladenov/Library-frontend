@@ -51,8 +51,6 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   const handleInput = (prop, value, match) => {
     setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
     updateUser(prop, value);
-    setErrors({ profile: '', avatar: '' });
-    setMessages({ profile: '', avatar: '' });
   };
 
   useEffect(() => {
@@ -98,7 +96,6 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         return res.json();
       })
       .then(() => {
-        setErrors({ ...errors, profile: '' });
         setMessages({ ...messages, profile: `Data was successful updated!` });
       })
       .catch(err => {
@@ -134,11 +131,10 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           return res.json();
         })
         .then(() => {
-          setErrors({ ...errors, avatar: '' });
           setMessages({ ...messages, avatar: `Avatar was successful uploaded!` });
         })
         .catch(err => {
-          if (err.message === 404) {
+          if (err.message === '404') {
             history.push('*');
           }
           if (err.message.startsWith('5')) {
@@ -159,7 +155,6 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           return res.json();
         })
         .then(() => {
-          setErrors({ ...errors, avatar: '' });
           setMessages({ ...messages, avatar: `Avatar was successful deleted!` });
         })
         .catch(err => {
@@ -174,10 +169,12 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   };
 
   const changeAvatar = () => {
+    toggleAvatarButtons(false);
     inputRef.current.click();
   };
 
   const deleteAvatar = () => {
+    toggleAvatarButtons(false);
     setAvatarIsDeleted(true);
     setAvatarUrl(`${BASE_URL}/${DEFAULT_AVATAR}`);
     toggleAvatarButtons(false);
@@ -226,7 +223,6 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
               style={{ visibility: "hidden", display: "none" }}
               onChange={(e) => {
                 setAvatarUrl(URL.createObjectURL(e.target.files[0]));
-                toggleAvatarButtons(false);
               }}
             />
             <button
