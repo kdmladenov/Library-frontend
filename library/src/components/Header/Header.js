@@ -20,7 +20,7 @@ const Header = () => {
   const { isLoggedIn, setAuthValue } = useContext(AuthContext);
   const [user, setUser] = useState({
     username: '',
-    avatar: '',
+    avatar: 'storage/avatars/defaultAvatar.png',
   });
   const history = useHistory();
 
@@ -61,6 +61,10 @@ const Header = () => {
     })
       .then(res => res.json())
       .then(() => {
+        setUser({
+          username: '',
+          avatar: 'storage/avatars/defaultAvatar.png',
+        });
         setAuthValue({
           user: null,
           isLoggedIn: false,

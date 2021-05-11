@@ -15,6 +15,16 @@ export const userInput = {
   PASSWORD_REGEX: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/, // letters, numbers and at least 1 uppercase
 };
 
+export const bookInput = {
+  MIN_TITLE_LENGTH: 2,
+  MAX_TITLE_LENGTH: 50,
+  MIN_AUTHOR_LENGTH: 6,
+  MAX_AUTHOR_LENGTH: 60,
+  MIN_DATE_PUBLISHED: '1900-01-01',
+  ISBN_REGEX: /^\(?([0-9]{3})\)?[-]([0-9]{10})$/,
+  RATING_REGEX: /^[1-5]$/,
+};
+
 export const DEFAULT_AVATAR = `storage/avatars/defaultAvatar.png`;
 
 export const BASE_URL = "http://localhost:5555";

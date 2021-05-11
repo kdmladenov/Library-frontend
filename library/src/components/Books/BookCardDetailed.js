@@ -80,6 +80,7 @@ const BookCardDetailed = ({
               ? "book-detail-card-borrowedUntil-return"
               : "book-detail-card-borrowedUntil-borrowed"
         }
+        disabled={borrowed}
         onClick={
           !borrowed
             ? () => handleBorrowing("POST")

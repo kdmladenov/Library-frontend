@@ -7,6 +7,7 @@ import { BASE_URL, DEFAULT_AVATAR } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
 import Loading from '../UI/Loading';
+import genderEnum from '../../common/enums/gender.enum';
 
 const Profile = ({ avatarUrl, setAvatarUrl }) => {
   const history = useHistory();
@@ -50,8 +51,8 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   const handleInput = (prop, value, match) => {
     setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
     updateUser(prop, value);
-    setErrors({ profile: '', data: '' });
-    setMessages({ profile: '', data: '' });
+    setErrors({ profile: '', avatar: '' });
+    setMessages({ profile: '', avatar: '' });
   };
 
   useEffect(() => {
@@ -79,8 +80,8 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setErrors({ profile: '', data: '' });
-    setMessages({ profile: '', data: '' });
+    setErrors({ profile: '', avatar: '' });
+    setMessages({ profile: '', avatar: '' });
 
     fetch(`${BASE_URL}/users/edit-profile`, {
       method: 'PUT',
@@ -341,9 +342,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
                 <option value={user.gender} disabled>
                   {user.gender ? user.gender : 'Select Gender'}
                 </option>
-                <option value="male">male</option>
-                <option value="female">female</option>
-                <option value="other">other</option>
+                {Object.keys(genderEnum).map(gender => <option key={genderEnum[gender]} value={gender}>{gender}</option>)}
               </Form.Control>
             </Form.Group>
           </div>

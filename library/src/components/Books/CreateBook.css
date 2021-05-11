@@ -1,0 +1,68 @@
+.form-control {
+  background-color: #ffffffa2;
+  color: #343a40;
+  height: calc(1.5em + 1.5rem + 2px);
+  border: 0.05rem solid #ffffff;
+}
+
+.create-book-form{
+}
+
+
+#cover {
+  grid-area: cover;
+}
+#title {
+  grid-area: title;
+}
+#author {
+  grid-area: author;
+}
+#summary {
+  grid-area: summary;
+  grid-column: 2 / span 2
+}
+#datePublished {
+  grid-area: datePublished;
+}
+#isbn {
+  grid-area: isbn;
+}
+#pages {
+  grid-area: pages;
+}
+#genre {
+  grid-area: genre;
+}
+#language {
+  grid-area: language;
+}
+#ageRecommendation {
+  grid-area: ageRecommendation;
+}
+#create {
+  grid-area: create;
+}
+
+.create-book-form {
+  background-color: #847462;
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  margin-top: 15vh;
+  border-radius: 5px;
+  padding: 15px;
+  padding-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 31% 32% 32%;
+  grid-template-rows: 12% 12% 12% 12% 25% 7%;
+  grid-template-areas:
+      "cover title author"
+      "cover isbn datePublished"
+      "cover genre pages"
+      "cover language ageRecommendation"
+      "cover summary summary"
+      "cover create create";
+  grid-gap: 2.5%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}

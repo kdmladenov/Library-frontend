@@ -13,7 +13,7 @@ import { BASE_URL } from '../../common/constants';
 import AuthContext from '../../providers/AuthContext';
 
 const Books = (props) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const history = useHistory();
   const { search: query } = props.location;
   const { data, error } = useHttp( // removed loading to fix sort
@@ -52,7 +52,7 @@ const Books = (props) => {
             <div>Sorting Options</div>
             <Sort />
           </Form>
-          {isLoggedIn && <Button className="create-book-btn btn-success" onClick={() => history.push('/home')}>Create Book</Button>}
+          {user.role === 'admin' && <Button className="create-book-btn btn-success" onClick={() => history.push('/books/create')}>Create Book</Button>}
         </div>
         {data.length ? <ul>{bookCardsToShow}</ul> : <h2> No books are found... </h2>}
         <div id="paging-books">

@@ -11,8 +11,7 @@
 
 #book-detail-card-image {
   grid-area: cover;
-  max-width: 100%;
-  max-height: 450px;
+  height: 450px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;
@@ -56,9 +55,9 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
 }
 
-#book-detail-card-borrowedUntil-borrowed:hover {
+/* #book-detail-card-borrowedUntil-borrowed:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
-}
+} */
 
 #book-detail-card-borrowedUntil-available:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
@@ -232,7 +231,6 @@
   }
 }
 
-
 @media only screen and (min-width: 900px) {
   .book-card-detailed {
     max-width: 90%;
@@ -266,6 +264,17 @@
     margin-right: auto;
     width: 95%;
     max-width: 1100px;
+  }
+
+  #book-detail-props-carousel .react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
+    position: sticky;
+    right: 0;
+  }
+  #book-detail-props-carousel .react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin-left: 40vw;
   }
 }
 

@@ -21,6 +21,7 @@ import AuthContext, { getUser } from "./providers/AuthContext";
 import GuardedRoute from "./providers/GuardedRoute";
 import Logout from "./components/StaticPages/Logout";
 import UserContainer from './containers/User/UserContainer';
+import CreateBook from './components/Books/CreateBook';
 
 const App = () => {
   const [authValue, setAuthValue] = useState({
@@ -28,7 +29,7 @@ const App = () => {
     user: getUser(),
   });
 
-  const { isLoggedIn } = authValue;
+  const { isLoggedIn, user } = authValue;
 
   return (
     <BrowserRouter>
@@ -73,10 +74,17 @@ const App = () => {
             isLoggedIn={isLoggedIn}
           />
           <GuardedRoute
+            path="/books/create"
+            exact
+            component={CreateBook}
+            isLoggedIn={isLoggedIn}
+            // check if isAdmin
+          />
+          <GuardedRoute
             path="/books/:id"
             exact
             component={IndividualBook}
-            isLoggedIn={isLoggedIn}
+            isLoggedIn={isLoggedIn && user.role === 'admin'}
           />
           <Route path="/forbidden" exact component={Forbidden} />
           <Route path="/serviceUnavailable" exact component={ServiceUnavailable} />
