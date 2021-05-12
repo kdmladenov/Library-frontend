@@ -1,16 +1,26 @@
 import './CreateBook.css';
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { BASE_URL } from "../../common/constants";
-import AuthContext, { getToken, getUser } from '../../providers/AuthContext';
+import { getToken } from '../../providers/AuthContext';
 import BookForm from './BookForm';
 
 const CreateBook = () => {
-  const user = getUser();
-  const { isLoggedIn } = useContext(AuthContext);
+  const [book, setBook] = useState({
+    frontCover: 'storage/covers/default.png',
+    title: '',
+    author: '',
+    summary: '',
+    datePublished: '',
+    isbn: '',
+    genre: '',
+    ageRecommendation: '',
+    language: '',
+    pages: '',
+  });
   const history = useHistory();
 
-  const handleFormSubmit = (event, errors, setErrors, messages, setMessages, inputErrors, setInputErrors, title, author, isbn, book) => {
+  const handleFormSubmit = (event, errors, setErrors, messages, setMessages, inputErrors, setInputErrors, title, author, isbn, bookData) => {
     event.preventDefault();
 
     if (!title) {
@@ -34,7 +44,7 @@ const CreateBook = () => {
         Authorization: `Bearer ${getToken()}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(book),
+      body: JSON.stringify(bookData),
     })
       .then(res => {
         if (!res.ok) {
@@ -86,9 +96,10 @@ const CreateBook = () => {
 
   return (
     <BookForm
-      isLoggedIn={isLoggedIn && user.role === 'admin'}
       action="create"
       handleFormSubmit={handleFormSubmit}
+      book={book}
+      setBook={setBook}
     />
   );
 };

@@ -8,42 +8,20 @@ import bookGenreEnum from '../../common/enums/book-genre.enum';
 import bookLanguageEnum from '../../common/enums/book-language.enum';
 import bookAgeRecommendationEnum from '../../common/enums/book-age-recommendation.enum';
 
-const BookForm = ({
-  frontCover,
-  title,
-  author,
-  summary,
-  datePublished,
-  isbn,
-  genre,
-  ageRecommendation,
-  language,
-  pages,
-  // action,
-  handleFormSubmit,
-}) => {
+const BookForm = ({ handleFormSubmit, book, setBook }) => {
   const inputRef = useRef();
   const [bookCoverUrl, setBookCoverUrl] = useState('');
+
   const [errors, setErrors] = useState({
     book: '',
     cover: '',
   });
+
   const [messages, setMessages] = useState({
     book: '',
     cover: '',
   });
-  const [book, setBook] = useState({
-    frontCover,
-    title,
-    author,
-    summary,
-    datePublished,
-    isbn,
-    genre,
-    ageRecommendation,
-    language,
-    pages,
-  });
+
   const [inputErrors, setInputErrors] = useState({
     frontCover: '',
     title: '',
@@ -69,7 +47,7 @@ const BookForm = ({
   };
 
   return (
-    <Form className="create-book-form" onSubmit={(event) => handleFormSubmit(event, errors, setErrors, messages, setMessages, inputErrors, setInputErrors, title, author, isbn, book)}>
+    <Form className="create-book-form" onSubmit={(event) => handleFormSubmit(event, errors, setErrors, messages, setMessages, inputErrors, setInputErrors, book.title, book.author, book.isbn, book)}>
       <div id="outcomeInfo">
         {(errors.book || errors.cover) && (
           <div id="errors" className="red">
@@ -242,32 +220,13 @@ const BookForm = ({
   );
 };
 
-BookForm.defaultProps = {
-  frontCover: 'storage/covers/default.png',
-  title: '',
-  author: '',
-  summary: '',
-  datePublished: '',
-  isbn: '',
-  genre: '',
-  ageRecommendation: '',
-  language: '',
-  pages: '',
-};
-
 BookForm.propTypes = {
-  frontCover: PropTypes.string,
-  title: PropTypes.string,
-  author: PropTypes.string,
-  summary: PropTypes.string,
-  datePublished: PropTypes.string,
-  isbn: PropTypes.string,
-  genre: PropTypes.string,
-  ageRecommendation: PropTypes.string,
-  language: PropTypes.string,
-  pages: PropTypes.string,
-  // action: PropTypes.string.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
+  book: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ])).isRequired,
+  setBook: PropTypes.func.isRequired,
 };
 
 export default BookForm;

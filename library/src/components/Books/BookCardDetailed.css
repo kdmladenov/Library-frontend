@@ -7,11 +7,19 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-}
+  grid-template-areas:
+    "cover"
+    "title"
+    "author"
+    "rating"
+    "props"
+    "summary"
+    "borrowed";
+  }
+
 
 #book-detail-card-image {
   grid-area: cover;
-  max-height: 450px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;
@@ -19,7 +27,7 @@
 }
 
 .book-card-detailed #book-detail-card-image {
-    height: 450px;
+    height: 350px;
 }
 
 #book-detail-card-image:hover {
@@ -218,20 +226,14 @@
   background-color: transparent;
   border-color: transparent;
 }
+
 .react-multiple-carousel_arrow {
   background-color: blue !important;
 }
 
-@media (max-width: 500px) {
-  .book-card-detailed {
-    grid-template-areas:
-      "cover"
-      "title"
-      "author"
-      "rating"
-      "props"
-      "summary"
-      "borrowed";
+@media only screen and (min-width: 600px) {
+  .book-card-detailed #book-detail-card-image {
+    height: 450px;
   }
 }
 

@@ -1,60 +1,60 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
-import AuthContext, { getToken, getUser } from '../../providers/AuthContext';
+import { getToken } from '../../providers/AuthContext';
 import BookForm from './BookForm';
 
 const UpdateBook = () => {
-  const user = getUser();
-  const { isLoggedIn } = useContext(AuthContext);
-  const [book, setBook] = useState({});
-  const { bookId } = useParams();
+  const [book, setBook] = useState({
+    frontCover: 'storage/covers/default.png',
+    title: '',
+    author: '',
+    summary: '',
+    datePublished: '',
+    isbn: '',
+    genre: '',
+    ageRecommendation: '',
+    language: '',
+    pages: '',
+  });
+  const params = useParams();
   const history = useHistory();
 
-  console.log(bookId);
   useEffect(() => {
-    if (bookId) {
-      fetch(`${BASE_URL}/books/${bookId}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
+    fetch(`${BASE_URL}/books/${params.id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
       })
-        .then(res => {
-          if (!res.ok) {
-            throw new Error(res.status);
-          }
-          return res.json();
-        })
-        .then(res => setBook({ ...res }))
-        .catch(err => {
-          if (err.message === 404) {
-            history.push('*');
-          }
-          history.push('/serviceUnavailable');
-        });
-    }
-  }, []);
+      .then(res => {
+        setBook({ ...res });
+      })
+      .catch(err => {
+        if (err.message === 404) {
+          history.push('*');
+        }
+        history.push('/serviceUnavailable');
+      });
+  }, [params.bookId]);
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
     console.log(book);
   };
 
   return (
     <BookForm
-      isLoggedIn={isLoggedIn && user.role === 'admin'}
       action="update"
-      frontCover={book.frontCover}
-      title={book.title}
-      author={book.author}
-      summary={book.summary}
-      datePublished={book.datePublished}
-      isbn={book.isbn}
-      genre={book.genre}
-      ageRecommendation={book.ageRecommendation}
-      language={book.language}
-      pages={book.pages}
       handleFormSubmit={handleFormSubmit}
+      book={book}
+      setBook={setBook}
     />
   );
 };

@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import './BookCard.css';
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import BookCardRating from "../UI/BookCardRating";
 import { BASE_URL } from '../../common/constants';
@@ -19,13 +19,16 @@ const BookCard = ({
   goToDetails,
   adminButtonsAreVisible,
 }) => {
+  const history = useHistory();
+
   const deleteBook = () => {
 
   };
 
   const editBook = () => {
-
+    history.push(`/books/${bookId}/update`);
   };
+
   return (
     <div className="bookCard" id={bookId}>
       <img
