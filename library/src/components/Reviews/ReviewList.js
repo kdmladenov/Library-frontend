@@ -79,6 +79,7 @@ const ReviewsList = ({ bookId }) => {
         if (result.error) {
           throw new Error(result.message);
         }
+        setReviews([result, ...reviews]);
         setIsReviewCreated(true);
       })
       .catch((e) => setError(e.message))
@@ -133,7 +134,7 @@ const ReviewsList = ({ bookId }) => {
       .then((result) => setReviews(result))
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, [isReviewCreated]);
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -174,7 +175,7 @@ const ReviewsList = ({ bookId }) => {
             isSelectable="true"
           />
           <input
-            type="text"
+            type="textarea"
             id="review-form-title"
             key="title"
             name="title"
@@ -182,7 +183,8 @@ const ReviewsList = ({ bookId }) => {
             value={form.title.value}
             onChange={handleInputChange}
           />
-          <input
+          <textarea
+            rows="3"
             type="text"
             id="review-form-content"
             key="content"
