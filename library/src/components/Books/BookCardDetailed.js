@@ -37,7 +37,6 @@ const BookCardDetailed = ({
 
   const handleBorrowing = (method) => {
     const token = getToken();
-
     fetch(`${BASE_URL}/books/${bookId}/records`, {
       method,
       headers: {
@@ -80,7 +79,7 @@ const BookCardDetailed = ({
               ? "book-detail-card-borrowedUntil-return"
               : "book-detail-card-borrowedUntil-borrowed"
         }
-        disabled={borrowed}
+        disabled={borrowed && borrowedBy !== userId}
         onClick={
           !borrowed
             ? () => handleBorrowing("POST")
@@ -92,9 +91,7 @@ const BookCardDetailed = ({
         {!borrowed
           ? "You can borrow this book now!"
           : (borrowed && borrowedBy === userId)
-            ? `You have borrowed this book until ${new Date(
-              borrowedUntil,
-            ).toLocaleDateString("en-US")}. To return it click here.`
+            ? `You borrowed this book. To return it click here.`
             : `The book will be available after ${new Date(borrowedUntil).toLocaleDateString(
               "en-US",
             )}`}
