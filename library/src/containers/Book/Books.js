@@ -25,8 +25,10 @@ const Books = (props) => {
   //   return <Loading />;
   // }
 
-  if (error) {
+  if (error === '404') {
     history.push('*');
+  } else if (error) {
+    history.push('/serviceUnavailable');
   }
 
   const bookCardsToShow = (

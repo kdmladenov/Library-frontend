@@ -37,10 +37,7 @@ const Timeline = () => {
       .catch((err) => {
         if (err.message === '404') {
           history.push('*');
-        }
-        if (err.message.startsWith('5')) {
-          history.push('/serviceUnavailable');
-        }
+        } else history.push('/serviceUnavailable');
       });
   }, []);
 

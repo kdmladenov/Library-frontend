@@ -42,8 +42,10 @@ const BookCarousel = (props) => {
     return <Loading />;
   }
 
-  if (error) {
-    return <h1>{error}</h1>;
+  if (error === '404') {
+    history.push('*');
+  } else if (error) {
+    history.push('/serviceUnavailable');
   }
 
   const bookCardsToShow = data.map((book) => {

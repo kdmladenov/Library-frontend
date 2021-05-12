@@ -64,14 +64,19 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         },
       })
         .then(res => {
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
           return res.json();
         })
         .then(res => {
           setLoading(false);
           setUser({ ...res, reenteredEmail: res.email });
         })
-        .catch(() => {
-          history.push('*');
+        .catch(err => {
+          if (err.message === '404') {
+            history.push('*');
+          } else history.push('/serviceUnavailable');
         });
     }
   }, []);
@@ -99,19 +104,16 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         setMessages({ ...messages, profile: `Data was successful updated!` });
       })
       .catch(err => {
-        if (err.message.startsWith('5')) {
-          history.push('/serviceUnavailable');
-        }
         if (err.message === '404') {
           history.push('*');
-        }
-        if (err.message === '409') {
+        } else if (err.message === '409') {
           setErrors({ ...errors, profile: 'This e-mail is already registered!' });
-        }
-        if (err.message === '400') {
+        } else if (err.message === '400') {
           setErrors({ ...errors, profile: 'Emails are required or do not match!' });
+        } else {
+          setMessages({ ...messages, profile: '' });
+          history.push('/serviceUnavailable');
         }
-        setMessages({ ...messages, profile: '' });
       });
 
     const data = new FormData();
@@ -136,10 +138,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         .catch(err => {
           if (err.message === '404') {
             history.push('*');
-          }
-          if (err.message.startsWith('5')) {
-            history.push('/serviceUnavailable');
-          }
+          } else history.push('/serviceUnavailable');
         });
     }
 
@@ -158,10 +157,9 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           setMessages({ ...messages, avatar: `Avatar was successful deleted!` });
         })
         .catch(err => {
-          if (err.message === 404) {
+          if (err.message === '404') {
             history.push('*');
-          }
-          history.push('/serviceUnavailable');
+          } else history.push('/serviceUnavailable');
         });
     }
   };

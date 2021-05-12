@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
 import Loading from '../UI/Loading';
 
 const ChangePassword = () => {
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -43,25 +45,27 @@ const ChangePassword = () => {
     })
       .then(res => {
         if (!res.ok) {
-          throw new Error(`Unsuccessful attempt!`);
+          throw new Error(res.status);
         }
         return res.json();
       })
       .then(res => {
         setError('');
         setMessage(res.message);
-      })
-      .catch(err => {
-        setMessage('');
-        setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
         setInput({
           currentPassword: '',
           password: '',
           reenteredPassword: '',
         });
+        setLoading(false);
+      })
+      .catch(err => {
+        if (err.message === '400') {
+          setMessage('');
+          setError(`Unsuccessful attempt!`);
+        } else if (err.message === '404') {
+          history.push('*');
+        } else history.push('/serviceUnavailable');
       });
   };
 

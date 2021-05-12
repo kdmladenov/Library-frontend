@@ -37,7 +37,7 @@ const UpdateBook = () => {
         setBook({ ...res });
       })
       .catch(err => {
-        if (err.message === 404) {
+        if (err.message === '404') {
           history.push('*');
         }
         history.push('/serviceUnavailable');

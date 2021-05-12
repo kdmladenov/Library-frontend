@@ -19,15 +19,18 @@ const UserNavigation = ({ avatarUrl, setContent }) => {
         Authorization: `Bearer ${getToken()}`,
       },
     })
-      .then(res => res.json())
       .then(res => {
-        if (res.message) {
-          throw new Error(res.message);
+        if (!res.ok) {
+          throw new Error(res.status);
         }
-
-        setUser({ ...user, ...res });
+        return res.json();
       })
-      .catch(() => history.push('/notFound'));
+      .then(res => setUser({ ...user, ...res }))
+      .catch(err => {
+        if (err.message === '404') {
+          history.push('*');
+        } else history.push('/serviceUnavailable');
+      });
   }, []);
 
   return (

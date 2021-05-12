@@ -30,12 +30,9 @@ const DeleteAccount = () => {
         history.push('/unregister');
       })
       .catch(err => {
-        if (err.message.startsWith('5')) {
-          history.push('/serviceUnavailable');
-        }
         if (err.message === '404') {
           history.push('*');
-        }
+        } else history.push('/serviceUnavailable');
       });
   };
 
