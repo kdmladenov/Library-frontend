@@ -26,11 +26,13 @@ const Sort = () => {
         selected={sortColumn}
         onSelectedChange={setSortColumn}
         options={sortOptions}
+        dropDownToggleId="dropdown-basic-sort-option"
       />
       <DropDown
         selected={sortDirection}
         onSelectedChange={setSortDirection}
         options={sortDirections}
+        dropDownToggleId="dropdown-basic-sort-value"
       />
     </div>
   );

@@ -1,7 +1,9 @@
 import { Dropdown } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-const DropDown = ({ options, selected, onSelectedChange }) => {
+const DropDown = ({
+  options, selected, onSelectedChange, dropDownToggleId,
+}) => {
   const renderedOptions = options.map((option) => {
     return (
       <Dropdown.Item
@@ -16,7 +18,7 @@ const DropDown = ({ options, selected, onSelectedChange }) => {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
+        <Dropdown.Toggle variant="success" id={dropDownToggleId}>
           {selected.label}
         </Dropdown.Toggle>
 
@@ -55,5 +57,6 @@ DropDown.propTypes = {
     }),
   ]).isRequired,
   onSelectedChange: PropTypes.func.isRequired,
+  dropDownToggleId: PropTypes.string.isRequired,
 };
 export default DropDown;

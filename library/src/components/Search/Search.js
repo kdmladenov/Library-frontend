@@ -37,6 +37,7 @@ const Search = () => {
         selected={searchColumn}
         onSelectedChange={setSearchColumn}
         options={searchOptions}
+        dropDownToggleId="dropdown-basic-search-options"
       />
       <input
         type="text"
