@@ -14,7 +14,6 @@ import {
 import AuthContext, { getToken } from '../../providers/AuthContext';
 import { BASE_URL } from '../../common/constants';
 import Search from '../Search/Search';
-// import Sort from '../Sort/Sort';
 
 const Header = () => {
   const { isLoggedIn, setAuthValue } = useContext(AuthContext);
@@ -77,7 +76,7 @@ const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="md" fixed="top">
       <NavLink className="logo" to="/home" style={{ backgroundImage: `url(${BASE_URL}/storage/icons/logo.png)` }} />
-      <Search />
+      {isLoggedIn ? <Search /> : null}
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
