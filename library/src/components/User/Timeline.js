@@ -82,7 +82,7 @@ const Timeline = () => {
 
     if (e.event === 'read' && e.date) {
       const bookId = e.id.split(' ')[1].split('_')[1];
-      const points = e.overdue < 0 ? readingPoints.RETURN_ON_TIME : Math.ceil(readingPoints.RETURN_ON_TIME + e.overdue * readingPoints.RETURN_LATE_MULTIPLIER);
+      const points = e.overdue < 0 ? readingPoints.RETURN_ON_TIME : readingPoints.RETURN_ON_TIME + Math.floor(e.overdue * readingPoints.RETURN_LATE_MULTIPLIER);
       return (
         <VerticalTimelineElement
           key={e.id}
@@ -108,7 +108,7 @@ const Timeline = () => {
     }
 
     if (e.event === 'ban') {
-      const points = e.banDuration * readingPoints.GET_BANNED_MULTIPLIER;
+      const points = Math.floor(e.banDuration * readingPoints.GET_BANNED_MULTIPLIER);
       const addDays = (date, days) => {
         const copy = new Date(Number(date));
         copy.setDate(date.getDate() + days);

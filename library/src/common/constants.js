@@ -143,3 +143,9 @@ export const reviewValidation = {
   MAX_TITLE_LENGTH: 255,
   RATING_REGEX: /^[1-5]$/,
 };
+
+export const banValidation = {
+  MIN_BAN_DURATION: 1,
+  MAX_BAN_DURATION: 30,
+  MIN_DESCRIPTION_LENGTH: 2,
+};

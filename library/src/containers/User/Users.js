@@ -25,7 +25,6 @@ const Users = () => {
     history.push('/serviceUnavailable');
   }
 
-  console.log(data.map(u => u.userId));
   const userCards = (
     <div className="user-list">
       {data.map((user) => {

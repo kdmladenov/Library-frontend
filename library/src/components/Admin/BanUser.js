@@ -3,13 +3,13 @@ import { Button, Form } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken } from '../../providers/AuthContext';
-import validateInput from '../Forms/userValidator';
-import Loading from '../UI/Loading';
+import validateInput from './banValidator';
+// import Loading from '../UI/Loading';
 
 const BanUser = () => {
   const history = useHistory();
   const { userId } = useParams();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
@@ -32,8 +32,8 @@ const BanUser = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-
+    // setLoading(true);
+    console.log(userId);
     fetch(`${BASE_URL}/users/${userId}/ban`, {
       method: 'POST',
       headers: {
@@ -49,9 +49,10 @@ const BanUser = () => {
         return res.json();
       })
       .then(res => {
+        console.log(inputErrors);
         setError('');
         setMessage(res.message);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch(err => {
         if (err.message === '400') {
@@ -67,15 +68,17 @@ const BanUser = () => {
 
   };
 
-  if (loading) {
-    return (
-      <div>
-        <Loading>
-          <h1>Loading...</h1>
-        </Loading>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div>
+  //       <Loading>
+  //         <h1>Loading...</h1>
+  //       </Loading>
+  //     </div>
+  //   );
+  // }
+
+  console.log(!banData.description || !banData.duration || !(Object.values(inputErrors).some(e => e !== '')));
 
   return (
     <div className="card h-100">
@@ -116,7 +119,7 @@ const BanUser = () => {
               </Form.Label>
               <Form.Control
                 type="text"
-                name="banDescription"
+                name="description"
                 as="textarea"
                 rows={6}
                 value={banData.description}
@@ -130,7 +133,7 @@ const BanUser = () => {
               <Button
                 type="submit"
                 className="btn btn-dark btn-lg btn-block"
-                disabled={(!banData.duration || !banData.description) || !Object.values(inputErrors).every(err => err === '')}
+                disabled={!banData.description || !banData.duration || !(Object.values(inputErrors).some(e => e !== ''))}
               >
                 Ban User
               </Button>
