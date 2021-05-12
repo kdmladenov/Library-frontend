@@ -13,17 +13,18 @@ import { BASE_URL } from "../../common/constants";
 const BookCarousel = (props) => {
   const history = useHistory();
   const { title } = props;
+
   let option = "";
 
   switch (title) {
     case "New Releases":
-      option = "?sort=bookId&order=desc";
+      option = "/public/newreleases";
       break;
     case "Top Rated Books":
-      option = "?sort=bookRating&order=desc";
+      option = "/public/toprated";
       break;
     case "Most Popular Books":
-      option = "?sort=timesBorrowed&order=desc";
+      option = "/public/mostpopular";
       break;
     default:
       option = "";
