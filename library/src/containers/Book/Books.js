@@ -33,14 +33,12 @@ const Books = (props) => {
     <div className="book-list">
       {data.map((book) => {
         return (
-          <>
-            <BookCard
-              key={book.bookId}
-              {...book}
-              adminButtonsAreVisible={user.role === 'admin'}
-              goToDetails={() => props.history.push(`/books/${book.bookId}`)}
-            />
-          </>
+          <BookCard
+            key={book.bookId}
+            {...book}
+            adminButtonsAreVisible={user.role === 'admin'}
+            goToDetails={() => props.history.push(`/books/${book.bookId}`)}
+          />
         );
       })}
     </div>
