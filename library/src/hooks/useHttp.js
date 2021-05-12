@@ -17,11 +17,13 @@ const useHttp = (url, method = 'GET', initialData = null) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.error) {
-          throw new Error(result.message);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
         }
+        return response.json();
+      })
+      .then((result) => {
         setData(result);
       })
       .catch((e) => setError(e.message))

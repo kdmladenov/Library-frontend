@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useState } from "react";
 import {
   BrowserRouter, Route, Switch, Redirect,
@@ -10,9 +11,6 @@ import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Login from "./components/Forms/Login";
 import Register from "./components/Forms/Register";
-// import UserTimeline from "./containers/User/UserTimeline";
-// import UserProfile from "./containers/User/UserProfile";
-// import UserChangePassword from "./containers/User/UserChangePassword";
 import NotFound from "./components/StaticPages/NotFound";
 import Forbidden from "./components/StaticPages/Forbidden";
 import ServiceUnavailable from "./components/StaticPages/ServiceUnavailable";
@@ -21,8 +19,9 @@ import AuthContext, { getUser } from "./providers/AuthContext";
 import GuardedRoute from "./providers/GuardedRoute";
 import Logout from "./components/StaticPages/Logout";
 import UserContainer from './containers/User/UserContainer';
-import CreateBook from './components/Books/CreateBook';
-import UpdateBook from './components/Books/UpdateBook';
+import CreateBook from './components/Admin/CreateBook';
+import UpdateBook from './components/Admin/UpdateBook';
+import Users from './containers/User/Users';
 
 const App = () => {
   const [authValue, setAuthValue] = useState({
@@ -44,29 +43,23 @@ const App = () => {
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact render={() => <Logout message1="You have successfully logged out." message2="Thank You for visiting our site. We hope to see again soon!" buttonText="LOGIN AGAIN" linkTo="/login" />} />
           <Route path="/unregister" exact render={() => <Logout message1="You have successfully deleted Your Account" message2="Thank You for using our site. We hope to see again soon!" buttonText="CREATE NEW ACCOUNT" linkTo="/register" />} />
-          {/* <GuardedRoute
-            path="/user/timeline"
-            exact
-            component={UserTimeline}
-            isLoggedIn={isLoggedIn}
-          />
-          <GuardedRoute
-            path="/user/profile"
-            exact
-            component={UserProfile}
-            isLoggedIn={isLoggedIn}
-          />
-          <GuardedRoute
-            path="/user/changePassword"
-            exact
-            component={UserChangePassword}
-            isLoggedIn={isLoggedIn}
-          /> */}
           <GuardedRoute
             path="/user"
             exact
-            component={UserContainer}
+            component={(props) => <UserContainer {...props} defaultContent="timeline" />}
             isLoggedIn={isLoggedIn}
+          />
+          <GuardedRoute
+            path="/users"
+            exact
+            component={Users}
+            isLoggedIn={isLoggedIn}
+          />
+          <GuardedRoute
+            path="/users/:userId"
+            exact
+            component={(props) => <UserContainer {...props} defaultContent="profile" />}
+            isLoggedIn={isLoggedIn && user.role === 'admin'}
           />
           <GuardedRoute
             path="/books"

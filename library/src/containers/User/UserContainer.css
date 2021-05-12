@@ -86,6 +86,10 @@ button a:hover {
   margin-right: initial;
 }
 
+.card-body {
+  min-height: 37rem;
+}
+
 @media (min-width: 992px) {
   .col-lg-9 {
     flex: 0 0 70%;

@@ -1,0 +1,70 @@
+.users-container-outer {
+  padding-top: 13vh;
+  background-color: #fbf7ed;
+  min-height: 100vh;
+}
+
+.users-container-inner {
+  max-width: 80vw;
+  margin: 0 auto;
+}
+
+.users-container-header {
+  display: flex;
+  justify-content: center;  
+  flex-wrap: wrap;
+}
+
+form.sorting {
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+.create-book-btn {
+  margin: 0.5rem;
+  width: 8rem;
+  background-color: #276951;
+  align-self: flex-end;
+}
+
+.user-list {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-list .userCard {
+  margin: 1.5rem;
+}
+
+.btn-success.focus, .btn-success:focus {
+  color: #fff;
+  background-color: #847462;
+  border-color: #95e198;
+  box-shadow: none;
+}
+
+
+#paging-books{
+  position: relative;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 550px) {
+  .create-book-btn {
+    margin: 1rem;
+  }
+
+  form.sorting {
+    display: inline-block;
+    margin: 1rem;
+  }
+}
+
+@media only screen and (min-width: 1050px) {
+  .users-container-outer {
+    padding-top: 8vh;
+  }
+}

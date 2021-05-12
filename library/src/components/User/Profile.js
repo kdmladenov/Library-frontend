@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import './Profile.css';
@@ -10,6 +10,8 @@ import Loading from '../UI/Loading';
 import genderEnum from '../../common/enums/gender.enum';
 
 const Profile = ({ avatarUrl, setAvatarUrl }) => {
+  const params = useParams();
+  const id = params.userId || getUser().userId;
   const history = useHistory();
   const inputRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -52,28 +54,29 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
     updateUser(prop, value);
   };
-
   useEffect(() => {
     setLoading(true);
-    const { userId } = getUser();
-    if (user) {
-      fetch(`${BASE_URL}/users/${userId}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
+    fetch(`${BASE_URL}/users/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
       })
-        .then(res => {
-          return res.json();
-        })
-        .then(res => {
-          setLoading(false);
-          setUser({ ...res, reenteredEmail: res.email });
-        })
-        .catch(() => {
+      .then(res => {
+        setLoading(false);
+        setUser({ ...res, reenteredEmail: res.email });
+      })
+      .catch(err => {
+        if (err.message === '404') {
           history.push('*');
-        });
-    }
+        } else history.push('/serviceUnavailable');
+      });
   }, []);
 
   const handleFormSubmit = (e) => {
@@ -81,7 +84,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     setErrors({ profile: '', avatar: '' });
     setMessages({ profile: '', avatar: '' });
 
-    fetch(`${BASE_URL}/users/edit-profile`, {
+    fetch(`${BASE_URL}/users/${id}/edit-profile`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -99,19 +102,16 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         setMessages({ ...messages, profile: `Data was successful updated!` });
       })
       .catch(err => {
-        if (err.message.startsWith('5')) {
-          history.push('/serviceUnavailable');
-        }
         if (err.message === '404') {
           history.push('*');
-        }
-        if (err.message === '409') {
+        } else if (err.message === '409') {
           setErrors({ ...errors, profile: 'This e-mail is already registered!' });
-        }
-        if (err.message === '400') {
+        } else if (err.message === '400') {
           setErrors({ ...errors, profile: 'Emails are required or do not match!' });
+        } else {
+          setMessages({ ...messages, profile: '' });
+          history.push('/serviceUnavailable');
         }
-        setMessages({ ...messages, profile: '' });
       });
 
     const data = new FormData();
@@ -119,7 +119,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     data.append("avatar", avatar);
 
     if (avatar) {
-      fetch(`${BASE_URL}/users/avatar`, {
+      fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${getToken()}` },
         body: data,
@@ -136,15 +136,12 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         .catch(err => {
           if (err.message === '404') {
             history.push('*');
-          }
-          if (err.message.startsWith('5')) {
-            history.push('/serviceUnavailable');
-          }
+          } else history.push('/serviceUnavailable');
         });
     }
 
     if (avatarIsDeleted) {
-      fetch(`${BASE_URL}/users/avatar`, {
+      fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${getToken()}` },
       })
@@ -155,13 +152,13 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           return res.json();
         })
         .then(() => {
+          setAvatarUrl(DEFAULT_AVATAR);
           setMessages({ ...messages, avatar: `Avatar was successful deleted!` });
         })
         .catch(err => {
-          if (err.message === 404) {
+          if (err.message === '404') {
             history.push('*');
-          }
-          history.push('/serviceUnavailable');
+          } else history.push('/serviceUnavailable');
         });
     }
   };
@@ -231,7 +228,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
               <img className="change avatar" src={`${BASE_URL}/storage/avatars/uploadAvatar.png`} alt="upload user avatar" />
               <div
                 className="avatar"
-                style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/${user.avatar})` }}
+                style={{ backgroundImage: `url(${avatarUrl})` }}
               >
                 avatar
               </div>
@@ -345,7 +342,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
               <Button
                 type="submit"
                 className="btn btn-dark btn-lg btn-block"
-                disabled={!Object.values(inputErrors).every(err => err === '')}
+                disabled={(!user.email || !user.reenteredEmail) || !Object.values(inputErrors).every(err => err === '')}
               >
                 Save Changes
               </Button>

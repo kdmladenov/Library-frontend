@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useParams } from 'react-router-dom';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import './Timeline.css';
 import { BASE_URL, readingPoints } from '../../common/constants';
-import { getToken } from '../../providers/AuthContext';
+import { getToken, getUser } from '../../providers/AuthContext';
 import Loading from '../UI/Loading';
 import BookCardRating from '../UI/BookCardRating';
 
 const Timeline = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const params = useParams();
+  const id = params.userId || getUser().userId;
   const [userEvents, setUserEvents] = useState([]);
   const [totalReadingPoints, setTotalReadingPoints] = useState(0);
   useEffect(() => {
     setLoading(true);
 
-    fetch(`${BASE_URL}/users/timeline`, {
+    fetch(`${BASE_URL}/users/${id}/timeline`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -37,10 +39,7 @@ const Timeline = () => {
       .catch((err) => {
         if (err.message === '404') {
           history.push('*');
-        }
-        if (err.message.startsWith('5')) {
-          history.push('/serviceUnavailable');
-        }
+        } else history.push('/serviceUnavailable');
       });
   }, []);
 

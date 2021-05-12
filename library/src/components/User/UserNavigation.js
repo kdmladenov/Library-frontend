@@ -1,71 +1,70 @@
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 
-const UserNavigation = ({ avatarUrl, setContent }) => {
+const UserNavigation = ({ avatarUrl, setContent, username }) => {
   const history = useHistory();
-  const { username } = getUser();
+  const params = useParams();
+  const id = params.userId || getUser().userId;
+  const { role } = getUser();
   const [user, setUser] = useState({
     username,
     avatar: '',
   });
   useEffect(() => {
-    fetch(`${BASE_URL}/users/avatar`, {
+    fetch(`${BASE_URL}/users/${id}/avatar`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
     })
-      .then(res => res.json())
       .then(res => {
-        if (res.message) {
-          throw new Error(res.message);
+        if (!res.ok) {
+          throw new Error(res.status);
         }
-
-        setUser({ ...user, ...res });
+        return res.json();
       })
-      .catch(() => history.push('/notFound'));
+      .then(res => setUser({ ...user, ...res }))
+      .catch(err => {
+        if (err.message === '404') {
+          history.push('*');
+        } else history.push('/serviceUnavailable');
+      });
   }, []);
 
   return (
     <div className="card-body">
       <div className="account-settings">
         <div className="user-profile">
-          <div className="user-avatar" style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/storage/avatars/defaultAvatar.png)` }} />
-          <h4 className="user-name">{user.username}</h4>
+          <div className="user-avatar" style={{ backgroundImage: `url(${avatarUrl})` }} />
+          <h4 className="user-name">{username}</h4>
         </div>
         <div className="about">
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
               onClick={() => setContent('timeline')}
-              // onClick={() => history.push('/user/timeline')}
             >
               Timeline
-              {/* <Link to="/user/timeline">Timeline</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
               onClick={() => setContent('profile')}
-              // onClick={() => history.push('/user/profile')}
             >
               Profile
-              {/* <Link to="/user/profile">Profile</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
               onClick={() => setContent('changePassword')}
-              // onClick={() => history.push('/user/changePassword')}
             >
               Change Password
-              {/* <Link to="/user/changePassword">Change Password</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
@@ -76,6 +75,17 @@ const UserNavigation = ({ avatarUrl, setContent }) => {
               Delete Account
             </Button>
           </Form.Group>
+
+          {role === 'admin' && (
+          <Form.Group>
+            <Button
+              className="btn btn-dark btn-lg btn-block"
+              onClick={() => setContent('banUser')}
+            >
+              Ban User
+            </Button>
+          </Form.Group>
+          )}
         </div>
       </div>
     </div>
@@ -89,6 +99,7 @@ UserNavigation.defaultProps = {
 UserNavigation.propTypes = {
   avatarUrl: PropTypes.string,
   setContent: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 export default UserNavigation;
