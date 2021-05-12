@@ -98,4 +98,14 @@ button a:hover {
   .outer {
     padding-top: 18vh;
   }
+  .account-settings {
+    position: fixed;
+    width: 13.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .account-settings {
+    width: 17rem;
+  }
 }

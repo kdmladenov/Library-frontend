@@ -20,24 +20,7 @@ const CreateBook = () => {
   });
   const history = useHistory();
 
-  const handleFormSubmit = (event, errors, setErrors, messages, setMessages, inputErrors, setInputErrors, title, author, isbn, bookData) => {
-    event.preventDefault();
-
-    if (!title) {
-      setInputErrors({ ...inputErrors, title: ' is required' });
-    }
-    if (!author) {
-      setInputErrors({ ...inputErrors, author: ' is required' });
-    }
-    if (!isbn) {
-      setInputErrors({ ...inputErrors, isbn: ' is required' });
-    }
-    setErrors({ book: '', cover: '' });
-    setMessages({ book: '', cover: '' });
-    const data = new FormData();
-    const cover = document.querySelector('input[type="file"]').files[0];
-    data.append("cover", cover);
-
+  const makeRequest = (bookData, messages, setMessages, errors, setErrors, cover, data) => {
     fetch(`${BASE_URL}/books`, {
       method: 'POST',
       headers: {
@@ -70,34 +53,22 @@ const CreateBook = () => {
             })
             .then(() => {
               setMessages({ cover: `Book cover was successful uploaded!`, book: "Book was successfully created!" });
-            })
-            .catch(err => {
-              if (err.message === '404') {
-                history.push('*');
-              }
-              if (err.message.startsWith('5')) {
-                history.push('/serviceUnavailable');
-              }
             });
         }
       })
       .catch(err => {
-        if (err.message.startsWith('5')) {
-          history.push('/serviceUnavailable');
-        }
         if (err.message === '404') {
           history.push('*');
-        }
-        if (err.message === '409') {
+        } else if (err.message === '409') {
           setErrors({ ...errors, book: 'A book with same title or isbn already exists.' });
-        }
+        } else history.push('/serviceUnavailable');
       });
   };
 
   return (
     <BookForm
-      action="create"
-      handleFormSubmit={handleFormSubmit}
+      formType="create"
+      makeRequest={makeRequest}
       book={book}
       setBook={setBook}
     />

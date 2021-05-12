@@ -8,7 +8,9 @@ import bookGenreEnum from '../../common/enums/book-genre.enum';
 import bookLanguageEnum from '../../common/enums/book-language.enum';
 import bookAgeRecommendationEnum from '../../common/enums/book-age-recommendation.enum';
 
-const BookForm = ({ handleFormSubmit, book, setBook }) => {
+const BookForm = ({
+  book, setBook, formType, makeRequest,
+}) => {
   const inputRef = useRef();
   const [bookCoverUrl, setBookCoverUrl] = useState('');
 
@@ -46,8 +48,29 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
     inputRef.current.click();
   };
 
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+
+    if (!book.title) {
+      setInputErrors({ ...inputErrors, title: ' is required' });
+    }
+    if (!book.author) {
+      setInputErrors({ ...inputErrors, author: ' is required' });
+    }
+    if (!book.isbn) {
+      setInputErrors({ ...inputErrors, isbn: ' is required' });
+    }
+    setErrors({ book: '', cover: '' });
+    setMessages({ book: '', cover: '' });
+    const data = new FormData();
+    const cover = document.querySelector('input[type="file"]').files[0];
+    data.append("cover", cover);
+
+    makeRequest(book, messages, setMessages, errors, setErrors, cover, data);
+  };
+
   return (
-    <Form className="create-book-form" onSubmit={(event) => handleFormSubmit(event, errors, setErrors, messages, setMessages, inputErrors, setInputErrors, book.title, book.author, book.isbn, book)}>
+    <Form className="create-book-form" onSubmit={(event) => handleFormSubmit(event, book)}>
       <div id="outcomeInfo">
         {(errors.book || errors.cover) && (
           <div id="errors" className="red">
@@ -87,7 +110,7 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
           type="text"
           name="title"
           placeholder="Enter Title"
-          value={book.title}
+          value={book.title || ''}
           onChange={(e) => handleInput(e.target.name, e.target.value)}
         />
       </Form.Group>
@@ -100,7 +123,7 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
           type="text"
           name="author"
           placeholder="Enter Author"
-          value={book.author}
+          value={book.author || ''}
           onChange={(e) => handleInput(e.target.name, e.target.value)}
         />
       </Form.Group>
@@ -113,7 +136,7 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
           type="text"
           name="isbn"
           placeholder="Enter ISBN"
-          value={book.isbn}
+          value={book.isbn || ''}
           onChange={(e) => handleInput(e.target.name, e.target.value)}
         />
       </Form.Group>
@@ -125,7 +148,7 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
         <Form.Control
           type="date"
           name="datePublished"
-          value={book.datePublished}
+          value={book.datePublished || ''}
           onChange={(e) => handleInput(e.target.name, e.target.value)}
         />
       </Form.Group>
@@ -155,7 +178,7 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
           type="number"
           name="pages"
           placeholder="Enter Pages"
-          value={book.pages}
+          value={book.pages || ''}
           onChange={(e) => handleInput(e.target.name, e.target.value)}
         />
       </Form.Group>
@@ -203,7 +226,7 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
           name="summary"
           as="textarea"
           rows={6}
-          value={book.summary}
+          value={book.summary || ''}
           onChange={(e) => handleInput(e.target.name, e.target.value)}
         />
       </Form.Group>
@@ -213,7 +236,8 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
           className="btn btn-dark btn-lg btn-block"
           disabled={(!book.title || !book.author || !book.isbn) || !Object.values(inputErrors).every(err => err === '')}
         >
-          Create Book
+          {formType === 'create' && `Create Book`}
+          {formType === 'update' && `Update Book`}
         </Button>
       </Form.Group>
     </Form>
@@ -221,12 +245,13 @@ const BookForm = ({ handleFormSubmit, book, setBook }) => {
 };
 
 BookForm.propTypes = {
-  handleFormSubmit: PropTypes.func.isRequired,
+  makeRequest: PropTypes.func.isRequired,
   book: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ])).isRequired,
   setBook: PropTypes.func.isRequired,
+  formType: PropTypes.string.isRequired,
 };
 
 export default BookForm;

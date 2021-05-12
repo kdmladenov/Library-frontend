@@ -97,18 +97,23 @@ img.upload-book-cover {
   visibility: visible;
 }
 
-#errors .red {
+#errors.red {
   color: #ff6f6f;
   background: linear-gradient(180deg, #000000eb, #00000057);
   text-align: center;
   padding: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 0.25rem;
 }
 
-#messages .green {
-  color: #28a745;
+#messages.green {
+  border-radius: 0.25rem;
   background: linear-gradient(180deg, #ffffffeb, #ffffff57);
   text-align: center;
   padding: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 @media only screen and (min-width: 600px) {
