@@ -7,7 +7,7 @@ import { getToken, getUser } from '../../providers/AuthContext';
 
 const UserNavigation = ({ avatarUrl, setContent }) => {
   const history = useHistory();
-  const { username } = getUser();
+  const { username, role } = getUser();
   const [user, setUser] = useState({
     username,
     avatar: '',
@@ -45,30 +45,24 @@ const UserNavigation = ({ avatarUrl, setContent }) => {
             <Button
               className="btn btn-dark btn-lg btn-block"
               onClick={() => setContent('timeline')}
-              // onClick={() => history.push('/user/timeline')}
             >
               Timeline
-              {/* <Link to="/user/timeline">Timeline</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
               onClick={() => setContent('profile')}
-              // onClick={() => history.push('/user/profile')}
             >
               Profile
-              {/* <Link to="/user/profile">Profile</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
             <Button
               className="btn btn-dark btn-lg btn-block"
               onClick={() => setContent('changePassword')}
-              // onClick={() => history.push('/user/changePassword')}
             >
               Change Password
-              {/* <Link to="/user/changePassword">Change Password</Link> */}
             </Button>
           </Form.Group>
           <Form.Group>
@@ -79,6 +73,17 @@ const UserNavigation = ({ avatarUrl, setContent }) => {
               Delete Account
             </Button>
           </Form.Group>
+
+          {role === 'admin' && (
+          <Form.Group>
+            <Button
+              className="btn btn-dark btn-lg btn-block"
+              onClick={() => setContent('banUser')}
+            >
+              Ban User
+            </Button>
+          </Form.Group>
+          )}
         </div>
       </div>
     </div>

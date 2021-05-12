@@ -8,6 +8,7 @@ import ChangePassword from '../../components/User/ChangePassword';
 import DeleteAccount from '../../components/User/DeleteAccount';
 import { BASE_URL } from '../../common/constants';
 import { getToken } from '../../providers/AuthContext';
+import BanUser from '../../components/Admin/BanUser';
 
 const UserContainer = () => {
   const history = useHistory();
@@ -51,6 +52,7 @@ const UserContainer = () => {
             {content === 'profile' && <Profile setAvatarUrl={setAvatarUrl} avatarUrl={avatarUrl} />}
             {content === 'changePassword' && <ChangePassword />}
             {content === 'deleteAccount' && <DeleteAccount />}
+            {content === 'banUser' && <BanUser />}
           </div>
         </div>
       </div>

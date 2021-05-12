@@ -80,6 +80,7 @@ const validateInput = {
   },
 
   currentPassword: value => {
+    console.log(!value);
     if (!value) {
       return ` is required!`;
     }

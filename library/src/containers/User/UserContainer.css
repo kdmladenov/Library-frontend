@@ -87,7 +87,7 @@ button a:hover {
 }
 
 .card-body {
-  min-height: 33rem;
+  min-height: 37rem;
 }
 
 @media (min-width: 992px) {

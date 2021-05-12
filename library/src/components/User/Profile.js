@@ -56,29 +56,27 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   useEffect(() => {
     setLoading(true);
     const { userId } = getUser();
-    if (user) {
-      fetch(`${BASE_URL}/users/${userId}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
+    fetch(`${BASE_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
       })
-        .then(res => {
-          if (!res.ok) {
-            throw new Error(res.status);
-          }
-          return res.json();
-        })
-        .then(res => {
-          setLoading(false);
-          setUser({ ...res, reenteredEmail: res.email });
-        })
-        .catch(err => {
-          if (err.message === '404') {
-            history.push('*');
-          } else history.push('/serviceUnavailable');
-        });
-    }
+      .then(res => {
+        setLoading(false);
+        setUser({ ...res, reenteredEmail: res.email });
+      })
+      .catch(err => {
+        if (err.message === '404') {
+          history.push('*');
+        } else history.push('/serviceUnavailable');
+      });
   }, []);
 
   const handleFormSubmit = (e) => {
@@ -343,7 +341,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
               <Button
                 type="submit"
                 className="btn btn-dark btn-lg btn-block"
-                disabled={!Object.values(inputErrors).every(err => err === '')}
+                disabled={(!user.email || !user.reenteredEmail) || !Object.values(inputErrors).every(err => err === '')}
               >
                 Save Changes
               </Button>

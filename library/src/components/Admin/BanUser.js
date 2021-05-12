@@ -1,47 +1,46 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
 import Loading from '../UI/Loading';
 
-const ChangePassword = () => {
+const BanUser = () => {
   const history = useHistory();
+  const { userId } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
-  const [input, setInput] = useState({
-    currentPassword: '',
-    password: '',
-    reenteredPassword: '',
+  const [banData, setData] = useState({
+    description: '',
+    duration: '',
   });
 
   const [inputErrors, setInputErrors] = useState({
-    currentPassword: '',
-    password: '',
-    reenteredPassword: '',
+    description: '',
+    duration: '',
   });
 
-  const updateInput = (prop, value) => setInput({ ...input, [prop]: value });
+  const updateBanData = (prop, value) => setData({ ...banData, [prop]: value });
 
   const handleInput = (prop, value, match) => {
     setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
-    updateInput(prop, value);
+    updateBanData(prop, value);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    fetch(`${BASE_URL}/users/change-password`, {
-      method: 'PATCH',
+    fetch(`${BASE_URL}/users/${userId}/ban`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify(input),
+      body: JSON.stringify(banData),
     })
       .then(res => {
         if (!res.ok) {
@@ -52,11 +51,6 @@ const ChangePassword = () => {
       .then(res => {
         setError('');
         setMessage(res.message);
-        setInput({
-          currentPassword: '',
-          password: '',
-          reenteredPassword: '',
-        });
         setLoading(false);
       })
       .catch(err => {
@@ -66,8 +60,11 @@ const ChangePassword = () => {
         } else if (err.message === '404') {
           history.push('*');
         } else history.push('/serviceUnavailable');
-        setLoading(false);
       });
+  };
+
+  const liftBan = () => {
+
   };
 
   if (loading) {
@@ -95,64 +92,58 @@ const ChangePassword = () => {
                 <h4>{`${message}`}</h4>
               </Form.Group>
             )}
-            <h3 className="mb-3">Change Password</h3>
+            <h3 className="mb-3">Ban User</h3>
           </div>
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <Form.Group controlId="FormGridCurrentPassword" className={inputErrors.currentPassword ? 'red' : ''}>
+            <Form.Group controlId="FormGridCurrentPassword" className={inputErrors.duration ? 'red' : ''}>
               <Form.Label>
-                {`Current Password ${inputErrors.currentPassword}`}
+                {`Ban Duration ${inputErrors.duration}`}
               </Form.Label>
               <Form.Control
-                type="password"
-                name="currentPassword"
-                placeholder="Enter Current Password"
-                autoComplete="off"
-                value={input.currentPassword}
+                type="number"
+                name="duration"
+                placeholder="Enter Ban Duration"
+                value={banData.duration}
                 onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
           </div>
 
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <Form.Group controlId="FormGridNewPassword" className={inputErrors.password ? 'red' : ''}>
+            <Form.Group controlId="FormGridConfirmNewPassword" className={inputErrors.description ? 'red' : ''}>
               <Form.Label>
-                {`New Password ${inputErrors.password}`}
+                {`Ban Description ${inputErrors.description}`}
               </Form.Label>
               <Form.Control
-                type="password"
-                name="password"
-                placeholder="Enter New Password"
-                autoComplete="off"
-                value={input.password}
+                type="text"
+                name="banDescription"
+                as="textarea"
+                rows={6}
+                value={banData.description}
                 onChange={(e) => handleInput(e.target.name, e.target.value)}
               />
             </Form.Group>
           </div>
 
-          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <Form.Group controlId="FormGridConfirmNewPassword" className={inputErrors.reenteredPassword ? 'red' : ''}>
-              <Form.Label>
-                {`Confirm New Password ${inputErrors.reenteredPassword}`}
-              </Form.Label>
-              <Form.Control
-                type="password"
-                name="reenteredPassword"
-                placeholder="Confirm New Password"
-                autoComplete="off"
-                value={input.reenteredPassword}
-                onChange={(e) => handleInput(e.target.name, e.target.value, input.password)}
-              />
-            </Form.Group>
-          </div>
-
-          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <Form.Group>
               <Button
                 type="submit"
                 className="btn btn-dark btn-lg btn-block"
-                disabled={(!input.currentPassword || !input.password || !input.reenteredPassword) || !Object.values(inputErrors).every(err => err === '')}
+                disabled={(!banData.duration || !banData.description) || !Object.values(inputErrors).every(err => err === '')}
               >
-                Save Changes
+                Ban User
+              </Button>
+            </Form.Group>
+          </div>
+          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <Form.Group>
+              <Button
+                type="button"
+                className="btn btn-dark btn-lg btn-block"
+                onClick={liftBan}
+              >
+                Lift Ban
               </Button>
             </Form.Group>
           </div>
@@ -162,4 +153,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default BanUser;

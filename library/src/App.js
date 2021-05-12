@@ -10,9 +10,6 @@ import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Login from "./components/Forms/Login";
 import Register from "./components/Forms/Register";
-// import UserTimeline from "./containers/User/UserTimeline";
-// import UserProfile from "./containers/User/UserProfile";
-// import UserChangePassword from "./containers/User/UserChangePassword";
 import NotFound from "./components/StaticPages/NotFound";
 import Forbidden from "./components/StaticPages/Forbidden";
 import ServiceUnavailable from "./components/StaticPages/ServiceUnavailable";
@@ -21,8 +18,9 @@ import AuthContext, { getUser } from "./providers/AuthContext";
 import GuardedRoute from "./providers/GuardedRoute";
 import Logout from "./components/StaticPages/Logout";
 import UserContainer from './containers/User/UserContainer';
-import CreateBook from './components/Books/CreateBook';
-import UpdateBook from './components/Books/UpdateBook';
+import CreateBook from './components/Admin/CreateBook';
+import UpdateBook from './components/Admin/UpdateBook';
+import Users from './components/User/Users';
 
 const App = () => {
   const [authValue, setAuthValue] = useState({
@@ -44,29 +42,23 @@ const App = () => {
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact render={() => <Logout message1="You have successfully logged out." message2="Thank You for visiting our site. We hope to see again soon!" buttonText="LOGIN AGAIN" linkTo="/login" />} />
           <Route path="/unregister" exact render={() => <Logout message1="You have successfully deleted Your Account" message2="Thank You for using our site. We hope to see again soon!" buttonText="CREATE NEW ACCOUNT" linkTo="/register" />} />
-          {/* <GuardedRoute
-            path="/user/timeline"
-            exact
-            component={UserTimeline}
-            isLoggedIn={isLoggedIn}
-          />
-          <GuardedRoute
-            path="/user/profile"
-            exact
-            component={UserProfile}
-            isLoggedIn={isLoggedIn}
-          />
-          <GuardedRoute
-            path="/user/changePassword"
-            exact
-            component={UserChangePassword}
-            isLoggedIn={isLoggedIn}
-          /> */}
           <GuardedRoute
             path="/user"
             exact
             component={UserContainer}
             isLoggedIn={isLoggedIn}
+          />
+          <GuardedRoute
+            path="/users"
+            exact
+            component={UserContainer}
+            isLoggedIn={isLoggedIn && user.role === 'admin'}
+          />
+          <GuardedRoute
+            path="/users/:userId"
+            exact
+            component={Users}
+            isLoggedIn={isLoggedIn && user.role === 'admin'}
           />
           <GuardedRoute
             path="/books"
