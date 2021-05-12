@@ -9,22 +9,24 @@ import { bookCarouselBreakpoints } from "../../common/carousel";
 import Loading from "../UI/Loading";
 import useHttp from "../../hooks/useHttp";
 import { BASE_URL } from "../../common/constants";
+import { getUser } from '../../providers/AuthContext';
 
 const BookCarousel = (props) => {
   const history = useHistory();
   const { title } = props;
+  const isLoggedIn = !!getUser();
 
   let option = "";
 
   switch (title) {
     case "New Releases":
-      option = "/public/newreleases";
+      option = isLoggedIn ? "?sort=bookId&order=desc" : "/public/newreleases";
       break;
     case "Top Rated Books":
-      option = "/public/toprated";
+      option = isLoggedIn ? "?sort=bookRating&order=desc" : "/public/toprated";
       break;
     case "Most Popular Books":
-      option = "/public/mostpopular";
+      option = isLoggedIn ? "?sort=bookRating&order=desc" : "/public/mostpopular";
       break;
     default:
       option = "";
