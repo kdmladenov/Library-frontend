@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import './Profile.css';
@@ -10,6 +10,8 @@ import Loading from '../UI/Loading';
 import genderEnum from '../../common/enums/gender.enum';
 
 const Profile = ({ avatarUrl, setAvatarUrl }) => {
+  const params = useParams();
+  const id = params.userId || getUser().userId;
   const history = useHistory();
   const inputRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -52,11 +54,9 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     setInputErrors({ ...inputErrors, [prop]: validateInput[prop](value, match) });
     updateUser(prop, value);
   };
-
   useEffect(() => {
     setLoading(true);
-    const { userId } = getUser();
-    fetch(`${BASE_URL}/users/${userId}`, {
+    fetch(`${BASE_URL}/users/${id}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -84,7 +84,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     setErrors({ profile: '', avatar: '' });
     setMessages({ profile: '', avatar: '' });
 
-    fetch(`${BASE_URL}/users/edit-profile`, {
+    fetch(`${BASE_URL}/users/${id}/edit-profile`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -119,7 +119,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     data.append("avatar", avatar);
 
     if (avatar) {
-      fetch(`${BASE_URL}/users/avatar`, {
+      fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${getToken()}` },
         body: data,
@@ -141,7 +141,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     }
 
     if (avatarIsDeleted) {
-      fetch(`${BASE_URL}/users/avatar`, {
+      fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${getToken()}` },
       })
@@ -152,6 +152,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           return res.json();
         })
         .then(() => {
+          setAvatarUrl(DEFAULT_AVATAR);
           setMessages({ ...messages, avatar: `Avatar was successful deleted!` });
         })
         .catch(err => {
@@ -227,7 +228,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
               <img className="change avatar" src={`${BASE_URL}/storage/avatars/uploadAvatar.png`} alt="upload user avatar" />
               <div
                 className="avatar"
-                style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : { backgroundImage: `url(${BASE_URL}/${user.avatar})` }}
+                style={{ backgroundImage: `url(${avatarUrl})` }}
               >
                 avatar
               </div>

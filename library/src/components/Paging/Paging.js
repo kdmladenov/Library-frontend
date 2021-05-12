@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { totalBooksNumber } from '../../common/constants';
+import PropTypes from 'prop-types';
+import { totalBooksNumber, totalUsersNumber } from '../../common/constants';
 // import DropDown from "../UI/DropDown";
 
 const rangePageSize = [...Array(11)].map((_, i) => {
@@ -10,11 +11,11 @@ const rangePageSize = [...Array(11)].map((_, i) => {
   };
 });
 
-const rangePageNumber = [
-  ...Array(Math.ceil(totalBooksNumber / rangePageSize[0].value)),
-].map((_, i) => i + 1);
-
-const Paging = () => {
+const Paging = ({ resource }) => {
+  const totalNumber = resource === '/books' ? totalBooksNumber : totalUsersNumber;
+  const rangePageNumber = [
+    ...Array(Math.ceil(totalNumber / rangePageSize[0].value)),
+  ].map((_, i) => i + 1);
   const [pageNumber, setPageNumber] = useState(rangePageNumber[0]);
   // const [pageSize, setPageSize] = useState(rangePageSize[5].value);
 
@@ -27,7 +28,7 @@ const Paging = () => {
   const searchBy = endpoint.find(i => i.startsWith("searchBy=")) ? `${endpoint.find(i => i.startsWith("searchBy="))}&` : "";
 
   // useEffect(() => {
-  //   history.push(`/books?page=${pageNumber.value}&pageSize=${pageSize.value}`);
+  //   history.push(`${resource}?page=${pageNumber.value}&pageSize=${pageSize.value}`);
   // }, [pageNumber, pageSize]);
 
   // useEffect(() => {
@@ -42,12 +43,15 @@ const Paging = () => {
         <button
           type="button"
           className="page-link"
-          onClick={() => {
-            history.push(
-              `/books?${sort}${order}${search}${searchBy}page=${number}&pageSize=${rangePageSize[0].value}`,
-            );
-            setPageNumber(number);
-          }}
+          onClick={resource === '/books'
+            ? () => {
+              history.push(`${resource}?${sort}${order}${search}${searchBy}page=${number}&pageSize=${rangePageSize[0].value}`);
+              setPageNumber(number);
+            }
+            : () => {
+              history.push(`${resource}?page=${number}&pageSize=${rangePageSize[0].value}`);
+              setPageNumber(number);
+            }}
         >
           {number}
         </button>
@@ -65,8 +69,8 @@ const Paging = () => {
               onClick={() => {
                 history.push(
                   pageNumber > 1
-                    ? `/books?page=${pageNumber - 1}&pageSize=${rangePageSize[0].value}`
-                    : `/books?page=1&pageSize=${rangePageSize[0].value}`,
+                    ? `${resource}?page=${pageNumber - 1}&pageSize=${rangePageSize[0].value}`
+                    : `${resource}?page=1&pageSize=${rangePageSize[0].value}`,
                 );
                 setPageNumber(Math.max(pageNumber - 1, 1));
               }}
@@ -84,8 +88,8 @@ const Paging = () => {
               onClick={() => {
                 history.push(
                   pageNumber < rangePageNumber.length
-                    ? `/books?page=${pageNumber + 1}&pageSize=${rangePageSize[0].value}`
-                    : `/books?page=${rangePageNumber.length}&pageSize=${rangePageSize[0].value}`,
+                    ? `${resource}?page=${pageNumber + 1}&pageSize=${rangePageSize[0].value}`
+                    : `${resource}?page=${rangePageNumber.length}&pageSize=${rangePageSize[0].value}`,
                 );
                 setPageNumber(Math.min(pageNumber + 1, rangePageNumber.length));
               }}
@@ -104,5 +108,9 @@ const Paging = () => {
       /> */}
     </div>
   );
+};
+
+Paging.propTypes = {
+  resource: PropTypes.string.isRequired,
 };
 export default Paging;

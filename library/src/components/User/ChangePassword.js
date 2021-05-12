@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
-import { getToken } from '../../providers/AuthContext';
+import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
 import Loading from '../UI/Loading';
 
 const ChangePassword = () => {
   const history = useHistory();
+  const params = useParams();
+  const id = params.userId || getUser().userId;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -35,7 +37,7 @@ const ChangePassword = () => {
     e.preventDefault();
     setLoading(true);
 
-    fetch(`${BASE_URL}/users/change-password`, {
+    fetch(`${BASE_URL}/users/${id}/change-password`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

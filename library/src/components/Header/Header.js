@@ -11,7 +11,7 @@ import {
 import {
   useContext, useEffect, useState,
 } from 'react';
-import AuthContext, { getToken } from '../../providers/AuthContext';
+import AuthContext, { getToken, getUser } from '../../providers/AuthContext';
 import { BASE_URL } from '../../common/constants';
 import Search from '../Search/Search';
 // import Sort from '../Sort/Sort';
@@ -26,7 +26,7 @@ const Header = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetch(`${BASE_URL}/users/avatar`, {
+      fetch(`${BASE_URL}/users/${getUser().userId}/avatar`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -81,6 +81,7 @@ const Header = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
+          {isLoggedIn && getUser().role === 'admin' && <NavLink to="/users" className="nav-link" role="button">USERS</NavLink>}
           <NavLink to="/books" className="nav-link" role="button">BOOKS</NavLink>
           <NavLink to="/about" className="nav-link" role="button">ABOUT</NavLink>
           <NavLink to="/contacts" className="nav-link" role="button">CONTACT</NavLink>

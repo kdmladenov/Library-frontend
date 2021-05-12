@@ -23,7 +23,9 @@ const useHttp = (url, method = 'GET', initialData = null) => {
         }
         return response.json();
       })
-      .then((result) => setData(result))
+      .then((result) => {
+        setData(result);
+      })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, [url]);

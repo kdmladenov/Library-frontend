@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useState } from "react";
 import {
   BrowserRouter, Route, Switch, Redirect,
@@ -20,7 +21,7 @@ import Logout from "./components/StaticPages/Logout";
 import UserContainer from './containers/User/UserContainer';
 import CreateBook from './components/Admin/CreateBook';
 import UpdateBook from './components/Admin/UpdateBook';
-import Users from './components/User/Users';
+import Users from './containers/User/Users';
 
 const App = () => {
   const [authValue, setAuthValue] = useState({
@@ -45,19 +46,19 @@ const App = () => {
           <GuardedRoute
             path="/user"
             exact
-            component={UserContainer}
+            component={(props) => <UserContainer {...props} defaultContent="timeline" />}
             isLoggedIn={isLoggedIn}
           />
           <GuardedRoute
             path="/users"
             exact
-            component={UserContainer}
-            isLoggedIn={isLoggedIn && user.role === 'admin'}
+            component={Users}
+            isLoggedIn={isLoggedIn}
           />
           <GuardedRoute
             path="/users/:userId"
             exact
-            component={Users}
+            component={(props) => <UserContainer {...props} defaultContent="profile" />}
             isLoggedIn={isLoggedIn && user.role === 'admin'}
           />
           <GuardedRoute

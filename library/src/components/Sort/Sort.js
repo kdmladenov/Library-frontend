@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 import { sortOptions, sortDirections } from "../../common/constants";
 import DropDown from '../UI/DropDown';
 import './sort.css';
 
-const Sort = () => {
+const Sort = ({ resource }) => {
   const [sortColumn, setSortColumn] = useState(sortOptions[0]);
   const [sortDirection, setSortDirection] = useState(sortDirections[0]);
 
@@ -17,7 +18,7 @@ const Sort = () => {
   const pageSize = endpoint.find(i => i.startsWith("pageSize=")) ? `${endpoint.find(i => i.startsWith("pageSize="))}&` : "";
 
   useEffect(() => {
-    history.push(`/books?${search}${searchBy}${page}${pageSize}sort=${sortColumn.value}&order=${sortDirection.value}`);
+    history.push(`${resource}?${search}${searchBy}${page}${pageSize}sort=${sortColumn.value}&order=${sortDirection.value}`);
   }, [sortColumn, sortDirection]);
 
   return (
@@ -36,5 +37,9 @@ const Sort = () => {
       />
     </div>
   );
+};
+
+Sort.propTypes = {
+  resource: PropTypes.string.isRequired,
 };
 export default Sort;
