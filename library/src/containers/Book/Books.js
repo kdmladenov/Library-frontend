@@ -36,6 +36,7 @@ const Books = (props) => {
           <BookCard
             key={book.bookId}
             {...book}
+            adminButtonsAreVisible={user.role === 'admin'}
             goToDetails={() => props.history.push(`/books/${book.bookId}`)}
           />
         );

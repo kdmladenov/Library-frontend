@@ -49,6 +49,7 @@ const BookCarousel = (props) => {
       <BookCard
         key={book.bookId}
         {...book}
+        adminButtonsAreVisible={false}
         goToDetails={() => history.push(`/books/${book.bookId}`)}
       />
     );

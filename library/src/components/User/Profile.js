@@ -161,9 +161,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           if (err.message === 404) {
             history.push('*');
           }
-          if (err.message.startsWith('5')) {
-            history.push('/serviceUnavailable');
-          }
+          history.push('/serviceUnavailable');
         });
     }
   };
