@@ -60,10 +60,10 @@ export const sortOptions = [
     label: "Title",
     value: "title",
   },
-  {
-    label: "Book ID",
-    value: "bookId",
-  },
+  // {
+  //   label: "Book ID",
+  //   value: "bookId",
+  // },
   {
     label: "Author",
     value: "author",
@@ -76,10 +76,10 @@ export const sortOptions = [
     label: "ISBN",
     value: "isbn",
   },
-  {
-    label: "Borrowed Until",
-    value: "borrowedUntil",
-  },
+  // {
+  //   label: "Borrowed Until",
+  //   value: "borrowedUntil",
+  // },
   {
     label: "Genre",
     value: "genre",
@@ -100,14 +100,14 @@ export const sortOptions = [
     label: "Summary",
     value: "summary",
   },
-  {
-    label: "Is the book borrowed",
-    value: "isBorrowed",
-  },
-  {
-    label: "Is the book deleted",
-    value: "isDeleted",
-  },
+  // {
+  //   label: "Is the book borrowed",
+  //   value: "isBorrowed",
+  // },
+  // {
+  //   label: "Is the book deleted",
+  //   value: "isDeleted",
+  // },
   {
     label: "Number of reviews",
     value: "reviewCount",
@@ -137,7 +137,7 @@ export const sortDirections = [
   },
 ];
 
-export const totalBooksNumber = 11;
+export const totalBooksNumber = 25;
 
 export const reviewValidation = {
   MIN_CONTENT_LENGTH: 2,

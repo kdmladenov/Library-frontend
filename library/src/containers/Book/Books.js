@@ -15,7 +15,7 @@ const Books = (props) => {
   const user = getUser();
   const history = useHistory();
   const { search: query } = props.location;
-  const { data, error } = useHttp( // removed loading to fix sort
+  const { data, setLocalData, error } = useHttp( // removed loading to fix sort
     `${BASE_URL}/books${query}`,
     "GET",
     [],
@@ -26,7 +26,7 @@ const Books = (props) => {
   // }
 
   if (error) {
-    return <h1>{error}</h1>;
+    history.push('*');
   }
 
   const bookCardsToShow = (
@@ -37,6 +37,8 @@ const Books = (props) => {
             key={book.bookId}
             {...book}
             adminButtonsAreVisible={user.role === 'admin'}
+            updateBooks={setLocalData}
+            books={data}
             goToDetails={() => props.history.push(`/books/${book.bookId}`)}
           />
         );

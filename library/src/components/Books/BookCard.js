@@ -9,7 +9,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import BookCardRating from "../UI/BookCardRating";
 import { BASE_URL } from '../../common/constants';
-import { getUser } from '../../providers/AuthContext';
+import { getToken, getUser } from '../../providers/AuthContext';
 
 const BookCard = ({
   bookId,
@@ -20,12 +20,34 @@ const BookCard = ({
   reviewCount,
   goToDetails,
   adminButtonsAreVisible,
+  updateBooks,
+  books,
 }) => {
   const isLoggedIn = !!getUser();
   const history = useHistory();
 
   const deleteBook = () => {
-
+    fetch(`${BASE_URL}/books/${bookId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
+      .then(res => {
+        const updated = books.filter(b => b.bookId !== res.bookId);
+        updateBooks(updated);
+      })
+      .catch(err => {
+        if (err.message === '404') {
+          history.push('*');
+        } else history.push('/serviceUnavailable');
+      });
   };
 
   const editBook = () => {
@@ -63,6 +85,8 @@ const BookCard = ({
 BookCard.defaultProps = {
   bookRating: 'Not rated yet',
   reviewCount: 'Not reviewed yet',
+  updateBooks: () => {},
+  books: [],
 };
 
 BookCard.propTypes = {
@@ -74,6 +98,8 @@ BookCard.propTypes = {
   reviewCount: PropTypes.number,
   goToDetails: PropTypes.func.isRequired,
   adminButtonsAreVisible: PropTypes.bool.isRequired,
+  updateBooks: PropTypes.func,
+  books: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default withRouter(BookCard);
