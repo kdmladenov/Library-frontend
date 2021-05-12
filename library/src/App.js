@@ -79,7 +79,6 @@ const App = () => {
             exact
             component={CreateBook}
             isLoggedIn={isLoggedIn && user.role === 'admin'}
-            action="create"
           />
           <GuardedRoute
             path="/books/:id/update"

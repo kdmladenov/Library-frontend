@@ -138,3 +138,10 @@ export const sortDirections = [
 ];
 
 export const totalBooksNumber = 11;
+
+export const reviewValidation = {
+  MIN_CONTENT_LENGTH: 2,
+  MIN_TITLE_LENGTH: 2,
+  MAX_TITLE_LENGTH: 255,
+  RATING_REGEX: /^[1-5]$/,
+};
