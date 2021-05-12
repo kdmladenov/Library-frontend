@@ -22,6 +22,7 @@ import GuardedRoute from "./providers/GuardedRoute";
 import Logout from "./components/StaticPages/Logout";
 import UserContainer from './containers/User/UserContainer';
 import CreateBook from './components/Books/CreateBook';
+import UpdateBook from './components/Books/UpdateBook';
 
 const App = () => {
   const [authValue, setAuthValue] = useState({
@@ -77,14 +78,20 @@ const App = () => {
             path="/books/create"
             exact
             component={CreateBook}
-            isLoggedIn={isLoggedIn}
-            // check if isAdmin
+            isLoggedIn={isLoggedIn && user.role === 'admin'}
+            action="create"
+          />
+          <GuardedRoute
+            path="/books/:id/update"
+            exact
+            component={UpdateBook}
+            isLoggedIn={isLoggedIn && user.role === 'admin'}
           />
           <GuardedRoute
             path="/books/:id"
             exact
             component={IndividualBook}
-            isLoggedIn={isLoggedIn && user.role === 'admin'}
+            isLoggedIn={isLoggedIn}
           />
           <Route path="/forbidden" exact component={Forbidden} />
           <Route path="/serviceUnavailable" exact component={ServiceUnavailable} />

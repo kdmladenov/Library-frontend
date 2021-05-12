@@ -17,7 +17,15 @@ const BookCard = ({
   bookRating,
   reviewCount,
   goToDetails,
+  adminButtonsAreVisible,
 }) => {
+  const deleteBook = () => {
+
+  };
+
+  const editBook = () => {
+
+  };
   return (
     <div className="bookCard" id={bookId}>
       <img
@@ -37,6 +45,12 @@ const BookCard = ({
           <div id="book-card-review-count">{reviewCount || 0}</div>
         </div>
       </div>
+      {adminButtonsAreVisible && (
+        <div className="adminBtn">
+          <img type="button" className="btn" onClick={deleteBook} src={`${BASE_URL}/storage/icons/delete-icon.png`} alt="delete button" />
+          <img type="button" className="btn" onClick={editBook} src={`${BASE_URL}/storage/icons/edit-icon.svg`} alt="edit button" />
+        </div>
+      )}
     </div>
   );
 };
@@ -54,6 +68,7 @@ BookCard.propTypes = {
   bookRating: PropTypes.number,
   reviewCount: PropTypes.number,
   goToDetails: PropTypes.func.isRequired,
+  adminButtonsAreVisible: PropTypes.bool.isRequired,
 };
 
 export default withRouter(BookCard);
