@@ -31,12 +31,14 @@ const Timeline = () => {
         return res.json();
       })
       .then(res => {
-        setLoading(false);
         setUserEvents(res);
         const points = res.find(e => e.event === 'registration').id.split('_')[1];
         setTotalReadingPoints(points);
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
+
         if (err.message === '404') {
           history.push('*');
         } else history.push('/serviceUnavailable');

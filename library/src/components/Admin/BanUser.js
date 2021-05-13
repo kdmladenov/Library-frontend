@@ -4,12 +4,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken } from '../../providers/AuthContext';
 import validateInput from './banValidator';
-// import Loading from '../UI/Loading';
+import Loading from '../UI/Loading';
 
 const BanUser = () => {
   const history = useHistory();
   const { userId } = useParams();
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
@@ -32,8 +32,7 @@ const BanUser = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // setLoading(true);
-    console.log(userId);
+    setLoading(true);
     fetch(`${BASE_URL}/users/${userId}/ban`, {
       method: 'POST',
       headers: {
@@ -49,12 +48,13 @@ const BanUser = () => {
         return res.json();
       })
       .then(res => {
-        console.log(inputErrors);
         setError('');
         setMessage(res.message);
-        // setLoading(false);
+        setLoading(false);
       })
       .catch(err => {
+        setLoading(false);
+
         if (err.message === '400') {
           setMessage('');
           setError(`Unsuccessful attempt!`);
@@ -68,17 +68,15 @@ const BanUser = () => {
 
   };
 
-  // if (loading) {
-  //   return (
-  //     <div>
-  //       <Loading>
-  //         <h1>Loading...</h1>
-  //       </Loading>
-  //     </div>
-  //   );
-  // }
-
-  console.log(!banData.description || !banData.duration || !(Object.values(inputErrors).some(e => e !== '')));
+  if (loading) {
+    return (
+      <div>
+        <Loading>
+          <h1>Loading...</h1>
+        </Loading>
+      </div>
+    );
+  }
 
   return (
     <div className="card h-100">

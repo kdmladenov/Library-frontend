@@ -43,6 +43,8 @@ const DeleteAccount = () => {
         setLoading(false);
       })
       .catch(err => {
+        setLoading(false);
+
         if (err.message === '404') {
           history.push('*');
         } else history.push('/serviceUnavailable');

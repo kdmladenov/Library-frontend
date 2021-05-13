@@ -32,8 +32,6 @@ const Users = () => {
           <UserCard
             key={user.userId}
             {...user}
-            // adminButtonsAreVisible={user.role === 'admin'}
-            // updateBooks={setLocalData}
             users={data}
             goToAccount={() => history.push(`/users/${user.userId}`)}
           />

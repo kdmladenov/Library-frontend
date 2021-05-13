@@ -56,6 +56,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   };
   useEffect(() => {
     setLoading(true);
+
     fetch(`${BASE_URL}/users/${id}`, {
       method: 'GET',
       headers: {
@@ -69,10 +70,12 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         return res.json();
       })
       .then(res => {
-        setLoading(false);
         setUser({ ...res, reenteredEmail: res.email });
+        setLoading(false);
       })
       .catch(err => {
+        setLoading(false);
+
         if (err.message === '404') {
           history.push('*');
         } else history.push('/serviceUnavailable');
@@ -81,6 +84,8 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     setErrors({ profile: '', avatar: '' });
     setMessages({ profile: '', avatar: '' });
 
@@ -100,8 +105,11 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
       })
       .then(() => {
         setMessages({ ...messages, profile: `Data was successful updated!` });
+        setLoading(false);
       })
       .catch(err => {
+        setLoading(false);
+
         if (err.message === '404') {
           history.push('*');
         } else if (err.message === '409') {
@@ -119,6 +127,8 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     data.append("avatar", avatar);
 
     if (avatar) {
+      setLoading(true);
+
       fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${getToken()}` },
@@ -132,8 +142,11 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         })
         .then(() => {
           setMessages({ ...messages, avatar: `Avatar was successful uploaded!` });
+          setLoading(false);
         })
         .catch(err => {
+          setLoading(false);
+
           if (err.message === '404') {
             history.push('*');
           } else history.push('/serviceUnavailable');
@@ -141,6 +154,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     }
 
     if (avatarIsDeleted) {
+      setLoading(true);
       fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${getToken()}` },
@@ -152,10 +166,13 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           return res.json();
         })
         .then(() => {
+          setLoading(false);
           setAvatarUrl(DEFAULT_AVATAR);
           setMessages({ ...messages, avatar: `Avatar was successful deleted!` });
         })
         .catch(err => {
+          setLoading(false);
+
           if (err.message === '404') {
             history.push('*');
           } else history.push('/serviceUnavailable');

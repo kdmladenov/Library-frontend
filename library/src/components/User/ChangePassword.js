@@ -62,13 +62,14 @@ const ChangePassword = () => {
         setLoading(false);
       })
       .catch(err => {
+        setLoading(false);
+
         if (err.message === '400') {
           setMessage('');
           setError(`Unsuccessful attempt!`);
         } else if (err.message === '404') {
           history.push('*');
         } else history.push('/serviceUnavailable');
-        setLoading(false);
       });
   };
 

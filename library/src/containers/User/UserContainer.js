@@ -10,6 +10,7 @@ import DeleteAccount from '../../components/User/DeleteAccount';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import BanUser from '../../components/Admin/BanUser';
+import Loading from '../../components/UI/Loading';
 
 const UserContainer = ({ defaultContent }) => {
   const history = useHistory();
@@ -18,8 +19,10 @@ const UserContainer = ({ defaultContent }) => {
   const [content, setContent] = useState(defaultContent);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${BASE_URL}/users/${id}/avatar`, {
       method: 'GET',
       headers: {
@@ -35,13 +38,25 @@ const UserContainer = ({ defaultContent }) => {
       .then(res => {
         setAvatarUrl(`${BASE_URL}/${res.avatar}`);
         setUsername(res.username);
+        setLoading(false);
       })
       .catch(err => {
+        setLoading(false);
         if (err.message === '404') {
           history.push('*');
         } else history.push('/serviceUnavailable');
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <Loading>
+          <h1>Loading...</h1>
+        </Loading>
+      </div>
+    );
+  }
 
   return (
     <div className="outer" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/user-account.jpg)` }}>

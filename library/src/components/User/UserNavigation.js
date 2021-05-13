@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
+import Loading from '../UI/Loading';
 
 const UserNavigation = ({ avatarUrl, setContent, username }) => {
   const history = useHistory();
@@ -14,6 +15,7 @@ const UserNavigation = ({ avatarUrl, setContent, username }) => {
     username,
     avatar: '',
   });
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetch(`${BASE_URL}/users/${id}/avatar`, {
       method: 'GET',
@@ -27,13 +29,27 @@ const UserNavigation = ({ avatarUrl, setContent, username }) => {
         }
         return res.json();
       })
-      .then(res => setUser({ ...user, ...res }))
+      .then(res => {
+        setUser({ ...user, ...res });
+        setLoading(false);
+      })
       .catch(err => {
+        setLoading(false);
         if (err.message === '404') {
           history.push('*');
         } else history.push('/serviceUnavailable');
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <Loading>
+          <h1>Loading...</h1>
+        </Loading>
+      </div>
+    );
+  }
 
   return (
     <div className="card-body">
