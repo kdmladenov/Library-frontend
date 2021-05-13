@@ -17,40 +17,8 @@ const UserCard = ({
   role,
   readingPoints,
   goToAccount,
-  // updateUsers,
-  // users,
 }) => {
   const isAdmin = (getUser().role === 'admin');
-  // const history = useHistory();
-
-  // const deleteBook = () => {
-  //   fetch(`${BASE_URL}/books/${bookId}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       Authorization: `Bearer ${getToken()}`,
-  //     },
-  //   })
-  //     .then(res => {
-  //       if (!res.ok) {
-  //         throw new Error(res.status);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then(res => {
-  //       const updated = books.filter(b => b.bookId !== res.bookId);
-  //       updateBooks(updated);
-  //     })
-  //     .catch(err => {
-  //       if (err.message === '404') {
-  //         history.push('*');
-  //       } else history.push('/serviceUnavailable');
-  //     });
-  // };
-
-  // const editBook = () => {
-  //   history.push(`/books/${bookId}/update`);
-  // };
-
   return (
     <div className="userCard" id={userId}>
       <img
@@ -67,20 +35,12 @@ const UserCard = ({
           {`${readingPoints} reading points`}
         </div>
       </div>
-      {/* {adminButtonsAreVisible && (
-        <div className="adminBtn">
-          <img type="button" className="btn" onClick={deleteBook} src={`${BASE_URL}/storage/icons/delete-icon.png`} alt="delete button" />
-          <img type="button" className="btn" onClick={editBook} src={`${BASE_URL}/storage/icons/edit-icon.svg`} alt="edit button" />
-        </div>
-      )} */}
     </div>
   );
 };
 
 UserCard.defaultProps = {
   avatar: `storage/avatars/defaultAvatar.png`,
-//   updateUsers: () => {},
-//   users: [],
 };
 
 UserCard.propTypes = {
@@ -90,8 +50,7 @@ UserCard.propTypes = {
   role: PropTypes.string.isRequired,
   readingPoints: PropTypes.number.isRequired,
   goToAccount: PropTypes.func.isRequired,
-  // updateUsers: PropTypes.func.isRequired,
-  // users: PropTypes.arrayOf(PropTypes.object).isRequired,
+
 };
 
 export default withRouter(UserCard);
