@@ -56,6 +56,7 @@ const BanUser = () => {
         setLoading(false);
 
         if (err.message === '400') {
+          setLoading(false);
           setMessage('');
           setError(`Unsuccessful attempt!`);
         } else if (err.message === '404') {

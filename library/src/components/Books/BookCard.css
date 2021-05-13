@@ -8,6 +8,10 @@
   transition: transform 0.1s ease-in-out;
 }
 
+.bookCard.deleted {
+  opacity: 0.3;
+}
+
 .bookCard #book-card-title,
 .bookCard #book-card-author,
 .bookCard #cardTitle {

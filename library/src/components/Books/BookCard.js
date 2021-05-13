@@ -12,6 +12,7 @@ import { BASE_URL } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 
 const BookCard = ({
+  isDeleted,
   bookId,
   frontCover,
   title,
@@ -54,7 +55,7 @@ const BookCard = ({
     history.push(`/books/${bookId}/update`);
   };
   return (
-    <div className="bookCard" id={bookId}>
+    <div className={isDeleted ? 'bookCard deleted' : 'bookCard'} id={bookId}>
       <img
         type="button"
         src={`${BASE_URL}/${frontCover}`}
@@ -100,6 +101,7 @@ BookCard.propTypes = {
   adminButtonsAreVisible: PropTypes.bool.isRequired,
   updateBooks: PropTypes.func,
   books: PropTypes.arrayOf(PropTypes.object),
+  isDeleted: PropTypes.bool.isRequired,
 };
 
 export default withRouter(BookCard);
