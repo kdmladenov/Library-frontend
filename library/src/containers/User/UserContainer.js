@@ -21,7 +21,6 @@ const UserContainer = ({ defaultContent }) => {
   const [username, setUsername] = useState('');
   // const [loading, setLoading] = useState(false);
 
-  console.log('usrer container');
   useEffect(() => {
     // setLoading(true);
     fetch(`${BASE_URL}/users/${id}/avatar`, {

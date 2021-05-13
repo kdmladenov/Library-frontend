@@ -234,7 +234,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
               ref={inputRef}
               style={{ visibility: "hidden", display: "none" }}
               onChange={(e) => {
-                setAvatarUrl(URL.createObjectURL(e.target.files[0]));
+                setAvatarUrl(e.target.files[0] ? URL.createObjectURL(e.target.files[0]) : `${BASE_URL}/storage/avatars/defaultAvatar.png`);
               }}
             />
             <button
