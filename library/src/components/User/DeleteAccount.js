@@ -3,19 +3,19 @@ import { Button, Form } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../common/constants';
 import AuthContext, { getToken, getUser } from '../../providers/AuthContext';
-import Loading from '../UI/Loading';
+// import Loading from '../UI/Loading';
 
 const DeleteAccount = () => {
   const auth = useContext(AuthContext);
   const params = useParams();
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const id = params.userId || getUser().userId;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
 
     fetch(`${BASE_URL}/users/${id}/delete-profile`, {
       method: 'DELETE',
@@ -40,10 +40,10 @@ const DeleteAccount = () => {
         } else {
           setMessage('User was successfully deleted');
         }
-        setLoading(false);
+        // setLoading(false);
       })
       .catch(err => {
-        setLoading(false);
+        // setLoading(false);
 
         if (err.message === '404') {
           history.push('*');
@@ -51,15 +51,15 @@ const DeleteAccount = () => {
       });
   };
 
-  if (loading) {
-    return (
-      <div>
-        <Loading>
-          <h1>Loading...</h1>
-        </Loading>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div>
+  //       <Loading>
+  //         <h1>Loading...</h1>
+  //       </Loading>
+  //     </div>
+  //   );
+  // }
 
   if (message) {
     return (

@@ -5,18 +5,18 @@ import 'react-vertical-timeline-component/style.min.css';
 import './Timeline.css';
 import { BASE_URL, readingPoints } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
-import Loading from '../UI/Loading';
+// import Loading from '../UI/Loading';
 import BookCardRating from '../UI/BookCardRating';
 
 const Timeline = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const history = useHistory();
   const params = useParams();
   const id = params.userId || getUser().userId;
   const [userEvents, setUserEvents] = useState([]);
   const [totalReadingPoints, setTotalReadingPoints] = useState(0);
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
 
     fetch(`${BASE_URL}/users/${id}/timeline`, {
       method: 'GET',
@@ -34,10 +34,10 @@ const Timeline = () => {
         setUserEvents(res);
         const points = res.find(e => e.event === 'registration').id.split('_')[1];
         setTotalReadingPoints(points);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((err) => {
-        setLoading(false);
+        // setLoading(false);
 
         if (err.message === '404') {
           history.push('*');
@@ -45,15 +45,15 @@ const Timeline = () => {
       });
   }, []);
 
-  if (loading) {
-    return (
-      <div>
-        <Loading>
-          <h1>Loading...</h1>
-        </Loading>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div>
+  //       <Loading>
+  //         <h1>Loading...</h1>
+  //       </Loading>
+  //     </div>
+  //   );
+  // }
 
   const createTimelineElement = (e) => {
     if (e.event === 'review') {

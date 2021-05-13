@@ -6,7 +6,7 @@ import './Profile.css';
 import { BASE_URL, DEFAULT_AVATAR } from '../../common/constants';
 import { getToken, getUser } from '../../providers/AuthContext';
 import validateInput from '../Forms/userValidator';
-import Loading from '../UI/Loading';
+// import Loading from '../UI/Loading';
 import genderEnum from '../../common/enums/gender.enum';
 
 const Profile = ({ avatarUrl, setAvatarUrl }) => {
@@ -14,7 +14,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
   const id = params.userId || getUser().userId;
   const history = useHistory();
   const inputRef = useRef();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [avatarButtonsVisible, toggleAvatarButtons] = useState(false);
   const [avatarIsDeleted, setAvatarIsDeleted] = useState(false);
 
@@ -55,7 +55,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     updateUser(prop, value);
   };
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
 
     fetch(`${BASE_URL}/users/${id}`, {
       method: 'GET',
@@ -71,10 +71,10 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
       })
       .then(res => {
         setUser({ ...res, reenteredEmail: res.email });
-        setLoading(false);
+        // setLoading(false);
       })
       .catch(err => {
-        setLoading(false);
+        // setLoading(false);
 
         if (err.message === '404') {
           history.push('*');
@@ -84,7 +84,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
 
     setErrors({ profile: '', avatar: '' });
     setMessages({ profile: '', avatar: '' });
@@ -105,10 +105,10 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
       })
       .then(() => {
         setMessages({ ...messages, profile: `Data was successful updated!` });
-        setLoading(false);
+        // setLoading(false);
       })
       .catch(err => {
-        setLoading(false);
+        // setLoading(false);
 
         if (err.message === '404') {
           history.push('*');
@@ -127,7 +127,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     data.append("avatar", avatar);
 
     if (avatar) {
-      setLoading(true);
+      // setLoading(true);
 
       fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'PUT',
@@ -142,10 +142,10 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
         })
         .then(() => {
           setMessages({ ...messages, avatar: `Avatar was successful uploaded!` });
-          setLoading(false);
+          // setLoading(false);
         })
         .catch(err => {
-          setLoading(false);
+          // setLoading(false);
 
           if (err.message === '404') {
             history.push('*');
@@ -154,7 +154,7 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     }
 
     if (avatarIsDeleted) {
-      setLoading(true);
+      // setLoading(true);
       fetch(`${BASE_URL}/users/${id}/avatar`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${getToken()}` },
@@ -166,12 +166,12 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
           return res.json();
         })
         .then(() => {
-          setLoading(false);
+          // setLoading(false);
           setAvatarUrl(DEFAULT_AVATAR);
           setMessages({ ...messages, avatar: `Avatar was successful deleted!` });
         })
         .catch(err => {
-          setLoading(false);
+          // setLoading(false);
 
           if (err.message === '404') {
             history.push('*');
@@ -192,15 +192,15 @@ const Profile = ({ avatarUrl, setAvatarUrl }) => {
     toggleAvatarButtons(false);
   };
 
-  if (loading) {
-    return (
-      <div>
-        <Loading>
-          <h1>Loading...</h1>
-        </Loading>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div>
+  //       <Loading>
+  //         <h1>Loading...</h1>
+  //       </Loading>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="card h-100">
