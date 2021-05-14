@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import validateInput from './userValidator';
 import { BASE_URL } from '../../common/constants';
-import AuthContext from '../../providers/AuthContext';
+import AuthContext, { getUser } from '../../providers/AuthContext';
 
 const Login = () => {
   const auth = useContext(AuthContext);
@@ -53,7 +53,7 @@ const Login = () => {
           localStorage.setItem('token', token);
           auth.setAuthValue({
             isLoggedIn: true,
-            user: user.username,
+            user: getUser(),
           });
           history.push('/home');
         })

@@ -26,7 +26,7 @@ import Users from './containers/User/Users';
 const App = () => {
   const [authValue, setAuthValue] = useState({
     isLoggedIn: !!getUser(),
-    user: { ...getUser() },
+    user: getUser(),
   });
 
   const { isLoggedIn, user } = authValue;

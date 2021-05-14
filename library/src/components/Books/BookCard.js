@@ -101,7 +101,7 @@ BookCard.propTypes = {
   adminButtonsAreVisible: PropTypes.bool.isRequired,
   updateBooks: PropTypes.func,
   books: PropTypes.arrayOf(PropTypes.object),
-  isDeleted: PropTypes.bool.isRequired,
+  isDeleted: PropTypes.number.isRequired,
 };
 
 export default withRouter(BookCard);
